@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>手机回收质检判责逻辑库 V3.3 — 智能问答</title>
+<style>
+  :root{--bg:#f5f5f7;--card:#fff;--text:#1d1d1f;--text2:#515154;--text3:#86868b;--border:#e5e5ea;--accent:#0071e3;--accent2:#e8f0fe;--warn:#ff9500;--warn2:#fff8e6;--danger:#ff3b30;--danger2:#ffeaea;--success:#34c759;--success2:#e8f8ed;--nav-w:320px}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,"Microsoft YaHei","PingFang SC",BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;display:flex;height:100vh;overflow:hidden}
+  a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+
+  /* Sidebar */
+  #sidebar{width:var(--nav-w);min-width:var(--nav-w);background:#fff;border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;z-index:10}
+  #sidebar-header{padding:16px 20px;border-bottom:1px solid var(--border)}
+  #sidebar-header h1{font-size:15px;font-weight:700;line-height:1.3}
+  #sidebar-header .ver{font-size:11px;color:var(--text3);margin-top:2px}
+  #search-wrap{padding:10px 16px;border-bottom:1px solid var(--border)}
+  #search{width:100%;padding:8px 12px 8px 32px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:#f5f5f7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='%2386868b'%3E%3Cpath d='M10.5 9.5L14 13l-1 1-3.5-3.5a5.5 5.5 0 111-1z'/%3E%3Ccircle cx='6' cy='6' r='4.5' fill='none' stroke='%2386868b' stroke-width='1.5'/%3E%3C/svg%3E") 10px center no-repeat}
+  #search:focus{border-color:var(--accent);background-color:#fff}
+  #nav-tree{flex:1;overflow-y:auto;padding:8px 0}
+  .nav-section{border-bottom:1px solid #f0f0f0}
+  .nav-parent{display:flex;align-items:center;width:100%;padding:10px 20px;border:none;background:none;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;text-align:left;gap:6px}
+  .nav-parent:hover{background:var(--accent2)}
+  .nav-parent .arrow{font-size:10px;color:var(--text3);transition:transform .2s;min-width:12px;text-align:center}
+  .nav-parent.open .arrow{transform:rotate(90deg)}
+  .nav-children{display:none;padding:0 0 4px}
+  .nav-parent.open+.nav-children{display:block}
+  .nav-child{display:block;padding:6px 20px 6px 40px;font-size:12px;color:var(--text2);cursor:pointer;border:none;background:none;text-align:left;width:100%;border-left:2px solid transparent}
+  .nav-child:hover,.nav-child.active{color:var(--accent);background:var(--accent2);border-left-color:var(--accent)}
+  .nav-child.exempt{color:var(--warn)}
+  .nav-child.exempt:hover,.nav-child.exempt.active{color:#e08600;background:var(--warn2);border-left-color:var(--warn)}
+  /* Category nav sections */
+  .nav-cat>.nav-parent{font-size:14px;font-weight:700;padding:12px 20px;background:#fafafa;border-bottom:2px solid var(--border)}
+  .nav-cat>.nav-parent:hover{background:var(--accent2)}
+  .nav-cat>.nav-parent .cat-icon{font-size:16px;margin-right:2px}
+  .nav-cat>.nav-parent .cat-badge{font-size:10px;font-weight:500;color:var(--text3);margin-left:auto}
+  .nav-cat>.nav-parent.open{background:var(--accent2);border-bottom-color:var(--accent)}
+  .nav-divider{height:1px;background:var(--border);margin:4px 0}
+  #exempt-toggle{margin:0 16px 8px;padding:8px 12px;font-size:12px;font-weight:600;color:var(--warn);background:var(--warn2);border:1px solid #ffe0a0;border-radius:8px;cursor:pointer;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
+  #exempt-toggle:hover{background:#ffedd0}
+  #exempt-toggle .badge{background:var(--warn);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px}
+
+  /* Main */
+  #main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden}
+  #main-header{padding:14px 32px;border-bottom:1px solid var(--border);background:#fff;display:flex;align-items:center;justify-content:space-between}
+  #main-header h2{font-size:18px;font-weight:700}
+  #breadcrumb{font-size:12px;color:var(--text3)}
+  #content-area{flex:1;overflow-y:auto;padding:28px 32px}
+
+  .section-card{background:var(--card);border-radius:12px;padding:24px 28px;margin-bottom:20px;box-shadow:0 1px 3px rgba(0,0,0,.04);border:1px solid var(--border)}
+  .section-card h3{font-size:17px;font-weight:700;margin-bottom:6px}
+  .s-id{font-size:12px;color:var(--accent);font-weight:600;margin-bottom:12px}
+
+  /* Blocks */
+  .output-block{margin:14px 0;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .output-block .ob-header{padding:8px 14px;font-size:12px;font-weight:700;background:#f5f5f7;color:var(--text2);border-bottom:1px solid var(--border)}
+  .output-block .ob-body{padding:14px 16px;font-size:13px;line-height:1.7;white-space:pre-wrap;font-family:"SF Mono","Consolas","Microsoft YaHei",monospace;background:#fafafa}
+
+  .tree{font-family:"SF Mono","Consolas","Microsoft YaHei",monospace;font-size:13px;line-height:1.8;padding:12px 16px;background:#fafafa;border-radius:8px;white-space:pre;overflow-x:auto;border:1px solid var(--border)}
+
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+  th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+  th{background:#f5f5f7;font-weight:700;font-size:12px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+  tr:hover td{background:#fafafa}
+
+  .tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;letter-spacing:.3px}
+  .tag-green{background:var(--success2);color:#1a7a34}
+  .tag-red{background:var(--danger2);color:var(--danger)}
+  .tag-blue{background:var(--accent2);color:var(--accent)}
+  .tag-orange{background:var(--warn2);color:#e08600}
+  .tag-gray{background:#f0f0f0;color:var(--text3)}
+
+  .callout{margin:10px 0;padding:14px 18px;border-radius:8px;font-size:13px;line-height:1.6}
+  .callout.warn{background:var(--warn2);border-left:4px solid var(--warn)}
+  .callout.danger{background:var(--danger2);border-left:4px solid var(--danger)}
+  .callout.info{background:var(--accent2);border-left:4px solid var(--accent)}
+  .callout .ctitle{font-weight:700;margin-bottom:4px;font-size:13px}
+
+  strong{color:#1d1d1f}
+  .kw{color:var(--accent);font-weight:700}
+  .highlight{background:#fff3b0;padding:1px 4px;border-radius:2px}
+
+  /* Exemption panel */
+  #exempt-panel{display:none;position:fixed;right:0;top:0;width:380px;height:100vh;background:#fff;border-left:2px solid var(--warn);z-index:20;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.1)}
+  #exempt-panel.show{display:flex}
+  #exempt-panel-header{padding:16px 20px;border-bottom:1px solid var(--border);background:var(--warn2);display:flex;justify-content:space-between;align-items:center}
+  #exempt-panel-header h3{font-size:15px;color:#e08600}
+  #exempt-panel-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--warn);padding:4px 8px}
+  #exempt-panel-content{flex:1;overflow-y:auto;padding:16px 20px}
+
+  .fade-in{animation:fadeIn .3s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+  @media(max-width:900px){#sidebar{width:260px;min-width:260px}#exempt-panel{width:320px}}
+  @media print{#sidebar,#exempt-panel{display:none}#main{overflow:visible}}
+</style>
+</head>
+<body>
+
+<aside id="sidebar">
+  <div id="sidebar-header"><h1>📱 手机回收质检<br>判责逻辑库</h1><div class="ver">V3.3 — 2026-06-15 最终备份</div></div>
+  <div id="search-wrap"><input type="text" id="search" placeholder="搜索关键词（漏液、面容、磕碰...）" oninput="filterNav(this.value)"></div>
+  <button id="exempt-toggle" onclick="toggleExemptPanel()">⚡ 豁免内容独立导航 <span class="badge">3类</span></button>
+  <nav id="nav-tree">
+    <!-- ===== 通用：使用说明与调用逻辑（始终展示） ===== -->
+    <div class="nav-section"><button class="nav-parent open" onclick="toggleNav(this)"><span class="arrow">▶</span>📖 使用说明与调用逻辑</button>
+      <div class="nav-children">
+        <button class="nav-child" onclick="goTo('s-usage')">版本说明</button>
+        <button class="nav-child" onclick="goTo('s-call')">调用逻辑</button>
+        <button class="nav-child" onclick="goTo('s-reply')">回复逻辑（输出格式）</button>
+        <button class="nav-child" onclick="goTo('s-demo')">调取示例：面容</button>
+      </div>
+    </div>
+
+    <div class="nav-divider"></div>
+
+    <!-- ===== 📱 手机 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent open" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">📱</span> 手机 <span class="cat-badge">18+15+4+5+6+9+15项</span></button>
+      <div class="nav-children">
+        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none">3.1 基本信息（18项）</button>
+        <button class="nav-child" onclick="goTo('s-1')">1.机型</button><button class="nav-child" onclick="goTo('s-2')">2.IMEI</button><button class="nav-child" onclick="goTo('s-3')">3.SN</button><button class="nav-child" onclick="goTo('s-4')">4.运行内存</button><button class="nav-child" onclick="goTo('s-5')">5.存储容量</button><button class="nav-child" onclick="goTo('s-6')">6.颜色</button><button class="nav-child" onclick="goTo('s-7')">7.小型号</button><button class="nav-child" onclick="goTo('s-8')">8.网络制式</button><button class="nav-child" onclick="goTo('s-9')">9.购买渠道</button><button class="nav-child" onclick="goTo('s-10')">10.保修状态</button><button class="nav-child" onclick="goTo('s-11')">11.官网信息</button><button class="nav-child" onclick="goTo('s-12')">12.设备来源</button><button class="nav-child" onclick="goTo('s-13')">13.电池健康度</button><button class="nav-child" onclick="goTo('s-14')">14.开机情况</button><button class="nav-child" onclick="goTo('s-15')">15.账号状态</button><button class="nav-child" onclick="goTo('s-16')">16.系统情况</button><button class="nav-child" onclick="goTo('s-17')">17.系统提示维修</button><button class="nav-child" onclick="goTo('s-18')">18.工具读出维修</button>
+        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none;margin-top:4px">3.2 功能检测（15项）</button>
+        <button class="nav-child" onclick="goTo('s-19')">19.无线功能</button><button class="nav-child" onclick="goTo('s-20')">20.传感器</button><button class="nav-child" onclick="goTo('s-21')">21.生物识别(面容+指纹)</button><button class="nav-child" onclick="goTo('s-22')">22.声音功能</button><button class="nav-child" onclick="goTo('s-23')">23.通话-eSIM</button><button class="nav-child" onclick="goTo('s-24')">24.通话-SIM卡</button><button class="nav-child" onclick="goTo('s-25')">25.前置摄像头</button><button class="nav-child" onclick="goTo('s-26')">26.后置摄像头</button><button class="nav-child" onclick="goTo('s-27')">27.按键功能</button><button class="nav-child" onclick="goTo('s-28')">28.触控功能</button><button class="nav-child" onclick="goTo('s-29')">29.有线充电</button><button class="nav-child" onclick="goTo('s-30')">30.无线充电</button><button class="nav-child" onclick="goTo('s-31')">31.振动功能</button><button class="nav-child" onclick="goTo('s-32')">32.闪光灯</button><button class="nav-child" onclick="goTo('s-33')">33.其他功能(转轴/手写笔/呼吸灯/风扇)</button>
+        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none;margin-top:4px">3.3 屏幕显示（4项）</button>
+        <button class="nav-child" onclick="goTo('s-d1')">屏幕显示异常(漏液/条纹/闪烁)</button><button class="nav-child" onclick="goTo('s-d2')">压伤/材质变色/色斑</button><button class="nav-child" onclick="goTo('s-d3')">显示坏点【已纠正】</button><button class="nav-child" onclick="goTo('s-d4')">图文残影(烧屏)</button><button class="nav-child" onclick="goTo('s-d5')">屏幕亮度问题</button><button class="nav-child" onclick="goTo('s-d6')">屏幕显示老化【已纠正】</button>
+        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none;margin-top:4px">3.4-3.7 外观/拆修/不回收</button>
+        <button class="nav-child" onclick="goTo('s-app1')">屏幕及正面外观（5项）</button><button class="nav-child" onclick="goTo('s-app2')">中框及外壳外观（6项）</button><button class="nav-child" onclick="goTo('s-repair')">拆修及浸液情况（9项）</button><button class="nav-child" onclick="goTo('s-norecycle')">不回收机况（15条）</button>
+        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none;margin-top:4px">豁免</button>
+        <button class="nav-child exempt" onclick="goTo('s-exempt')">特殊豁免汇总</button><button class="nav-child exempt" onclick="goTo('s-exempt2')">机型功能缺失豁免表</button>
+      </div>
+    </div>
+
+    <!-- ===== 📋 平板 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">📋</span> 平板 <span class="cat-badge">待补充</span></button>
+      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+
+    <!-- ===== 💻 笔记本 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">💻</span> 笔记本 <span class="cat-badge">待补充</span></button>
+      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+
+    <!-- ===== 🎧 耳机 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">🎧</span> 耳机 <span class="cat-badge">待补充</span></button>
+      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+
+    <!-- ===== ⌚ 手表 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">⌚</span> 手表 <span class="cat-badge">待补充</span></button>
+      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+
+    <!-- ===== 📷 相机 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">📷</span> 相机 <span class="cat-badge">待补充</span></button>
+      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+
+    <!-- ===== 🔍 镜头 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">🔍</span> 镜头 <span class="cat-badge">待补充</span></button>
+      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+
+    <!-- ===== 🎮 游戏机 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">🎮</span> 游戏机 <span class="cat-badge">待补充</span></button>
+      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+
+    <!-- ===== 🖊 手写笔 ===== -->
+    <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">🖊</span> 手写笔 <span class="cat-badge">待补充</span></button>
+      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+
+  </nav>
+</aside>
+
+<div id="main">
+  <div id="main-header"><h2 id="main-title">手机回收质检判责逻辑库</h2><span id="breadcrumb">首页</span></div>
+  <div id="content-area">
+
+<!-- ===== 使用说明 + 调用逻辑 + 回复逻辑 ===== -->
+<div class="section-card fade-in" id="s-usage">
+  <h3>📋 版本与使用说明</h3>
+  <div class="s-id">V3.3 | 2026年6月15日</div>
+  <p style="font-size:13px">全选复制粘贴到新对话，直接发送案例（如"漏液"、"面容"、"显示坏点"、"外壳磕碰"等）即可按智能调取模式运行。<br><strong>包含：</strong>完整原始标准原文 + 调用逻辑 + 回复逻辑 + 输出格式 + 所有判责注意点 + 补充判责流程 + 已纠正标准</p>
+</div>
+
+<div class="section-card fade-in" id="s-call">
+  <h3>一、调用逻辑</h3>
+  <div class="tree">接收用户问题
+  ├── <strong>第一步：匹配判责库标准</strong>
+  │     ├── 精确匹配 → 调取对应标准
+  │     ├── 模糊匹配 → 列出可能项请用户确认
+  │     └── 无匹配 → 标记「建议咨询」
+  ├── <strong>第二步：按标准模板输出</strong>
+  │     ├── ① 表格结论（判定项+勾选）
+  │     ├── ② 判定依据（引用标准原文）
+  │     ├── ③ 判定方向（决策树，正常→✅ / 异常→❌）
+  │     ├── ④ 一句话总结
+  │     └── ⑤ ⚠️ 注意（标准自带注意事项 + 判责注意点）
+  ├── <strong>第三步：附加规则</strong>
+  │     ├── 外观项 → 等级并列，实测直接对应，无优先级
+  │     ├── 功能检测项 → 无需前置条件确认提示
+  │     ├── 维修项 → 末尾加「判定【内部拆修项】前必须确认工程师是否已勾选「无法拆机」...」
+  │     ├── 来源项 → 总结后加优先级注意
+  │     ├── 不回收项 → 总结后加「⚠️ 上门订单需将订单号、问题点、业务线按模版报备」
+  │     ├── 摄像头项 → 加检测范围提示
+  │     ├── 有斑/坏点项 → 总结中加「只计算单一倍数下的数量，不跨倍数累加」
+  │     ├── 偏光项 → 总结中<strong>加粗「非黑色即判异常」「非深蓝色即判异常」</strong>
+  │     ├── CNC项 → 总结中<strong>加粗「仅质检中心适用」</strong>
+  │     └── 零部件拆修项 → 总结中加「判定零部件拆修前，如有同等级具体拆修项需优先判责【具体拆修项】」
+  └── <strong>第四步：特殊提醒</strong>
+        ├── NFC/指纹/指南针 → 主动提醒有豁免机型
+        ├── iPhone11系列偏光 → 提醒确认完整型号
+        └── 序列号查询 → 提醒至少工作日查询2天</div>
+</div>
+
+<div class="section-card fade-in" id="s-reply">
+  <h3>二、回复逻辑（输出格式）</h3>
+  <div class="s-id">每次判定按以下顺序输出</div>
+  <div class="output-block"><div class="ob-header">① 表格结论</div><div class="ob-body">## [三级值名称]
+| 判定项 | 勾选 |
+|--------|------|
+| [二级项] | ✅ |
+| [三级值] | |</div></div>
+  <div class="output-block"><div class="ob-header">② 判定依据</div><div class="ob-body">引用判责逻辑库中的标准原文。</div></div>
+  <div class="output-block"><div class="ob-header">③ 判定方向（决策树格式）</div><div class="ob-body">判定方向
+  ├── 条件A → 结果（正常 ✅ / 异常 ❌）
+  ├── 条件B → 结果
+  └── 条件C → 结果</div></div>
+  <div class="output-block"><div class="ob-header">④ 一句话总结</div><div class="ob-body">核心结论，需加粗的关键词统一<strong>加粗</strong>。</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 / ⚠️ 注意事项</div><div class="ob-body">标准自带的注意事项用「⚠️ 注意事项」；判责注意点用「⚠️ 注意」，默认以流程图展示。</div></div>
+</div>
+
+<!-- ==================== 3.1 基本信息（18项） ==================== -->
+<!-- 1. 机型 -->
+<div class="section-card fade-in" id="s-1"><h3>1. 机型</h3><div class="s-id">基本信息·第1项</div>
+  <p><strong>标准定义：</strong>机型即设备的官方名称。勾选机型时以设备实物特征相符的机型为准，如查询（官网/售后/公众号）的出厂机型与实物机型不符，需勾选<span class="tag tag-red">设备机型不支持回收</span>。</p>
+  <p style="margin-top:6px"><strong>检测方法：</strong>苹果→设置→通用→关于本机→型号名称；安卓/鸿蒙→设置→关于本机→型号（注意名称可修改需登录官方官网获取）；苹果可连接电脑工具查看；使用IMEI或SN码到对应品牌官网/微信公众平台查询出厂机型。</p>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px">查询链接：苹果checkcoverage.apple.com/cnzh · 华为consumer.huawei.com/cn/support/warranty-query/ · 荣耀hihonor.com/cn/support/warranty-query/ · 小米mi.com/service/imei · OPPOsupport.oppo.com/cn/check/ · VIVOvivo.com/service/authenticityCheck/index</p>
+</div>
+
+<!-- 2-3: IMEI, SN (brief - no judgment process) -->
+<div class="section-card fade-in" id="s-2"><h3>2. IMEI</h3><div class="s-id">基本信息·第2项</div>
+  <p>多IMEI设备填写IMEI1。<strong>上下门店：</strong>无法查看IMEI可填写订单号。<strong>质检中心：</strong>无法查看IMEI可填写质检码+000000（6个0）。</p></div>
+
+<div class="section-card fade-in" id="s-3"><h3>3. SN</h3><div class="s-id">基本信息·第3项</div>
+  <p>SN码即产品序列号，一般由数字+字母组合而成，具有唯一性。<strong>上下门店：</strong>非必填。<strong>质检中心：</strong>华为/荣耀/三星/魅族需填SN，无法查看可填质检码+000000。</p></div>
+
+<!-- 4. 运行内存 -->
+<div class="section-card fade-in" id="s-4"><h3>4. 运行内存（RAM）</h3><div class="s-id">基本信息·第4项</div>
+  <p>运行内存是用于存储正在运行程序和数据的临时存储设备。只计算硬件内存，虚拟机内存不算。安卓/鸿蒙需按实际配置勾选，苹果不需要勾选。</p>
+  <p style="margin-top:4px">如查询出厂运行大小与实物不符算<span class="tag tag-red">官网信息与本机不符</span>。无法查看时默认勾选最小值。</p>
+  <p><strong>上门门店：</strong>实物运行内存为官方没有的配置→<span class="tag tag-red">设备机况不支持回收</span>。</p>
+  <p><strong>质检中心：</strong>实物运行内存为官方没有的配置→勾选相近偏小值+同时勾选<span class="tag tag-red">设备机况不支持回收</span>。</p>
+</div>
+
+<!-- 5-7 concise -->
+<div class="section-card fade-in" id="s-5"><h3>5. 存储容量（ROM）</h3><div class="s-id">基本信息·第5项</div>
+  <p>按设备实物存储容量大小勾选。出厂容量与实物不符→苹果算主板维修"内存与出厂不符"，安卓/鸿蒙算<span class="tag tag-red">官网信息与本机不符</span>。无法查看默认最小值。</p>
+  <p><strong>上门门店：</strong>实物容量为官方没有的配置→<span class="tag tag-red">设备机况不支持回收</span>。</p>
+  <p><strong>质检中心：</strong>实物容量为官方没有的配置→勾选相近偏小值+同时勾选<span class="tag tag-red">设备机况不支持回收</span>。</p>
+</div>
+
+<div class="section-card fade-in" id="s-6"><h3>6. 颜色</h3><div class="s-id">基本信息·第6项</div>
+  <p>按设备实物外观颜色勾选。更换后壳→勾选更换后颜色；外壳中框颜色与后盖不匹配→按后盖颜色；更换官方没有的颜色→算改版机，颜色按出厂颜色勾选。出厂颜色与实物不符判定为外壳更换。</p></div>
+
+<div class="section-card fade-in" id="s-7"><h3>7. 小型号</h3><div class="s-id">基本信息·第7项</div>
+  <p>即子型号，以实物系统内显示为准。苹果：设置→通用→关于本机→点击型号号码后面内容。三星：拨号*#1111#查看FTA SW VERSION。OPPO/VIVO等：设置→关于本机→型号/型号代码。</p>
+  <p><strong>上门门店：</strong>安卓/鸿蒙无对应小型号选择其他版本。<strong>质检中心：</strong>无对应小型号需反馈添加选项。</p></div>
+
+<!-- 8. 网络制式 -->
+<div class="section-card fade-in" id="s-8"><h3>8. 网络制式（单选）</h3><div class="s-id">基本信息·第8项</div>
+  <table><tr><th>选项</th><th>定义</th><th>包含制式</th></tr>
+    <tr><td>全网通</td><td>硬件同时支持三大运营商</td><td>555/554/455/454/444/234/233/232</td></tr>
+    <tr><td>移动全网通</td><td>移动定制版/优先版</td><td>555/444</td></tr>
+    <tr><td>双网通</td><td>支持移动+联通</td><td>440/330</td></tr>
+    <tr><td>电信版</td><td>仅支持电信</td><td>004/224/003</td></tr>
+    <tr><td>联通版</td><td>仅支持联通</td><td>240/230/044</td></tr>
+    <tr><td>移动版</td><td>仅支持移动</td><td>430/420/320</td></tr></table>
+  <p style="font-size:12px;color:var(--text3)">代号：第一位移动/第二位联通/第三位电信。5=5G/4=4G/3=3G/2=2G/0=不支持。如【420】=移动最高4G联通2G电信不支持。</p>
+</div>
+
+<!-- 9. 购买渠道 -->
+<div class="section-card fade-in" id="s-9"><h3>9. 购买渠道（单选）</h3><div class="s-id">基本信息·第9项</div>
+  <table><tr><th>选项</th><th>说明</th></tr><tr><td>国行</td><td>中国大陆销售版本</td></tr><tr><td>港澳台版</td><td>港澳台地区销售版本</td></tr><tr><td>其他版本</td><td>美版/日版/韩版/欧版/亚太版</td></tr><tr><td>其他版本-有锁</td><td>其他版本且有网络锁</td></tr></table>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px"><strong>苹果型号尾缀：</strong>CH→国行；TA→港澳台；ZP(Xr之前)→港澳台，ZP(Xr及之后)→其他版本；ZA→其他版本；LL→美版；KH→韩版；J→日版。<br>
+  <strong>三星判定：</strong>小型号(/1111#)：国行/港澳台除开头外均为数字(如SM-S9080)，其他版本中间或末尾有字母(如SM-S908B)。</p>
+</div>
+
+<!-- 10. 保修状态 -->
+<div class="section-card fade-in" id="s-10"><h3>10. 保修状态（单选）</h3><div class="s-id">基本信息·第10项</div>
+  <table><tr><th>选项</th><th>判定条件</th></tr>
+    <tr><td>保修未激活</td><td>苹果官网显示"设备未激活"或爬虫"没有激活"，且设备符合全新机条件。爬虫"预激活"→按已激活判定</td></tr>
+    <tr><td>保修时长≥30天</td><td>保修到期日期-质检当天日期≥30天。只计算出厂保修，AppleCare+按激活时间算减去延保天数</td></tr>
+    <tr><td>保修时长&lt;30天或过保</td><td>剩余&lt;30天或过保；其他版本/有锁默认过保</td></tr>
+    <tr><td>更换序列号</td><td>查询显示"已更换产品的序列号"/"维修换机"/"序列号无效"等</td></tr></table>
+  <div class="callout warn"><div class="ctitle">⚠️ 注意</div>若工程师回收当天≥30天，复核判责时＜30天，按<span class="tag tag-orange">总部责-标准差异-工程师回收时在保</span>判定。</div>
+</div>
+
+<!-- 11. 官网信息 -->
+<div class="section-card fade-in" id="s-11"><h3>11. 官网信息情况（单选）</h3><div class="s-id">基本信息·第11项</div>
+  <table><tr><th>选项</th><th>判定条件</th></tr>
+    <tr><td>串码修改/无效/为空</td><td>安卓/鸿蒙IMEI1与IMEI2完全一致；安卓无IMEI或显示null（关于本机或*#06#有其一即正常）</td></tr>
+    <tr><td>官网信息与本机不符</td><td>非苹果机型的运行内存、存储容量、小型号查询出厂信息与实物有其一不符</td></tr>
+    <tr><td>有售后服务记录</td><td>魅族机型爬虫显示有售后服务记录</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 注意</div>以官网查询为准，爬虫或公众号查不到无需判定。荣耀V40前在华为官网查，V40及以后在荣耀官网查。外版小米爬虫序列号无效为正常。</div>
+</div>
+
+<!-- 12. 设备来源 -->
+<div class="section-card fade-in" id="s-12"><h3>12. 设备来源（单选）</h3><div class="s-id">基本信息·第12项</div>
+  <p><strong>优先级：</strong><span class="tag tag-red">监管机/政企定制机/改版机/工程机（最高·不回收）</span> > 权益机 > BS机 > 官翻机 > 官换机 > 展示机 > 零售机</p>
+  <table><tr><th>来源</th><th>判定特征</th></tr>
+    <tr><td>零售机</td><td>正常渠道零售</td></tr>
+    <tr><td>展示机</td><td>苹果型号号码"3"开头；三星后壳刻"M"；华荣后壳"NOT FOR SALE"；有预装演示APP</td></tr>
+    <tr><td>官翻机</td><td>苹果型号"F"开头；三星后壳刻"7""R""7D""S""Я"</td></tr>
+    <tr><td>官换机</td><td>苹果型号"N"开头；关于本机显示"后置系统""逻辑板组件"</td></tr>
+    <tr><td>BS机</td><td>激活日期为197*年；爬虫显示BS机</td></tr>
+    <tr><td>权益机</td><td>苹果型号"5"开头；未到首批保修到期+非BS+过保</td></tr>
+    <tr><td style="color:var(--danger)">监管机</td><td>预装定制软件("xx公安""绿色军营""警务通")；开机动画有专用标识</td></tr>
+    <tr><td style="color:var(--danger)">政企定制机</td><td>华为鼎桥TD TECH；华为/荣耀C700字段；魅族22"小鹿"标识</td></tr>
+    <tr><td style="color:var(--danger)">改版机</td><td>更换与官方样式不一致的后壳；换官方没有的颜色</td></tr>
+    <tr><td style="color:var(--danger)">工程机</td><td>官网/爬虫/机身有"工程机""内部处理""非卖品"等字样；屏幕固定水印</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 重要豁免</div>华为后壳刻"NOT FOR SALE""非卖品-服务周转-备用机"为官方篆刻，不做判定。</div>
+  <div class="callout warn"><div class="ctitle">⚠️ 注意·来源项</div>总结后加：来源按"权益机 > BS机 > 官翻机 > 官换机 > 展示机 > 零售机"优先级，监管机/政企定制机/改版机/工程机为最高优先级且不回收。</div>
+</div>
+
+<!-- 13. 电池健康度 -->
+<div class="section-card fade-in" id="s-13"><h3>13. 电池健康度（单选）</h3><div class="s-id">基本信息·第13项</div>
+  <p>选项：96%≤健康度≤100% / 91%-95% / 86%-90% / 81%-85% / ≤80% / 不支持 / 无法检测 / 不检测。</p>
+  <p><strong>苹果：</strong>优先本机显示，不显示可接驳工具读取。新机未激活按100%勾选。</p>
+  <p><strong>安卓/鸿蒙：</strong>系统内无电池健康度选项或显示"评估中"→勾选<span class="tag tag-gray">不支持</span>。华为显示"评估中"可尝试调整日期时间后重启。</p>
+</div>
+
+<!-- 14. 开机情况 — 含判责流程 -->
+<div class="section-card fade-in" id="s-14"><h3>14. 开机情况（单选）</h3><div class="s-id">基本信息·第14项</div>
+  <table><tr><th>选项</th><th>判定条件</th></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">无法开机（不回收）</td><td>按电源键无任何反应且充电后仍无反馈（无显示/声音/震动）；苹果恢复/DFU模式无法退出。上门需充电确认非亏电。质检中心需有线充电≥60分钟，更换充电器。</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">设备机况不支持回收（不回收）</td><td>命中不回收机况任一条件</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">有锁屏密码（不回收）</td><td>有锁屏密码无法关闭；触摸局部失灵导致可解锁但无法关闭密码</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">屏幕无法正常显示（不回收）</td><td>屏幕不亮但插充电器有提示音/振动；间歇黑屏>5秒；花屏文字看不清或超50%错乱；不显示区域横纵直径均超50%</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">自动重启/关机（不回收）</td><td>未点按电源键且未设定时关机情况下自动重启或关机；测试中出现一次及以上即勾选</td></tr>
+    <tr><td>有重启记录-iOS</td><td>苹果机型验机工具读出有重启记录（此项可正常回收，非不回收机况）</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">触屏完全失灵（不回收）</td><td>屏幕触控完全失灵，无法进行任何操作和质检</td></tr></table>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 无法开机</div>
+    <div class="ob-body">无法开机
+  ├── 按电源键无任何反应 + 充电≥60分钟仍无任何反馈 → 不回收 ❌
+  ├── 苹果恢复模式/DFU模式无法退出 → 不回收 ❌
+  └── 充电后可开机 → 正常 ✅（进入下一步检测）</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 无法开机 判责流程</div>
+    <div class="ob-body">无法开机判责流程
+  ├── 第一步：确认是否为充电问题
+  │     ├── 充电 ≥ 60分钟以上并留证 → 充电后仍不开机 → 判责工程师
+  │     └── 可开机 → 进入下一步
+  └── 第二步：可正常充电、按电源键无反应
+        ├── 工程师已勾选电源键异常 → 业务责-隐性故障-设备因电源键异常导致不开机（需上传充电有显示+按电源键无反应照片）
+        └── 工程师未勾选电源键异常 → 判工程师（需上传充电有显示+按电源键无反应照片+视频）
+<strong>一句话总结：按电源键无反应/充电≥60分钟后仍无任何反馈，或苹果恢复/DFU模式无法退出，即判无法开机不回收。</strong></div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 自动重启/关机 判责流程</div>
+    <div class="ob-body">自动重启/关机判责流程
+  ├── 差价 ≥ 2000 → 录制视频实测 → 无重启→重流登记【重启回流登记表】；有重启→按差价<2000逻辑
+  └── 差价 < 2000
+        ├── 实测重启 → 工程师质检时正常开机→业务责-隐性故障-重启；无正常开机照片→判工程师
+        └── 实测拔电关机 → 工程师质检未连接充电线正常质检→业务责-隐性故障-重启；无正常开机照片→判工程师；所有亮屏照片均连接充电线→判责工程师（备注清晰拔电关机）</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 有重启记录-iOS 判责流程</div>
+    <div class="ob-body">有重启记录-iOS判责流程
+  ├── 差价 ≥ 2000 且一根线测试无重启-异常 → 录制视频 → 无重启重流登记表格；有重启按差价<2000逻辑
+  └── 差价 < 2000 → 一根线实测
+        ├── 重启-异常 → 工程师测试正常→总部责-APP差异；工程师测试异常/无记录→判工程师
+        └── 重启-正常 → 工程师测试异常→截回传结果判工程师；工程师测试正常→总部责-APP差异</div></div>
+
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 有锁屏密码</div>1、尝试默认密码0000或000000。2、确认差价是否符合整备条件，上门订单差额300+；门店订单不看差额，命中即留整备。</div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 屏幕无法正常显示</div>判责前查询总部报损情况。</div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 触屏完全失灵</div>苹果机型触摸完全失灵需进入DFU模式读取SN，通过SN查询账号已关闭的需将【账号状态无法检测】修改正常。</div>
+</div>
+
+<!-- 15. 账号状态 -->
+<div class="section-card fade-in" id="s-15"><h3>15. 账号状态（单选）</h3><div class="s-id">基本信息·第15项</div>
+  <table><tr><th>选项</th><th>判定条件</th></tr>
+    <tr><td>账号已注销</td><td>本地和云端账号均已关闭</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">账号无法注销（不回收）</td><td>本地账号无法退出；激活过程中显示有账号；云端账号开启无法关闭；系统有隐藏账号；安卓15及以上谷歌账号无法移除</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">账号状态无法检测（不回收）</td><td>刷第三方系统无法查看原系统账号；触摸失灵/无法显示等导致无法查看</td></tr>
+    <tr><td>公交卡未解绑</td><td>还原时提示有公交卡未解绑且无法删除</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 注意</div>确认差价是否符合整备条件，上门订单差额300+留整备；门店订单不看差额，命中即留整备。</div>
+</div>
+
+<!-- 16. 系统情况 -->
+<div class="section-card fade-in" id="s-16"><h3>16. 系统情况（单选）</h3><div class="s-id">基本信息·第16项</div>
+  <p><strong>设备符合全新机条件：</strong></p>
+  <p><strong>苹果：</strong>保修未激活（爬虫"没有激活"或官网"设备未激活"）且质检时不能激活设备；国行/港澳台；三码合一（包装盒+产品标签+手机IMEI一致）；原装配件齐全未拆封未使用；无任何使用痕迹；包装盒完好无破损涂写。</p>
+  <p><strong>安卓/鸿蒙：</strong>保修剩余>360天或未激活（支持查询品牌），或生产日期与质检日期相差<1年（不支持查询品牌）；国行；三码合一；原装配件齐全未拆封未使用；无使用痕迹；包装盒完好。</p>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 全新机</div>注意确认是否有【全新机】标识，原厂新机膜是否缺失，可调取拆包视频确认。全新机需同时满足①标识含「全新机」字段②保修未激活/剩余>360天/生产日期<1年③国行/港澳台④三码合一⑤原装配件齐全未拆封⑥无使用痕迹⑦包装盒完好，缺一不可。</div>
+  <table><tr><th>其他选项</th><th>说明</th></tr>
+    <tr><td>已激活，可还原</td><td>非全新机，可正常激活和还原</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">已激活，无法还原（不回收）</td><td>无还原选项/还原后系统无变化/还原失败/苹果基带坏</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">无法激活进入系统（不回收）</td><td>停留在待激活页面/卡在工程模式或刷机界面/开机动画页面无法进入系统；激活时有账号(同时勾选账号无法注销)</td></tr>
+    <tr><td>已越狱/ROOT/解锁BL</td><td>ROOT软件/Cydia/锁头打开标志/刷第三方系统</td></tr>
+    <tr><td>有访问限制密码</td><td>苹果还原时显示有访问限制密码/屏幕时间密码(无需勾选无法还原)</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 无法激活进入系统</div>触摸失灵导致无法激活或苹果无基带→按对应责任方判责。三星非国行激活时需断开网络。工程师检测时正常复核无法进入系统→业务责-隐性故障。</div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 更换序列号</div>序列号查询需至少在工作日查询2天才可判定（避免周末服务器维护查询不准）。</div>
+</div>
+
+<!-- 17. 系统提示维修 -->
+<div class="section-card fade-in" id="s-17"><h3>17. 系统提示维修</h3><div class="s-id">基本信息·第17项</div>
+  <table><tr><th>类别</th><th>提示内容</th></tr>
+    <tr><td><span class="tag tag-blue">官方</span> 原深感摄像头/面容</td><td>弹窗"原深感摄像头-正品Apple部件""面容ID-正品"</td></tr>
+    <tr><td><span class="tag tag-blue">官方</span> 相机</td><td>弹窗"相机-正品Apple部件""相机-正品"</td></tr>
+    <tr><td><span class="tag tag-blue">官方</span> 电池</td><td>弹窗"电池-正品Apple部件"；华为通知栏"正品电池部件"</td></tr>
+    <tr><td><span class="tag tag-blue">官方</span> 屏幕</td><td>弹窗"屏幕-正品Apple部件"；华为通知栏"正品屏幕部件"</td></tr>
+    <tr><td><span class="tag tag-orange">第三方</span> 前摄</td><td>弹窗"检测到新前置相机""前置相机-未知/已使用/二手"</td></tr>
+    <tr><td><span class="tag tag-orange">第三方</span> 后摄</td><td>弹窗"相机-未知部件""无法验证此相机""检测到新相机"</td></tr>
+    <tr><td><span class="tag tag-orange">第三方</span> 电池</td><td>弹窗"电池-未知部件"；华为通知栏"未知电池部件"</td></tr>
+    <tr><td><span class="tag tag-orange">第三方</span> 屏幕</td><td>苹果11+弹窗"未知部件""显示屏-未知""无法验证此屏幕"</td></tr>
+    <tr><td><span class="tag tag-red">主板异常</span></td><td>蜂窝网络问题/超宽带问题/温度警告；华为通知栏主板异常</td></tr>
+    <tr><td>后壳弹窗</td><td>弹窗"背面玻璃""机身-检测到新机身"</td></tr></table>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 第三方弹窗/官方配件提示 判责</div>
+    <div class="ob-body">判责前需确认工程师关于本机照片是否正常 → 工程师照片无弹窗且此部件无其他维修现象 → 按【业务责-隐性故障-工程师质检时关于本机无弹窗】判定。</div></div>
+</div>
+
+<!-- 18. 工具读出维修 -->
+<div class="section-card fade-in" id="s-18"><h3>18. 工具读出维修</h3><div class="s-id">基本信息·第18项</div>
+  <table><tr><th>项</th><th>上门门店（一根线）</th><th>质检中心（验机侠）</th><th>豁免</th></tr>
+    <tr><td>前摄</td><td>读出"异常"</td><td>除"用户判断/存在风险/高风险/正常"外的结果</td><td>正品部件→不看</td></tr>
+    <tr><td>后摄</td><td>读出"异常"</td><td>同上</td><td>正品部件→不看</td></tr>
+    <tr><td>电池</td><td>读出"异常"</td><td>同上</td><td>正品部件→不看</td></tr>
+    <tr><td>屏幕</td><td>读出"异常"</td><td>同上</td><td>正品部件→不看</td></tr>
+    <tr><td>主板</td><td>主板信息有其一项异常</td><td>除"存在风险/高风险/正常"外的结果</td><td>无豁免</td></tr></table>
+  <p style="margin-top:6px;font-size:13px"><strong>电池-健康值数据修改：</strong>适用电池未更换或更换为原装电池。条件①健康度与循环次数不匹配（=100%+充电>300次；≤98%+充电<10次；90%-99%+充电>1000次；80%-89%+充电>1800次）；条件②本机电池效率≥80%且比工具读出高出≥6%。</p>
+  <p style="font-size:13px"><strong>主板-内存与出厂不符：</strong>苹果关于本机储存容量与官网/爬虫/公众号查询不一致。</p>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 工具读出维修 判责</div>
+    <div class="ob-body">复核一根线实测为正常，验机侠测试为异常 → 按【总部责-APP差异】判定，需上传两个质检工具读取结果照片（需进入验机详情留证）。</div></div>
+</div>
+
+<!-- ==================== 3.2 功能检测（15项） ==================== -->
+<!-- 19. 无线功能 -->
+<div class="section-card fade-in" id="s-19"><h3>19. 无线功能（多选）</h3><div class="s-id">功能检测·第19项</div>
+  <table><tr><th>选项</th><th>判定</th></tr>
+    <tr><td>无线功能正常 <span class="tag tag-green">✅</span></td><td>WiFi、蓝牙、NFC均可正常使用</td></tr>
+    <tr><td>WiFi/蓝牙（无法打开/无法连接）<span class="tag tag-red">❌</span></td><td>开关无法打开；无法搜索到信号</td></tr>
+    <tr><td>NFC（无法打开/识别/Apple Pay问题）<span class="tag tag-red">❌</span></td><td>NFC无法识别；开关为灰色；苹果"Apple Pay问题"</td></tr></table>
+  <p style="font-size:12px;color:var(--text3)">NFC检测：使用带NFC功能的卡片贴紧手机背面上方，有识别反馈（弹窗/提示音/振动）即正常。可用公交卡/门禁卡/会员卡，不可用身份证/银行卡。</p>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">无线功能
+  ├── WiFi开关无法打开/无法搜索信号 → WiFi异常 ❌
+  ├── 蓝牙开关无法打开/无法搜索 → 蓝牙异常 ❌
+  ├── NFC开关灰色/无识别反馈 → NFC异常 ❌
+  └── WiFi+蓝牙+NFC均可正常使用 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — WiFi/蓝牙/NFC 判责</div>
+    <div class="ob-body">请确认工程师是否有APP自动检测记录
+  ├── ① 有自动检测记录且正常 → 【总部责-APP差异】需上传实测异常照片
+  └── ② 无自动检测记录，但工程师质检照片已体现功能正常 → 【业务责-隐性故障-工程师质检照片已体现正常】需上传实测异常照片</div></div>
+
+  <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚡ NFC豁免提醒</div>红米Note 13、荣耀X60 Pro、红米Note 12R Pro、红米Note 11 SE、realme V20、魅蓝10、红米Note 11E、荣耀X60、vivo Y100、华为畅享70S、红米Note 15、OPPO K13x、中兴畅行60 Plus、OPPO A6x 5G外版、OPPO A5m — 命中豁免机型+NFC功能缺失→不判定异常。</div>
+</div>
+
+<!-- 20. 传感器 -->
+<div class="section-card fade-in" id="s-20"><h3>20. 传感器功能（多选）</h3><div class="s-id">功能检测·第20项</div>
+  <table><tr><th>选项</th><th>检测方法</th></tr>
+    <tr><td>距离感应（通话无法自动息/亮屏）</td><td>拨打运营商电话→贴近耳部自动息屏、拿开自动亮屏即正常</td></tr>
+    <tr><td>光线感应（无法自动调节亮度）</td><td>亮度条拉至20%→手电筒照射传感器位置→亮度条或屏幕亮度升高即正常。部分机型传感器在屏幕下半部</td></tr>
+    <tr><td>重力感应（屏幕无法自动旋转）</td><td>关闭方向锁定→打开相册旋转屏幕→图片随之旋转即正常</td></tr>
+    <tr><td>指南针（无法打开/指向异常）</td><td>打开系统预装指南针APP→转动设备指针跟随转动即正常。需校准时先校准。无预装指南针APP的机型默认正常</td></tr></table>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 重力感应/指南针 判责</div>
+    <div class="ob-body">确认工程师是否有APP自动检测记录：有自动检测正常→总部责-APP差异；无自动检测但照片体现正常→业务责-隐性故障。</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 光线感应</div>
+    <div class="ob-body">1、确认工程师APP自动检测结果及检测照片。2、WIKO Hi 畅享 80S 检测方法有区别，请在企业微信搜索此机型按视频方法测试。</div></div>
+  <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚡ 指南针豁免机型</div>中兴远航30、红米9A、诺基亚C31、努比亚小牛、华为畅享10e、红米9C — 命中豁免机型+指南针功能缺失→不判定异常。</div>
+</div>
+
+<!-- 21. 生物识别 -->
+<div class="section-card fade-in" id="s-21"><h3>21. 生物识别功能</h3><div class="s-id">功能检测·第21项</div>
+
+  <h4 style="font-size:15px;margin:12px 0 6px">面容识别</h4>
+  <table><tr><th>选项</th><th>判定条件</th></tr>
+    <tr><td>面容识别功能正常 <span class="tag tag-green">✅</span></td><td>可以完成面容录入和解锁</td></tr>
+    <tr><td>面容解锁（无法录入/识别）<span class="tag tag-red">❌</span></td><td>苹果提示"面容ID已停用"/无法激活面容ID；设置选项灰色；录入异常/卡住≥3次；录入后无法解锁（苹果要打开"将面容ID用于iPhone解锁"）</td></tr></table>
+  <p style="font-size:12px;color:var(--text3)">检测方法：APP检测通过→正常，未通过→手动复测。录入→息屏→面容解锁可解锁即正常。异常提示/卡住→反复尝试≥3次均失败即异常。</p>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 面容</div>
+    <div class="ob-body">面容功能
+  ├── 提示"面容ID已停用" → 异常 ❌
+  ├── 设置面容选项灰色 → 异常 ❌
+  ├── 录入异常/卡住≥3次仍失败 → 异常 ❌
+  ├── 录入成功但无法解锁 → 异常 ❌
+  └── 可正常录入和解锁 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 面容 判责流程</div>
+    <div class="ob-body">拆机机型
+  ├── ① 工程师有APP通过且拆机后正常 → 【总部责-APP差异】
+  ├── ② 工程师无APP通过，有拆机后正常 → 【业务责-隐性故障-工程师拆机后面容正常】
+  └── ③ 不满足以上条件 → 判工程师
+
+不拆机型
+  ├── ① 工程师有APP通过 → 【总部责-APP差异】
+  ├── ② 实测无法录入/无法录入完成
+  │     ├── 有【录入界面录入完成】照片 → 【业务责-隐性故障-工程师照片已体现功能正常】
+  │     └── 无【录入界面录入完成】照片 → 判工程师
+  └── ③ 实测无法解锁
+        ├── 有实测解锁正常照片 → 【业务责-隐性故障-工程师照片已体现功能正常】
+        └── 无实测解锁正常照片 → 判工程师
+
+注：iPhone13系列间歇性问题较多，需重启后再次测试，间歇性无法录入/解锁按【隐性故障-间歇性问题】判定。</div></div>
+
+  <h4 style="font-size:15px;margin:16px 0 6px">指纹识别</h4>
+  <table><tr><th>选项</th><th>判定条件</th></tr>
+    <tr><td>指纹识别功能正常 <span class="tag tag-green">✅</span></td><td>可以完成指纹录入和解锁</td></tr>
+    <tr><td>指纹解锁（无法录入/识别）<span class="tag tag-red">❌</span></td><td>无法完成录入/录入后无法解锁；添加指纹按钮为灰色；有指纹模组但设置内无录入选项；苹果"无法激活触控ID"</td></tr></table>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 指纹</div>
+    <div class="ob-body">指纹功能
+  ├── 录入按钮灰色/无录入选项/提示"无法激活触控ID" → 异常 ❌
+  ├── 录入异常≥30次仍失败（纹路正常+清理后） → 异常 ❌
+  ├── 录入成功但无法解锁 → 异常 ❌
+  └── 可正常录入和解锁 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 指纹 判责流程</div>
+    <div class="ob-body">拆机机型（同面容逻辑）
+  ├── ① 工程师有APP通过且拆机后正常 → 【总部责-APP差异】
+  ├── ② 工程师无APP通过，有拆机后正常 → 【业务责-隐性故障-工程师拆机后指纹正常】
+  └── ③ 不满足以上条件 → 判工程师
+
+不拆机型（同面容逻辑）
+  ├── ① 工程师有APP通过 → 【总部责-APP差异】
+  ├── ② 实测无法录入 → 有录入完成照片→业务责-隐性故障；无照片→判工程师
+  └── ③ 实测无法解锁 → 有解锁正常照片→业务责-隐性故障；无照片→判工程师
+
+注意：录入时确保指纹纹路正常，指纹磨损需换手指；录入失败需清理指纹模组，屏下指纹+非原厂保护膜需撕膜后再测；苹果HOME键与指纹独立检测。</div></div>
+
+  <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚡ 指纹豁免机型</div>realme V20、魅蓝10、努比亚小牛、ThinkBook 16 G4、荣耀MagicBook X 16 2023、中兴小鲜50、WIKO Hi畅享70m、vivo Y11 (2023)、中兴畅行60 Plus — 命中豁免机型+指纹功能缺失→不判定异常。</div>
+  <div class="callout info" style="margin-top:8px"><div class="ctitle">⚠️ 注意事项</div>测试密码统一设置为4个0或6个0，测试结束后关闭密码。</div>
+</div>
+
+<!-- 22. 声音功能 -->
+<div class="section-card fade-in" id="s-22"><h3>22. 声音功能（多选）</h3><div class="s-id">功能检测·第22项</div>
+  <table><tr><th>选项</th><th>判定</th></tr>
+    <tr><td>声音功能正常 <span class="tag tag-green">✅</span></td><td>扬声器、听筒、麦克风均正常</td></tr>
+    <tr><td>麦克风（无声/明显杂音/声极小）<span class="tag tag-red">❌</span></td><td>录音后播放无声；明显杂音(电流声/噪声/滋滋声)；声音极小无法辨识</td></tr>
+    <tr><td>听筒（无声/明显杂音/声极小）<span class="tag tag-red">❌</span></td><td>听筒播放无声/杂音/声极小；无法打开免提；未插耳机显示耳机图标</td></tr>
+    <tr><td>扬声器（无声/明显杂音/声极小）<span class="tag tag-red">❌</span></td><td>扬声器播放无声/杂音/声极小</td></tr></table>
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">声音功能
+  ├── 录音播放无声/杂音/声极小 → 麦克风异常 ❌
+  ├── 听筒播放无声/杂音/声极小/耳机模式 → 听筒异常 ❌
+  ├── 扬声器播放无声/杂音/声极小 → 扬声器异常 ❌
+  └── 三者均正常 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 听筒/扬声器 判责</div>
+    <div class="ob-body">1、请确认位置是否有脏污堵塞，可使用小毛刷蘸取少量酒精清理后测试。2、判责需录制测试视频。</div></div>
+</div>
+
+<!-- 23-24 concise -->
+<div class="section-card fade-in" id="s-23"><h3>23. 通话功能-eSIM（单选）</h3><div class="s-id">功能检测·第23项</div>
+  <table><tr><th>选项</th><th>适用条件</th></tr><tr><td>大陆可使用（国行版）</td><td>购买渠道为国行</td></tr><tr><td>基带损坏</td><td>调制解调器固件为空或全0；系统不显示IMEI</td></tr><tr><td>大陆不可用（港澳台/外版）</td><td>购买渠道为港澳台或其他版本-无锁</td></tr><tr><td>有网络锁，无法检测</td><td>购买渠道为其他版本-有锁</td></tr></table></div>
+
+<div class="section-card fade-in" id="s-24"><h3>24. 通话功能-SIM卡1/卡2（单选）</h3><div class="s-id">功能检测·第24项</div>
+  <table><tr><th>选项</th><th>判定</th></tr>
+    <tr><td>卡功能正常</td><td>SIM卡功能正常 <span class="tag tag-green">✅</span></td></tr>
+    <tr><td>卡（不读卡/无信号/卡槽坏/无法拨号/基带坏）<span class="tag tag-red">❌</span></td><td>不读卡(需重启)；无信号；信号弱持续≤2格；无法拨号；基带坏；卡槽损坏无法插入SIM卡；卡托缺失</td></tr>
+    <tr><td>有网络锁，无法检测</td><td>苹果"其他版本-有锁"时勾选</td></tr>
+    <tr><td>卡2不支持</td><td>该设备为单卡版本</td></tr></table>
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">SIM卡功能
+  ├── 不读卡(重启仍无效)/无信号/信号弱≤2格/无法拨号/基带坏/卡槽坏 → 异常 ❌
+  ├── 卡托无法取出(内部有SIM卡/存储卡) → 不回收 ❌
+  ├── 卡托缺失(上门门店无异物堵塞→通话正常；质检中心借同款卡托测试) → 按实测结果
+  └── 可正常读卡+有信号+可拨号 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — SIM卡 判责流程</div>
+    <div class="ob-body">1、确认工程师是否有APP自动检测记录
+  ├── ① 有自动检测记录且正常 → 【总部责-APP差异】需上传实测异常照片
+  └── ② 无自动检测记录，但工程师质检照片已体现功能正常 → 【业务责-隐性故障】需上传实测异常照片
+2、插入卡针卡托无法正常弹出，不看APP检测通过，正常取证判责工程师。
+3、卡托内有异物，可尝试整备后再判责。
+4、卡托缺失导致勾选SIM卡异常的，需借出同款机型卡托实际测试，功能正常的需修改报告为正常，勾选卡托缺失即可。</div></div>
+</div>
+
+<!-- 25. 前置摄像头 -->
+<div class="section-card fade-in" id="s-25"><h3>25. 前置摄像头功能（单选）</h3><div class="s-id">功能检测·第25项</div>
+  <p><strong>检测范围：</strong>照片模式<span class="kw">【1倍】</span>+<span class="kw">【人像模式】</span></p>
+  <table><tr><th>选项</th><th>判定</th></tr>
+    <tr><td>前摄功能正常 <span class="tag tag-green">✅</span></td><td>前摄功能正常</td></tr>
+    <tr><td>升降摄像头无法完全升降 <span class="tag tag-red">❌</span></td><td>摄像头升降/翻转模块无法完全升起/收回/翻转至正常位置</td></tr>
+    <tr><td>前摄无画面/闪退报错/无法切换/卡顿/裂纹 <span class="tag tag-red">❌</span></td><td>无画面(全黑全白)；无法切换；裂纹(球面镜片碎裂或取景画面有裂痕)；闪退报错；卡顿>5秒</td></tr>
+    <tr><td>前摄模糊/抖动/不对焦/成像画面异常 <span class="tag tag-red">❌</span></td><td>不对焦；成像有异常纹路色斑色块/上下颠倒/颜色异常；模糊；非手抖画面抖动</td></tr>
+    <tr><td>有斑数量>15或直径>20mm <span class="tag tag-red">❌</span></td><td>白底取景可见有斑>15个或单个直径>20mm</td></tr>
+    <tr><td>前摄坏点直径>0.5mm或数量>3 <span class="tag tag-red">❌</span></td><td>取景画面有坏点直径>0.5mm或数量>3</td></tr>
+    <tr><td>有斑数量≤15且直径≤20mm <span class="tag tag-red">❌</span></td><td>有斑≤15且每个斑点直径≤20mm</td></tr>
+    <tr><td>有斑数量≤3且直径≤5mm <span class="tag tag-red">❌</span></td><td>有斑≤3且直径≤5mm</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 注意</div>「有斑数量≤3且直径≤5mm」优先级高于「有斑数量≤15且直径≤20mm」。只计算单一倍数下的数量不累加（1倍有1个5倍有2个最多只算2个）。</div>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 前摄</div>
+    <div class="ob-body">前置摄像头
+  ├── 升降/翻转模块无法完全动作 → 异常 ❌（摄像头无画面）
+  ├── 全黑/全白画面/无法切换/闪退报错/卡顿>5秒/裂纹 → 异常 ❌
+  ├── 模糊/抖动/不对焦/成像画面异常 → 异常 ❌
+  ├── 白底有斑>15个或直径>20mm → 异常 ❌
+  ├── 坏点直径>0.5mm或数量>3 → 异常 ❌
+  ├── 有斑≤15且直径≤20mm → 异常 ❌
+  ├── 有斑≤3且直径≤5mm → 异常 ❌
+  └── 以上现象均无 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 前摄 判责</div>
+    <div class="ob-body">无画面/闪退报错等：1、需按检测范围（1倍+人像）取证。2、实测无异常修改前需给品控确认视频留证后再修改报告。
+模糊/抖动等：同上+留取【白底照片/视频留证画面正常】证据。
+有斑/坏点：1、需按检测范围取证。2、不可在微距模式取证，不可调整曝光。3、斑点重叠按1个计算。4、实测无异常修改前需给品控确认，留取白底照片/视频证据。</div></div>
+</div>
+
+<!-- 26. 后置摄像头 -->
+<div class="section-card fade-in" id="s-26"><h3>26. 后置摄像头功能（单选）</h3><div class="s-id">功能检测·第26项</div>
+  <p><strong>检测范围：</strong></p>
+  <ul style="font-size:13px;margin:4px 0 0 18px">
+    <li><strong>苹果后置3摄(pro&pro max)：</strong>照片模式【常驻倍数】+【人像模式】最高倍</li>
+    <li><strong>苹果单摄/双摄：</strong>照片模式【常驻倍数】+【人像模式】默认倍数</li>
+    <li><strong>安卓/鸿蒙：</strong>后摄照片【常驻倍数】+【人像模式】1倍；无常驻倍数→手动拖动变焦条到【0.5倍/1倍/3倍/5倍】观测</li>
+  </ul>
+  <p style="margin-top:4px;font-size:13px">后摄无画面/闪退报错/模糊/抖动/不对焦/有斑/坏点分级标准<strong>同前摄逻辑一致</strong>。</p>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 后摄 判责</div>
+    <div class="ob-body">无画面/闪退等：1、需按检测范围确认。2、不确认常驻倍数需借同款对比。3、实测无异常修改前需给品控确认视频留证。
+模糊/抖动等：1、需按检测范围取证。2、不可在微距模式取证，不可调整曝光。3、实测无异常修改前需给品控确认，留取白底照片/视频证据。
+有斑/坏点：同前摄要求。</div></div>
+</div>
+
+<!-- 27. 按键功能 -->
+<div class="section-card fade-in" id="s-27"><h3>27. 按键功能（多选）</h3><div class="s-id">功能检测·第27项</div>
+  <p>检测范围：电源键、音量键、其他按键（Home键/静音键/拍照键/智灵键/游戏肩键等）。苹果16及以上机型需测试拍摄键触控功能：设置→相机→相机控制按钮。</p>
+  <p>异常类型：<span class="tag tag-red">失灵</span>（按压无反馈/未按压自动触发）· <span class="tag tag-red">回弹差</span>（回弹反馈弱）· <span class="tag tag-red">凹陷</span>（键帽高度持平或低于外壳）· <span class="tag tag-red">卡死</span>（无法按压或按后卡住）· <span class="tag tag-red">键帽缺失</span>（同时算外壳辅件缺损）</p>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 按键 判责</div>
+    <div class="ob-body">按键回弹差、卡死需使用小刷子蘸取少量酒精整备，避免脏污导致异常。</div></div>
+</div>
+
+<!-- 28. 触控功能 -->
+<div class="section-card fade-in" id="s-28"><h3>28. 触控功能（多选）</h3><div class="s-id">功能检测·第28项</div>
+  <table><tr><th>选项</th><th>判定</th></tr>
+    <tr><td>触屏（含触控键）失灵/乱触/漂移 <span class="tag tag-red">❌</span></td><td>失灵(全屏/局部无反馈/间歇性/断触)；乱触(未点击自动跳动)；漂移(点A响应B)</td></tr>
+    <tr><td>3D-Touch按压无反馈 <span class="tag tag-red">❌</span></td><td>苹果机型APP检测3D-Touch全部检测点无反馈或有其一</td></tr>
+    <tr><td>副屏触控失灵/乱触/漂移 <span class="tag tag-red">❌</span></td><td>同主屏标准</td></tr></table>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 触屏失灵（非完全失灵）判责流程</div>
+    <div class="ob-body">实测异常 + 总部有报损 → 【最终总部责】
+实测异常 + 总部无报损
+  ├── 工程师APP通过 → 【总部责-APP差异】
+  └── 工程师无APP通过 → 判责工程师
+实测正常 → 需使用验机精灵测试留证后再修改</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 3D-Touch 判责流程</div>
+    <div class="ob-body">实测异常 → 工程师APP通过→总部责-APP差异；工程师无APP通过→判责工程师
+实测正常 → 需使用验机精灵测试留证后再修改</div></div>
+</div>
+
+<!-- 29. 有线充电 -->
+<div class="section-card fade-in" id="s-29"><h3>29. 有线充电功能（单选）</h3><div class="s-id">功能检测·第29项</div>
+  <p>异常判定：<strong>不充电</strong>（连接充电器无提示）· <strong>无法双边充</strong>（Type-C或Lightning正反插有一面无提示）· <strong>接口损坏</strong>（接口断裂/缺损/变形无法连接数据线）· <strong>接触不良</strong>（充电断续/接口松动无法卡紧，按住数据线距接头5CM处左右摇晃≤2CM充电断续即判；充电口垂直朝下数据线自动掉下即判）· <strong>未插线显示充电</strong>（需重启至少一次排除系统bug）</p>
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">有线充电
+  ├── 连接充电器无充电提示 → 不充电 ❌（先检查接口是否有异物堵塞）
+  ├── 正反插有一面无提示 → 无法双边充 ❌
+  ├── 接口断裂/缺损/变形 → 接口损坏 ❌
+  ├── 充电断续/接口松动 → 接触不良 ❌
+  ├── 未插线桌面显示充电图标 → 异常 ❌（需重启至少一次排除bug）
+  └── 连接充电器正常充电提示 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 有线充电 判责流程</div>
+    <div class="ob-body">不充电/无法双边充/接触不良
+  ├── 工程师APP测试正常 → 【总部责-APP差异】
+  ├── 工程师无APP测试，但验机照片已体现充电正常 → 【业务责-隐性故障-工程师质检照片已体现功能正常】
+  └── 工程师无APP测试/APP异常且验机照片未体现充电正常 → 判责工程师
+接口损坏
+  ├── 总部无报损 → 优先判责工程师
+  └── 总部报损 → 【总部责-最终总部责】
+未插线显示充电 → 重启至少一次排除系统bug</div></div>
+</div>
+
+<!-- 30. 无线充电 -->
+<div class="section-card fade-in" id="s-30"><h3>30. 无线充电功能（单选）</h3><div class="s-id">功能检测·第30项</div>
+  <p>选项：无线充电功能正常 / 无线充（不充电/充电断续）/ 无线充电不检测。</p>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 无线充电 判责流程</div>
+    <div class="ob-body">无线充判责流程
+  ├── 上门门店均不测试此功能
+  ├── 实测异常 → 【总部责-标准差异-无此标准】（需将系统带出备注清除后手动备注具体问题点+上传异常照片）
+  └── 实测正常 → 需留证正常照片后修改报告</div></div>
+</div>
+
+<!-- 31. 振动功能 -->
+<div class="section-card fade-in" id="s-31"><h3>31. 振动功能（单选）</h3><div class="s-id">功能检测·第31项</div>
+  <p>选项：振动功能正常 / 无振动/振动异响 / 振动功能不检测。</p>
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">振动功能
+  ├── 开启振动开关后触发振动无震感 → 无振动 ❌
+  ├── 振动时伴随异常声响 → 振动异响 ❌
+  └── 振动正常 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 振动异常 判责流程</div>
+    <div class="ob-body">实测无振动 → 判责工程师
+实测振动异响
+  ├── 苹果机型 → 留整备
+  └── 安卓机型 → 判责工程师
+判责需视频留证并在判责备注中体现</div></div>
+</div>
+
+<!-- 32. 闪光灯 -->
+<div class="section-card fade-in" id="s-32"><h3>32. 闪光灯功能（单选）</h3><div class="s-id">功能检测·第32项</div>
+  <p>选项：闪光灯功能正常 / 闪光灯/手电筒无法打开/灯光非白(黄)色。</p>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 闪光灯 判责流程</div>
+    <div class="ob-body">实测异常
+  ├── 工程师照片正常 → 【业务责-隐性故障-工程师质检照片已体现功能正常】
+  └── 需判责工程师 → 需视频留证并在判责备注中体现</div></div>
+  <div class="callout info" style="margin-top:8px"><div class="ctitle">⚠️ 注意事项</div>部分机型低电量下无法打开，需在电量>15%进行测试。</div>
+</div>
+
+<!-- 33. 其他功能 -->
+<div class="section-card fade-in" id="s-33"><h3>33. 其他功能（多选）</h3><div class="s-id">功能检测·第33项</div>
+  <table><tr><th>选项</th><th>判定</th></tr>
+    <tr><td>其他功能正常 <span class="tag tag-green">✅</span></td><td>转轴、手写笔、呼吸灯、风扇均正常或硬件不支持</td></tr>
+    <tr><td>转轴松动/卡顿/异响/开合角度异常 <span class="tag tag-red">❌</span></td><td>折叠屏转轴松动；开合卡顿异响；展开角度<177°或>182°</td></tr>
+    <tr><td>手写笔缺失/碎裂/无法连接/无法取出 <span class="tag tag-red">❌</span></td><td>笔身碎裂；本体缺失；无法连接手机/点控屏幕；卡死无法弹出</td></tr>
+    <tr><td>呼吸灯（游戏氛围灯）不亮 <span class="tag tag-red">❌</span></td><td>开启功能后无灯光</td></tr>
+    <tr><td>散热风扇不转/转动有异响 <span class="tag tag-red">❌</span></td><td>风扇无法开启或开启后不转（需进入游戏模式测试）；转动异响</td></tr></table>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 转轴</div>
+    <div class="ob-body">转轴
+  ├── 松动/开合卡顿/异响 → 异常 ❌
+  ├── 展开角度<177°或>182° → 异常 ❌
+  └── 开合顺畅无异常 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 转轴判责流程</div>
+    <div class="ob-body">转轴松动/开合卡顿异响 → 判责工程师需视频留证并在判责备注中体现
+展开角度<177°或>182° → 判责工程师需使用角度尺工具进行测试取证</div></div>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 手写笔</div>
+    <div class="ob-body">手写笔
+  ├── 无法连接手机/无法点控屏幕 → 异常 ❌
+  ├── 笔身碎裂/本体缺失/卡死无法取出 → 异常 ❌
+  └── 可正常连接和使用 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 手写笔判责流程</div>
+    <div class="ob-body">1、无法连接使用
+  ├── 工程师有正常使用照片 → 【业务责-隐性故障-工程师质检时已体现正常】
+  └── 未测试/异常 → 判责工程师
+2、手写笔笔身碎裂
+  ├── 总部有报损 → 【总部责-最终总部责】
+  └── 总部无报损 → 判责工程师
+3、手写笔缺失
+  ├── 总部无报损+拆包已体现缺失 → 判责工程师
+  ├── 总部无报损+拆包视频模糊无法确认 → 判责工程师
+  └── 总部有报损 → 【最终总部责】</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 呼吸灯判责流程</div>
+    <div class="ob-body">呼吸灯不亮
+  ├── 工程师有正常使用照片 → 【业务责-隐性故障-工程师质检时已体现正常】
+  └── 工程师未测试/实际异常 → 判责工程师</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 风扇判责流程</div>
+    <div class="ob-body">风扇不转/异响
+  ├── 工程师有正常使用照片/视频 → 【业务责-隐性故障-工程师质检时已体现正常】
+  └── 工程师未测试/实际异常 → 判责工程师
+注意：需进入游戏模式测试，普通模式下风扇可能不会启动。检测前确认机型是否硬件支持散热风扇功能。</div></div>
+</div>
+
+<!-- ==================== 3.3 屏幕显示（4项+扩展） ==================== -->
+<!-- 屏幕显示异常：漏液/条纹/闪烁/图层错乱 -->
+<div class="section-card fade-in" id="s-d1"><h3>屏幕显示异常：漏液/条纹/闪烁/图层错乱</h3><div class="s-id">屏幕显示·3.3 | 单选</div>
+  <p>任意背景色可见色块或>0.5mm黑点；贯穿直线；闪烁波纹；错乱模糊重影。分别在纯白色、纯灰色、纯黑色三个背景色下查看。</p>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">屏幕显示异常
+  ├── 任意背景色可见色块或>0.5mm黑点 → 异常 ❌
+  ├── 贯穿直线 → 异常 ❌
+  ├── 闪烁波纹 → 异常 ❌
+  ├── 错乱模糊重影 → 异常 ❌
+  └── 三个背景色下均无以上现象 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 漏液/条纹/闪烁/图层错乱 判责流程</div>
+    <div class="ob-body">屏幕显示异常判责流程
+  ├── 1、工程师质检照片已体现屏幕显示异常 → 判工程师责
+  ├── 2、工程师回收显示正常，但总部收到有漏液
+  │     ├── a、拆包视频显示运输破损 → 判工程师责（工程师自行提供证据申诉）
+  │     └── b、拆包视频无异常，总部无报损 → 判工程师责
+  └── 3、总部有报损 → 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致
+注意事项：判责前查看总部是否有报损记录，避免误判。</div></div>
+</div>
+
+<!-- 压伤/材质变色/色斑 -->
+<div class="section-card fade-in" id="s-d2"><h3>压伤 / 内屏材质变色（灼伤氧化）/ 色斑</h3><div class="s-id">屏幕显示·3.3</div>
+  <p><strong>压伤：</strong>显示黑色背景时有色块（仅黑色背景有色块浅色正常）。<strong>内屏材质变色：</strong>息屏看内屏材质变色（灼伤氧化），正面观测。<strong>色斑：</strong>显示浅色背景时其他颜色的斑块，不遮挡显示内容。</p>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 压伤</div>
+    <div class="ob-body">压伤
+  ├── 黑色背景下可见色块 → 异常 ❌
+  └── 黑色背景下无色块 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 压伤判责流程</div>
+    <div class="ob-body">1、工程师质检照片已体现压伤 → 判工程师责
+2、工程师回收无法体现压伤但总部有 → 判工程师责
+3、总部有报损 → 判总部责-最终总部责-二检失误引起的人为拆损/流转导致</div></div>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 内屏材质变色</div>
+    <div class="ob-body">内屏材质变色
+  ├── 息屏正面观测可见变色 → 异常 ❌
+  └── 息屏无变色 → 正常 ✅
+⚠️ 红米K80息屏边角蓝边为豁免项，不判异常。</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 内屏材质变色判责流程</div>
+    <div class="ob-body">1、工程师质检照片已体现内屏材质变色 → 判工程师责
+2、工程师回收无法体现但实际有变色 → 判工程师责
+3、总部有报损 → 判总部责-最终总部责</div></div>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 色斑</div>
+    <div class="ob-body">色斑
+  ├── 浅色背景下可见其他颜色斑块 → 异常 ❌
+  └── 浅色背景下无异常色块 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 色斑判责流程</div>
+    <div class="ob-body">1、工程师质检照片已体现色斑 → 判工程师责
+2、工程师回收无法体现但总部有色斑 → 判工程师责</div></div>
+</div>
+
+<!-- 显示坏点【已纠正】 -->
+<div class="section-card fade-in" id="s-d3"><h3>显示坏点（白底黑点）【已纠正】</h3><div class="s-id">屏幕显示·3.3 | <span class="tag tag-orange">已纠正</span></div>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">显示坏点（白底黑点）
+  ├── 白底背景下有黑点
+  │     ├── 黑点直径 ≤ 0.5mm 且数量 ≤ 3个 → 异常 ❌
+  │     ├── 黑点直径 ≤ 0.5mm 且数量 > 3个 → 异常 ❌
+  │     └── 黑点直径 > 0.5mm → 异常 ❌（按屏幕有漏液/黑点判定）
+  └── 白底背景下无黑点 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 显示坏点判责流程</div>
+    <div class="ob-body">显示坏点判责流程
+  ├── 1、工程师质检照片已体现显示坏点 → 判工程师责
+  └── 2、工程师回收照片无法体现，总部质检有坏点
+        ├── a、黑点直径 ≤ 0.5mm 且数量 ≤ 3个 → 判工程师责
+        └── b、黑点直径 ≤ 0.5mm 且数量 > 3个 → 判工程师责</div></div>
+
+  <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚠️ 纠正说明</div>原标准中"黑点直径≤0.5mm且数量≤3个"判定为正常，已更改为异常。<strong>凡白底背景下出现黑点，一律判异常。</strong></div>
+</div>
+
+<!-- 图文残影 -->
+<div class="section-card fade-in" id="s-d4"><h3>屏幕图文残影（烧屏）</h3><div class="s-id">屏幕显示·3.3 | 单选</div>
+  <p>选项：图文残影可拍出>3cm或>10 / 图文残影或分界可拍出/拍不出 / 导航条或状态栏图标残影可拍出 / 无图文残影。</p>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">图文残影
+  ├── 残影可拍出>3cm或>10 → 异常 ❌
+  ├── 残影/分界可拍出 → 异常 ❌
+  ├── 导航条/状态栏图标残影可拍出 → 异常 ❌
+  └── 无残影 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 图文残影判责流程</div>
+    <div class="ob-body">1、工程师质检照片已体现图文残影 → 判工程师责
+2、工程师回收照片无法体现，总部质检有图文残影
+  ├── a、判工程师责（检测遗漏/未按标准检测）
+  ├── b、符合复核策略的需执行复核策略
+  └── c、根据实际质检情况可执行复核策略，灰度一个等级（如：可拍残影实际无法拍出→改为残影不可拍）</div></div>
+</div>
+
+<!-- 屏幕亮度 -->
+<div class="section-card fade-in" id="s-d5"><h3>屏幕亮度问题</h3><div class="s-id">屏幕显示·3.3</div>
+  <p>调整屏幕亮度无变化；显示白底时背光有波纹/边缘透光/局部发暗；显示有亮斑>2mm；亮点≤2mm数量>5/≤5。</p>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">屏幕亮度
+  ├── 调整亮度无变化 → 异常 ❌
+  ├── 白底下背光有波纹/边缘透光/局部发暗 → 异常 ❌
+  ├── 有亮斑>2mm → 异常 ❌
+  ├── 亮点≤2mm数量>5 → 异常 ❌
+  └── 无以上问题 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 屏幕亮度判责流程</div>
+    <div class="ob-body">1、工程师质检照片/视频已体现亮度问题 → 判工程师责（按实际等级勾选）
+2、实测有对应亮度问题 → 工程师未按标准检测（无白底照片/亮度调节测试）→ 判工程师责（检测遗漏）
+3、总部有报损 → 判总部责-最终总部责
+注意事项：判责前确认工程师是否有白底照片及亮度调节测试记录。亮点/亮斑需在纯色背景下检测确认。</div></div>
+</div>
+
+<!-- 屏幕显示老化【已纠正】 -->
+<div class="section-card fade-in" id="s-d6"><h3>屏幕显示老化【已纠正】</h3><div class="s-id">屏幕显示·3.3 | 单选 | <span class="tag tag-orange">已纠正</span></div>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+    <div class="ob-body">屏幕显示老化
+  ├── 屏幕边缘泛黄或中间泛红（可拍出边界）→ 异常 ❌
+  ├── 屏幕整体偏红或偏黄（拍不出边界）→ 异常 ❌
+  ├── 边角发暗，灰色背景有灰线/四周虚影 → 异常 ❌
+  └── 无以上问题 → 正常 ✅</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 屏幕显示老化判责流程</div>
+    <div class="ob-body">1、工程师质检照片已体现屏幕显示老化 → 判工程师责（按实际等级勾选）
+2、实测屏幕显示老化问题 → 判工程师责
+3、总部有报损 → 判总部责-最终总部责
+注意事项：判责前确认工程师是否有白底/灰底照片+总部是否有报损记录。LCD屏幕老化更常见，OLED相对较少。需与正常色温同款机型对比确认偏色程度。</div></div>
+
+  <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚠️ 纠正说明</div>原内容"OLED屏幕老化现象更常见，LCD相对较少"已更改为"<strong>LCD屏幕老化现象更常见，OLED相对较少</strong>"。</div>
+</div>
+
+<!-- ==================== 3.4-3.5-3.6-3.7 ==================== -->
+<!-- 3.4 屏幕及正面外观 -->
+<div class="section-card fade-in" id="s-app1"><h3>3.4 屏幕及正面外观（5项）</h3><div class="s-id">屏幕外观 | 外观项等级为并列关系，实测直接对应无优先级</div>
+  <ul style="font-size:13px;margin:4px 0 0 18px;line-height:1.8">
+    <li><strong>屏幕碎裂/支架破损（单选）：</strong>碎裂/磕点/掉漆/气泡>5mm或数量>1；折叠屏主屏凹痕/折痕泛白；支架/胶条缺损断裂、听筒网破损；碎裂/磕点/掉漆/气泡≤5mm且数量=1。<br><span style="font-size:11px;color:var(--text3)">磕点直径≤1mm算触感划痕，>1mm算磕点；Home键碎裂/划痕按屏幕外观现象值勾选。</span></li>
+    <li><strong>屏幕有触感划痕（单选）：</strong>>20mm或>10条 / 10~20mm且≤10条 / 3~10mm且≤10条 / ≤3mm且≤10条 / 无以上问题。指甲横向刮过有阻塞感。同一条部分有触感+部分无触感→按有触感只算有触感部分长度。</li>
+    <li><strong>屏幕无触感划痕（单选）：</strong>>30mm或>20条 / ≤30mm且≤20条 / ≤10mm且≤10条（优先判定）/ 无以上问题（≤3mm且≤5条正常）。指甲刮过顺滑无阻塞感。</li>
+    <li><strong>折叠屏保护膜情况（单选）：</strong>破损或翘边/气泡>10mm / 翘边/气泡≤10mm / 无保护膜 / 有保护膜 / 不检测。</li>
+    <li><strong>屏幕外观其他现象（多选）：</strong>前摄进灰>0.5mm或数量>5；屏幕脱胶（盖板凸起按压起伏支架凸起>1mm）；边缘胶条脱落（曲面屏封胶缺失≤10mm只看最大单处；>10mm算脱胶）；缓冲胶垫破损缺失（折叠屏四角）；内屏凸起褶皱>10mm；盖板打磨凹陷。</li>
+  </ul>
+  <div style="font-size:12px;color:var(--text3);margin-top:6px">适用判责模式（划痕类）：工程师照片已体现→判工程师责；工程师无法体现但总部有→判工程师责（检测遗漏）；总部有报损→判总部责。</div>
+</div>
+
+<!-- 3.5 中框及外壳外观 -->
+<div class="section-card fade-in" id="s-app2"><h3>3.5 中框及外壳外观（6项）</h3><div class="s-id">外壳外观 | 外观项等级为并列关系，实测直接对应无优先级</div>
+
+  <p style="font-size:13px;font-weight:700">外壳碎裂/刻字/脱胶（单选）</p>
+  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
+    <li>后盖缺失/有刻字/辅件缺损（不当刻字不回收；三星7D/S/R/Я/M、小米非全新无三包、华为NOT FOR SALE为官方篆刻豁免）</li>
+    <li>碎裂/玻璃磕点>2mm；碎裂/玻璃磕点≤2mm；镜片缺失碎裂、网罩破损；后盖脱胶</li>
+    <li>碎裂判定：玻璃/陶瓷有碎裂纹直接判；金属裂宽>0.3mm判碎裂≤0.3mm判磕碰；塑料穿透本体判碎裂仅表面判磕碰；素皮表层破损判磕碰露底层判碎裂</li>
+  </ul>
+
+  <p style="font-size:13px;font-weight:700">外壳磕碰/掉漆（单选）</p>
+  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
+    <li>最大直径>10mm或2mm以上数量>10 / ≤10mm且>2mm点数≤10 / ≤3mm且>2mm点数≤5（直径<2mm点数>3后最高此项）/ 最大直径≤2mm且总数量≤3（苹果镜头框掉漆上限）/ 无以上问题（≤0.5mm且≤3个）</li>
+  </ul>
+
+  <p style="font-size:13px;font-weight:700">外壳磨损（单选）</p>
+  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
+    <li>磨损直径>机身1/3（后壳>1/3或中框左右单边>90%）/ ≤机身1/3（单处>20mm）/ 5-20mm或>3处 / 无以上问题（≤5mm且≤3处）</li>
+  </ul>
+
+  <p style="font-size:13px;font-weight:700">外壳划痕（单选）</p>
+  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
+    <li>最长划痕>40mm或>20条 / ≤40mm且≤20条 / ≤20mm且≤10条 / 无以上问题（≤3mm且≤5条正常）</li>
+  </ul>
+
+  <p style="font-size:13px;font-weight:700">机身弯曲情况（单选）</p>
+  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7"><li>≥2mm / 1mm≤弯曲<2mm / 无以上问题(<1mm正常)</li></ul>
+
+  <p style="font-size:13px;font-weight:700">机身其他现象（多选）</p>
+  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7"><li>卡托断裂变形缺失；后摄进灰>0.5mm或数量>5；玻璃后盖内漆面褶皱>5mm；卡托颜色或串号不符（苹果卡托IMEI缺失不判）</li></ul>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 外壳磕碰/划痕/磨损/印记 判责流程（统一模式）</div>
+    <div class="ob-body">1、工程师质检照片已体现 → 判工程师责（按实际等级勾选）
+2、工程师回收无法体现，总部质检有 → 判工程师责（检测遗漏/未按标准检测）；符合复核策略的需执行复核策略
+3、总部有报损 → 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致</div></div>
+
+  <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚡ 豁免提醒</div>三星后壳7D/S/R/Я/M、小米后壳非全新无三包/瑕疵机无三包、华为NOT FOR SALE/非卖品-服务周转-备用机为官方篆刻，豁免不判。vivo S16颜如玉外壳发黄→外观磨损不判更换。</div>
+</div>
+
+<!-- 3.6 拆修及浸液情况（9项） -->
+<div class="section-card fade-in" id="s-repair"><h3>3.6 拆修及浸液情况（9项）</h3><div class="s-id">拆修检测</div>
+  <ul style="font-size:13px;margin:4px 0 0 18px;line-height:1.8">
+    <li><strong>气密仪检测情况（单选）：</strong>有气密（苹果12及以上气密值40-60指针匀速下降全过程/保持指针不变5s）；无气密。</li>
+    <li><strong>前置/后置摄像头拆修：</strong>缺损维修（主体缺损排线断裂/有焊接痕迹飞线）；第三方更换（有第三方标识）。</li>
+    <li><strong>电池拆修情况（单选）：</strong>状态异常（鼓包/破损/褶皱/松动/弹窗异常）；第三方更换（第三方标识/其他品牌/样式不符）；平台焕新电池（韩客/华严苛/海斯/品胜+焕新专用标识）。<br><span style="font-size:11px;color:var(--text3)">注意：符合更换认证品牌电池标准时优先勾选此项不用判定第三方标识/其他品牌/样式不符。</span></li>
+    <li><strong>屏幕拆修情况（单选）：</strong>更换非原厂屏（偏光异常/材质不符/第三方品牌/IC排线样式不符/指关节异常/其他特征）；平台整屏焕新；屏幕维修（无原彩/排线焊油/IC封胶异常）；更换屏幕外玻璃（紫光灯印记/边界异常/感应孔样式不符/边缘溢胶）。<br><span style="font-size:11px;color:var(--text3)">偏光检测：苹果6号孔(iPhone13-17)/7号孔(iPhone6-11/SE2-3)/8号孔(iPhoneX/XS/11Pro/11ProMax/12系列)→<strong>非深蓝色即判异常</strong>。安卓OPPO/Realme/一加10号孔、小米/红米/华为/荣耀/vivo/努比亚/三星12号孔→<strong>非黑色即判异常</strong>。iPhone11系列跨7号和8号孔位，判定前需确认完整型号。</span></li>
+    <li><strong>后壳拆修（单选）：</strong>颜色版本不符；小型号不符字体异常；激光雷达颜色异常(苹果12-16Pro&ProMax)；开孔样式不符；镜头框缝隙异常；第三方标识；其它维修特征；<strong>CNC工艺不符（仅质检中心适用）</strong>— 苹果17Pro/ProMax闪光灯开孔无高光倒角/后置麦克风倒角不符/中框与后盖衔接处褶皱纹路。</li>
+    <li><strong>主板拆修（单选）：</strong>主板维修（美版开卡槽/焊接痕迹/飞线/爬虫与关于本机购买渠道不一致→按爬虫+勾选此项）；主板小修（石墨纸缺损>10mm/屏蔽罩变形/螺母泡棉缺失/第三方标识）。</li>
+    <li><strong>零部件拆修情况（多选）：</strong>零部件缺失/无法拆机；其他零部件拆修（后盖与中框衔接处溢胶撬痕；镜头印记擦洗异物脏污指印；分体式卡槽更换等）。<br><span style="font-size:11px;color:var(--text3)">判定零部件拆修前，如有同等级具体拆修项需优先判责【具体拆修项】。判定【内部拆修项】前必须确认工程师是否已勾选「无法拆机」，有气密视频的如有外部拆修项需同步判责。</span></li>
+    <li><strong>浸液情况（单选）：</strong>机身内部浸液（主板区域锈迹/水残留；摄像头水雾；内部其他零件锈迹/发霉/水残留；主板处防水标变红；苹果防水标缺失）。<br><span style="font-size:11px;color:var(--text3)">金属件或黑纸上有印渍无需判定为水残留。拆机过程中渗入的酒精需自行用纸/布吸干。</span></li>
+  </ul>
+  <div class="callout info" style="margin-top:8px"><div class="ctitle">⚠️ 注意 — 浸液豁免</div>一加12/11/10Pro/Ace3/Ace2Pro/Ace2摄像头左侧出厂补胶不判溢胶。金属件/黑纸有印渍不判水残留。拆机渗入酒精自行吸干。</div>
+</div>
+
+<!-- 3.7 不回收机况 -->
+<div class="section-card fade-in" id="s-norecycle"><h3>3.7 不回收机况（15条）</h3><div class="s-id">不回收条件</div>
+  <ol style="font-size:13px;margin:4px 0 0 22px;line-height:2">
+    <li>山寨机/杂牌机/模型机/仿冒商品</li>
+    <li>核心组件缺失（屏幕总成、主板缺失、电池缺失）</li>
+    <li>设备有丢失信息、处于丢失模式</li>
+    <li>苹果设备查询官网或公众号显示"借出设备"</li>
+    <li>设备刻字（图）有不文明/反动言论/政治敏感/带隐私信息（人名/地址/电话/照片）</li>
+    <li>电池鼓包高度超过5mm（测量从中框为起点）</li>
+    <li>苹果实际机型与序列号在官网查询的机型不一致</li>
+    <li>改装偷拍摄像头</li>
+    <li>华为机型工程模式SN为空（重点机型：Mate50/60系列、P50/P60/P70系列、Mate X2/X3/X5系列）</li>
+    <li>设备来源为"监管机/政企定制机/改版机/工程机"</li>
+    <li>设备实物运行内存或存储容量为官方没有的版本</li>
+    <li>设备运行系统为演示版系统</li>
+    <li>用户告知设备来源为国补优惠政策购买且符合"全新机"标准时不可回收（非全新机则按正常流程回收）</li>
+    <li>机身卡槽内部有SIM卡或存储卡无法取出（涉及用户隐私拒不回收）</li>
+    <li>安卓查询官网或公众号/爬虫显示"试制bom""服务备机"字段</li>
+  </ol>
+  <div class="callout danger" style="margin-top:8px"><div class="ctitle">⚠️ 不回收处理流程</div>勾选对应不回收项 → 同时勾选设备机况不支持回收 → 邮寄业务线提报异常质检 → 走退货流程。</div>
+  <div class="callout warn"><div class="ctitle">⚠️ 注意</div>上门订单需将订单号、问题点、业务线按模版报备。来源优先级：监管机/政企定制机/改版机/工程机（最高·不回收）> 权益机 > BS机 > 官翻机 > 官换机 > 展示机 > 零售机。</div>
+</div>
+
+<!-- ==================== 豁免内容 ==================== -->
+<div class="section-card fade-in" id="s-exempt"><h3>特殊豁免汇总</h3><div class="s-id">豁免项清单</div>
+  <div class="callout warn"><div class="ctitle">⚡ 豁免汇总</div>
+    <ul style="font-size:12px;margin:4px 0 0 16px;line-height:1.8">
+      <li>华为Mate X5副屏溢胶正常不判</li>
+      <li>Mate60系列仅屏幕溢胶/撬痕+无其他屏幕维修→算后盖与中框衔接处</li>
+      <li>P60Pro后摄3.5倍超近白底竖纹正常</li><li>P40Pro闪光灯环偏移正常，镜片偏移才判</li>
+      <li>红米K80息屏边角蓝边不判息屏变色</li><li>OPPO Find X8屏幕轻微凹陷出厂正常</li>
+      <li>vivo S16颜如玉外壳发黄→外观磨损不判更换</li>
+      <li>荣耀畅玩70Plus/华为Pura70全网通权益版小型号不一致不判</li>
+      <li>小米civi1-3代屏顶部透明开孔前置补光灯豁免</li><li>努比亚Flip国行也有垃圾桶标志例外</li>
+      <li>外版小米爬虫序列号无效正常不判</li><li>后壳刻非新品无三包小米官网查不到正常</li>
+      <li>三星后壳7D/S/R/Я/M、小米后壳非全新无三包/瑕疵机无三包、华为NOT FOR SALE/非卖品-服务周转-备用机官方篆刻豁免</li>
+      <li>一加12/11/10Pro/Ace3/Ace2Pro/Ace2摄像头左侧出厂补胶不判溢胶</li>
+      <li>金属件/黑纸有印渍无需判定为水残留</li><li>拆机过程中渗入的酒精需自行用纸/布吸干</li>
+    </ul></div>
+</div>
+
+<div class="section-card fade-in" id="s-exempt2"><h3>机型功能缺失豁免表</h3><div class="s-id">豁免机型 | 判定规则：机型命中豁免表+对应功能缺失→不判定异常 | NFC/指纹/指南针查询时主动提醒</div>
+  <table><tr><th style="width:60px">功能</th><th>豁免机型列表</th></tr>
+    <tr><td><span class="tag tag-orange">NFC</span></td><td style="font-size:12px">红米Note 13、荣耀X60 Pro、红米Note 12R Pro、红米Note 11 SE、realme V20、魅蓝10、红米Note 11E、荣耀X60、vivo Y100、华为畅享70S、红米Note 15、OPPO K13x、中兴畅行60 Plus、OPPO A6x 5G外版、OPPO A5m</td></tr>
+    <tr><td><span class="tag tag-orange">指纹</span></td><td style="font-size:12px">realme V20、魅蓝10、努比亚小牛、ThinkBook 16 G4、荣耀MagicBook X 16 2023、中兴小鲜50、WIKO Hi畅享70m、vivo Y11 (2023)、中兴畅行60 Plus</td></tr>
+    <tr><td><span class="tag tag-orange">指南针</span></td><td style="font-size:12px">中兴远航30、红米9A、诺基亚C31、努比亚小牛、华为畅享10e、红米9C</td></tr></table>
+  <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚡ 判定规则</div>机型命中豁免表+对应功能缺失→不判定异常，总部如有勾选异常需修改正常。<strong>NFC/指纹/指南针查询时主动提醒有豁免机型。</strong></div>
+</div>
+
+<!-- ===== 调取示例：面容 ===== -->
+<div class="section-card fade-in" id="s-demo"><h3>完整展示逻辑 — 调取示例：面容</h3><div class="s-id">当用户发送「面容」关键词时的完整输出</div>
+  <div class="output-block"><div class="ob-header">① 表格结论</div><div class="ob-body">## 面容解锁（无法录入/识别）
+| 判定项 | 勾选 |
+|--------|------|
+| 生物识别功能 | ✅ |
+| 三级值：面容解锁（无法录入/识别） | |</div></div>
+  <div class="output-block"><div class="ob-header">② 判定依据</div><div class="ob-body">1. 苹果手机提示"面容ID已停用"或无法在此iPhone激活面容ID
+2. 设置面容选项为灰色，无法进行录入
+3. 录入过程中提示异常或进度卡住，无法成功录入
+4. 录入成功后，无法使用面容进行解锁
+检测方法：1.APP检测通过则为正常，未通过需手动复测。2.录入→息屏→面容解锁，可解锁即为正常。3.异常提示/卡住→反复尝试≥3次，三次均失败即为异常。</div></div>
+  <div class="output-block"><div class="ob-header">③ 判定方向</div><div class="ob-body">面容功能
+  ├── 提示"面容ID已停用" → 异常 ❌
+  ├── 设置面容选项灰色 → 异常 ❌
+  ├── 录入异常/卡住≥3次仍失败 → 异常 ❌
+  ├── 录入成功但无法解锁 → 异常 ❌
+  └── 可正常录入和解锁 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">④ 一句话总结</div><div class="ob-body"><strong>面容ID已停用</strong>、<strong>选项灰色</strong>、<strong>录入异常≥3次失败</strong>、<strong>录入后无法解锁</strong>，任一即判面容异常。</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 判责流程</div><div class="ob-body">拆机机型
+  ├── ① 工程师有APP通过且拆机后正常 → 【总部责-APP差异】
+  ├── ② 工程师无APP通过，有拆机后正常 → 【业务责-隐性故障-工程师拆机后面容正常】
+  └── ③ 不满足以上条件 → 判工程师
+不拆机型
+  ├── ① 工程师有APP通过 → 【总部责-APP差异】
+  ├── ② 实测无法录入 → 有录入完成照片→业务责-隐性故障；无照片→判工程师
+  └── ③ 实测无法解锁 → 有解锁正常照片→业务责-隐性故障；无照片→判工程师
+注：iPhone13系列间歇性问题较多，需重启后再次测试，间歇性按【隐性故障-间歇性问题】判定。</div></div>
+  <div class="callout info" style="margin-top:8px"><div class="ctitle">⚠️ 注意事项</div>测试密码统一设置为4个0或6个0，测试结束后关闭密码。</div>
+</div>
+
+<!-- 手写笔内容已回归手机品类 → 33.其他功能；手写笔独立品类内容后续单独添加 -->
+
+  </div><!-- /content-area -->
+</div><!-- /main -->
+
+<!-- ==================== EXEMPTION PANEL ==================== -->
+<div id="exempt-panel">
+  <div id="exempt-panel-header"><h3>⚡ 豁免内容独立导航</h3><button id="exempt-panel-close" onclick="toggleExemptPanel()">✕</button></div>
+  <div id="exempt-panel-content">
+    <div class="section-card" style="box-shadow:none;border-color:#ffe0a0">
+      <h3 style="font-size:14px">豁免汇总清单</h3>
+      <ul style="font-size:12px;margin:4px 0 0 16px;line-height:1.8">
+        <li>华为Mate X5副屏溢胶正常不判</li><li>Mate60系列仅屏幕溢胶/撬痕→算后盖与中框衔接处</li>
+        <li>P60Pro后摄3.5倍超近白底竖纹正常</li><li>P40Pro闪光灯环偏移正常</li>
+        <li>红米K80息屏边角蓝边不判</li><li>OPPO Find X8屏幕轻微凹陷出厂正常</li>
+        <li>vivo S16颜如玉外壳发黄→外观磨损</li><li>荣耀畅玩70Plus/华为Pura70小型号不一致不判</li>
+        <li>小米civi1-3代前置补光灯豁免</li><li>努比亚Flip国行垃圾桶标志例外</li>
+        <li>外版小米爬虫序列号无效正常</li><li>三星后壳7D/S/R/Я/M官方刻录豁免</li>
+        <li>小米后壳非全新无三包官方刻录豁免</li><li>华为NOT FOR SALE官方篆刻豁免</li>
+        <li>一加12/11/10Pro/Ace3/Ace2Pro/Ace2出厂补胶不判</li>
+        <li>金属件/黑纸有印渍不判水残留</li><li>拆机渗入酒精自行吸干</li>
+      </ul></div>
+    <div class="section-card" style="box-shadow:none;border-color:#ffe0a0;margin-top:12px"><h3 style="font-size:14px">📡 NFC豁免机型</h3><p style="font-size:12px;line-height:1.8">红米Note 13·荣耀X60 Pro·红米Note 12R Pro·红米Note 11 SE·realme V20·魅蓝10·红米Note 11E·荣耀X60·vivo Y100·华为畅享70S·红米Note 15·OPPO K13x·中兴畅行60 Plus·OPPO A6x 5G外版·OPPO A5m</p></div>
+    <div class="section-card" style="box-shadow:none;border-color:#ffe0a0;margin-top:12px"><h3 style="font-size:14px">👆 指纹豁免机型</h3><p style="font-size:12px;line-height:1.8">realme V20·魅蓝10·努比亚小牛·ThinkBook 16 G4·荣耀MagicBook X 16 2023·中兴小鲜50·WIKO Hi畅享70m·vivo Y11 (2023)·中兴畅行60 Plus</p></div>
+    <div class="section-card" style="box-shadow:none;border-color:#ffe0a0;margin-top:12px"><h3 style="font-size:14px">🧭 指南针豁免机型</h3><p style="font-size:12px;line-height:1.8">中兴远航30·红米9A·诺基亚C31·努比亚小牛·华为畅享10e·红米9C</p></div>
+    <div class="section-card" style="box-shadow:none;border-color:#ffe0a0;margin-top:12px"><h3 style="font-size:14px">📋 判定规则</h3><p style="font-size:12px;line-height:1.6"><strong>机型命中豁免表+对应功能缺失→不判定异常</strong><br>总部如有勾选异常需修改正常。<br>NFC/指纹/指南针查询时<strong>主动提醒有豁免机型</strong>。</p></div>
+    <div class="section-card" style="box-shadow:none;border-color:#ffe0a0;margin-top:12px"><h3 style="font-size:14px">🏷 不回收豁免说明</h3><p style="font-size:12px;line-height:1.6">华为后壳"NOT FOR SALE""非卖品-服务周转-备用机"为官方篆刻，不判定异常。<br>三星后壳7D/S/R/Я/M、小米后壳非全新无三包/瑕疵机无三包为官方刻录，豁免。<br><strong>来源优先级：</strong>监管机/政企定制机/改版机/工程机（最高·不回收）> 权益机 > BS机 > 官翻机 > 官换机 > 展示机 > 零售机</p></div>
+  </div>
+</div>
+
+<script>
+function toggleNav(b){b.classList.toggle('open')}
+
+// Accordion: only one category open at a time
+function toggleCat(btn){
+  const isOpen=btn.classList.contains('open');
+  // Close all categories
+  document.querySelectorAll('.nav-cat>.nav-parent').forEach(b=>b.classList.remove('open'));
+  // Toggle clicked one
+  if(!isOpen)btn.classList.add('open');
+}
+
+// Open first few nav items + the phone category by default
+document.querySelector('.nav-cat>.nav-parent').classList.add('open');
+document.querySelectorAll('#nav-tree>.nav-section:not(.nav-cat) .nav-parent').forEach(b=>b.classList.add('open'));
+
+function goTo(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelectorAll('.nav-child').forEach(c=>c.classList.remove('active'));
+  const a=document.querySelector(`.nav-child[onclick*="${id}"]`);if(a)a.classList.add('active');
+  const h3=el.querySelector('h3');if(h3)document.getElementById('main-title').textContent=h3.textContent;
+  document.getElementById('breadcrumb').textContent=h3?h3.textContent:'详情';
+}
+
+function filterNav(q){
+  q=q.toLowerCase().trim();
+  document.querySelectorAll('.nav-child').forEach(c=>{
+    c.style.display=(!q||c.textContent.toLowerCase().includes(q))?'':'none';
+  });
+  document.querySelectorAll('.section-card').forEach(card=>{
+    card.style.display=(!q||card.textContent.toLowerCase().includes(q))?'':'none';
+  });
+  // When searching, expand all categories
+  if(q){
+    document.querySelectorAll('.nav-cat>.nav-parent').forEach(b=>b.classList.add('open'));
+    document.querySelectorAll('.nav-parent').forEach(b=>b.classList.add('open'));
+  }
+}
+
+document.getElementById('search').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    const q=this.value.toLowerCase().trim();if(!q)return;
+    for(const card of document.querySelectorAll('.section-card')){
+      if(card.style.display!=='none'&&card.textContent.toLowerCase().includes(q)){card.scrollIntoView({behavior:'smooth',block:'start'});break;}
+    }
+  }
+});
+
+function toggleExemptPanel(){document.getElementById('exempt-panel').classList.toggle('show')}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('exempt-panel').classList.remove('show')});
+</script>
+</body>
+</html>

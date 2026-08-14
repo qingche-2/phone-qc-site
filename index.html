@@ -37,6 +37,14 @@
   .nav-cat>.nav-parent .cat-badge{font-size:10px;font-weight:500;color:var(--text3);margin-left:auto}
   .nav-cat>.nav-parent.open{background:var(--accent2);border-bottom-color:var(--accent)}
   .nav-divider{height:1px;background:var(--border);margin:4px 0}
+
+  /* Second-level groups (基本信息/外观/显示/功能/拆修/不回收) */
+  .nav-sub{background:#fcfcfd}
+  .nav-sub>.nav-parent{font-size:12px;font-weight:700;padding:8px 20px 8px 32px;color:var(--text2);background:none;border-bottom:1px solid #f0f0f0}
+  .nav-sub>.nav-parent:hover{background:var(--accent2)}
+  .nav-sub>.nav-parent .arrow{font-size:9px}
+  .nav-sub>.nav-parent.open{color:var(--accent);background:var(--accent2)}
+  .nav-sub .nav-child{padding-left:52px}
   #exempt-toggle{margin:0 16px 8px;padding:8px 12px;font-size:12px;font-weight:600;color:var(--warn);background:var(--warn2);border:1px solid #ffe0a0;border-radius:8px;cursor:pointer;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
   #exempt-toggle:hover{background:#ffedd0}
   #exempt-toggle .badge{background:var(--warn);color:#fff;font-size:10px;padding:1px 6px;border-radius:10px}
@@ -116,52 +124,133 @@
     <div class="nav-divider"></div>
 
     <!-- ===== 📱 手机 ===== -->
-    <div class="nav-section nav-cat"><button class="nav-parent open" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">📱</span> 手机 <span class="cat-badge">18+15+4+5+6+9+15项</span></button>
+    <div class="nav-section nav-cat"><button class="nav-parent open" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">📱</span> 手机 <span class="cat-badge">60+项</span></button>
       <div class="nav-children">
-        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none">3.1 基本信息（18项）</button>
-        <button class="nav-child" onclick="goTo('s-1')">1.机型</button><button class="nav-child" onclick="goTo('s-2')">2.IMEI</button><button class="nav-child" onclick="goTo('s-3')">3.SN</button><button class="nav-child" onclick="goTo('s-4')">4.运行内存</button><button class="nav-child" onclick="goTo('s-5')">5.存储容量</button><button class="nav-child" onclick="goTo('s-6')">6.颜色</button><button class="nav-child" onclick="goTo('s-7')">7.小型号</button><button class="nav-child" onclick="goTo('s-8')">8.网络制式</button><button class="nav-child" onclick="goTo('s-9')">9.购买渠道</button><button class="nav-child" onclick="goTo('s-10')">10.保修状态</button><button class="nav-child" onclick="goTo('s-11')">11.官网信息</button><button class="nav-child" onclick="goTo('s-12')">12.设备来源</button><button class="nav-child" onclick="goTo('s-13')">13.电池健康度</button><button class="nav-child" onclick="goTo('s-14')">14.开机情况</button><button class="nav-child" onclick="goTo('s-15')">15.账号状态</button><button class="nav-child" onclick="goTo('s-16')">16.系统情况</button><button class="nav-child" onclick="goTo('s-17')">17.系统提示维修</button><button class="nav-child" onclick="goTo('s-18')">18.工具读出维修</button>
-        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none;margin-top:4px">3.2 功能检测（15项）</button>
-        <button class="nav-child" onclick="goTo('s-19')">19.无线功能</button><button class="nav-child" onclick="goTo('s-20')">20.传感器</button><button class="nav-child" onclick="goTo('s-21')">21.生物识别(面容+指纹)</button><button class="nav-child" onclick="goTo('s-22')">22.声音功能</button><button class="nav-child" onclick="goTo('s-23')">23.通话-eSIM</button><button class="nav-child" onclick="goTo('s-24')">24.通话-SIM卡</button><button class="nav-child" onclick="goTo('s-25')">25.前置摄像头</button><button class="nav-child" onclick="goTo('s-26')">26.后置摄像头</button><button class="nav-child" onclick="goTo('s-27')">27.按键功能</button><button class="nav-child" onclick="goTo('s-28')">28.触控功能</button><button class="nav-child" onclick="goTo('s-29')">29.有线充电</button><button class="nav-child" onclick="goTo('s-30')">30.无线充电</button><button class="nav-child" onclick="goTo('s-31')">31.振动功能</button><button class="nav-child" onclick="goTo('s-32')">32.闪光灯</button><button class="nav-child" onclick="goTo('s-33')">33.其他功能(转轴/手写笔/呼吸灯/风扇)</button>
-        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none;margin-top:4px">3.3 屏幕显示（4项）</button>
-        <button class="nav-child" onclick="goTo('s-d1')">屏幕显示异常(漏液/条纹/闪烁)</button><button class="nav-child" onclick="goTo('s-d2')">压伤/材质变色/色斑</button><button class="nav-child" onclick="goTo('s-d3')">显示坏点【已纠正】</button><button class="nav-child" onclick="goTo('s-d4')">图文残影(烧屏)</button><button class="nav-child" onclick="goTo('s-d5')">屏幕亮度问题</button><button class="nav-child" onclick="goTo('s-d6')">屏幕显示老化【已纠正】</button>
-        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none;margin-top:4px">3.4-3.7 外观/拆修/不回收</button>
-        <button class="nav-child" onclick="goTo('s-app1')">屏幕及正面外观（5项）</button><button class="nav-child" onclick="goTo('s-app2')">中框及外壳外观（6项）</button><button class="nav-child" onclick="goTo('s-repair')">拆修及浸液情况（9项）</button><button class="nav-child" onclick="goTo('s-norecycle')">不回收机况（15条）</button>
-        <button class="nav-child nav-subhead" style="font-weight:700;color:var(--text);pointer-events:none;margin-top:4px">豁免</button>
-        <button class="nav-child exempt" onclick="goTo('s-exempt')">特殊豁免汇总</button><button class="nav-child exempt" onclick="goTo('s-exempt2')">机型功能缺失豁免表</button>
+        <div class="nav-sub"><button class="nav-parent open" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息 <span class="cat-badge">18项</span></button>
+          <div class="nav-children">
+            <button class="nav-child" onclick="goTo('s-1')">1.机型</button><button class="nav-child" onclick="goTo('s-2')">2.IMEI</button><button class="nav-child" onclick="goTo('s-3')">3.SN</button><button class="nav-child" onclick="goTo('s-4')">4.运行内存</button><button class="nav-child" onclick="goTo('s-5')">5.存储容量</button><button class="nav-child" onclick="goTo('s-6')">6.颜色</button><button class="nav-child" onclick="goTo('s-7')">7.小型号</button><button class="nav-child" onclick="goTo('s-8')">8.网络制式</button><button class="nav-child" onclick="goTo('s-9')">9.购买渠道</button><button class="nav-child" onclick="goTo('s-10')">10.保修状态</button><button class="nav-child" onclick="goTo('s-11')">11.官网信息</button><button class="nav-child" onclick="goTo('s-12')">12.设备来源</button><button class="nav-child" onclick="goTo('s-13')">13.电池健康度</button><button class="nav-child" onclick="goTo('s-14')">14.开机情况</button><button class="nav-child" onclick="goTo('s-15')">15.账号状态</button><button class="nav-child" onclick="goTo('s-16')">16.系统情况</button><button class="nav-child" onclick="goTo('s-17')">17.系统提示维修</button><button class="nav-child" onclick="goTo('s-18')">18.工具读出维修</button>
+          </div>
+        </div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观 <span class="cat-badge">11项</span></button>
+          <div class="nav-children">
+            <button class="nav-child" onclick="goTo('s-app1')">屏幕及正面外观（5项）</button><button class="nav-child" onclick="goTo('s-app2')">中框及外壳外观（6项）</button>
+          </div>
+        </div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示 <span class="cat-badge">6项</span></button>
+          <div class="nav-children">
+            <button class="nav-child" onclick="goTo('s-d1')">屏幕显示异常(漏液/条纹/闪烁)</button><button class="nav-child" onclick="goTo('s-d2')">压伤/材质变色/色斑</button><button class="nav-child" onclick="goTo('s-d3')">显示坏点【已纠正】</button><button class="nav-child" onclick="goTo('s-d4')">图文残影(烧屏)</button><button class="nav-child" onclick="goTo('s-d5')">屏幕亮度问题</button><button class="nav-child" onclick="goTo('s-d6')">屏幕显示老化【已纠正】</button>
+          </div>
+        </div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能 <span class="cat-badge">15项</span></button>
+          <div class="nav-children">
+            <button class="nav-child" onclick="goTo('s-19')">19.无线功能</button><button class="nav-child" onclick="goTo('s-20')">20.传感器</button><button class="nav-child" onclick="goTo('s-21')">21.生物识别(面容+指纹)</button><button class="nav-child" onclick="goTo('s-22')">22.声音功能</button><button class="nav-child" onclick="goTo('s-23')">23.通话-eSIM</button><button class="nav-child" onclick="goTo('s-24')">24.通话-SIM卡</button><button class="nav-child" onclick="goTo('s-25')">25.前置摄像头</button><button class="nav-child" onclick="goTo('s-26')">26.后置摄像头</button><button class="nav-child" onclick="goTo('s-27')">27.按键功能</button><button class="nav-child" onclick="goTo('s-28')">28.触控功能</button><button class="nav-child" onclick="goTo('s-29')">29.有线充电</button><button class="nav-child" onclick="goTo('s-30')">30.无线充电</button><button class="nav-child" onclick="goTo('s-31')">31.振动功能</button><button class="nav-child" onclick="goTo('s-32')">32.闪光灯</button><button class="nav-child" onclick="goTo('s-33')">33.其他功能(转轴/手写笔/呼吸灯/风扇)</button>
+          </div>
+        </div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修 <span class="cat-badge">9项</span></button>
+          <div class="nav-children">
+            <button class="nav-child" onclick="goTo('s-repair')">拆修及浸液情况（9项）</button>
+          </div>
+        </div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收 <span class="cat-badge">15条</span></button>
+          <div class="nav-children">
+            <button class="nav-child" onclick="goTo('s-norecycle')">不回收机况（15条）</button>
+          </div>
+        </div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>豁免</button>
+          <div class="nav-children">
+            <button class="nav-child exempt" onclick="goTo('s-exempt')">特殊豁免汇总</button><button class="nav-child exempt" onclick="goTo('s-exempt2')">机型功能缺失豁免表</button>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- ===== 📋 平板 ===== -->
     <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">📋</span> 平板 <span class="cat-badge">待补充</span></button>
-      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      <div class="nav-children">
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      </div></div>
 
     <!-- ===== 💻 笔记本 ===== -->
     <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">💻</span> 笔记本 <span class="cat-badge">待补充</span></button>
-      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      <div class="nav-children">
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      </div></div>
 
     <!-- ===== 🎧 耳机 ===== -->
     <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">🎧</span> 耳机 <span class="cat-badge">待补充</span></button>
-      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      <div class="nav-children">
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      </div></div>
 
     <!-- ===== ⌚ 手表 ===== -->
     <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">⌚</span> 手表 <span class="cat-badge">待补充</span></button>
-      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      <div class="nav-children">
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      </div></div>
 
     <!-- ===== 📷 相机 ===== -->
     <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">📷</span> 相机 <span class="cat-badge">待补充</span></button>
-      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      <div class="nav-children">
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      </div></div>
 
     <!-- ===== 🔍 镜头 ===== -->
     <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">🔍</span> 镜头 <span class="cat-badge">待补充</span></button>
-      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      <div class="nav-children">
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      </div></div>
 
     <!-- ===== 🎮 游戏机 ===== -->
     <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">🎮</span> 游戏机 <span class="cat-badge">待补充</span></button>
-      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      <div class="nav-children">
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      </div></div>
 
     <!-- ===== 🖊 手写笔 ===== -->
     <div class="nav-section nav-cat"><button class="nav-parent" onclick="toggleCat(this)"><span class="arrow">▶</span><span class="cat-icon">🖊</span> 手写笔 <span class="cat-badge">待补充</span></button>
-      <div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      <div class="nav-children">
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>基本信息</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>外观</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>拆修</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>不回收</button><div class="nav-children"><button class="nav-child" style="color:var(--text3);pointer-events:none">暂无标准，待补充</button></div></div>
+      </div></div>
 
   </nav>
 </aside>

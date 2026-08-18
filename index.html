@@ -107,7 +107,7 @@
 <body>
 
 <aside id="sidebar">
-  <div id="sidebar-header"><h1>📱 手机回收质检<br>判责逻辑库</h1><div class="ver">V3.3 — 2026-06-15 最终备份</div></div>
+  <div id="sidebar-header"><h1>📱 手机回收质检<br>判责逻辑库</h1><div class="ver">V3.3 — 2026-08-17 最终备份</div></div>
   <div id="search-wrap"><input type="text" id="search" placeholder="搜索关键词（漏液、面容、磕碰...）" oninput="filterNav(this.value)"></div>
   <button id="exempt-toggle" onclick="toggleExemptPanel()">⚡ 豁免内容独立导航 <span class="badge">3类</span></button>
   <nav id="nav-tree">
@@ -136,9 +136,9 @@
             <button class="nav-child" onclick="goTo('s-app1')">屏幕及正面外观（5项）</button><button class="nav-child" onclick="goTo('s-app2')">中框及外壳外观（6项）</button>
           </div>
         </div>
-        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示 <span class="cat-badge">6项</span></button>
+        <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>显示 <span class="cat-badge">4项</span></button>
           <div class="nav-children">
-            <button class="nav-child" onclick="goTo('s-d1')">屏幕显示异常(漏液/条纹/闪烁)</button><button class="nav-child" onclick="goTo('s-d2')">压伤/材质变色/色斑</button><button class="nav-child" onclick="goTo('s-d3')">显示坏点【已纠正】</button><button class="nav-child" onclick="goTo('s-d4')">图文残影(烧屏)</button><button class="nav-child" onclick="goTo('s-d5')">屏幕亮度问题</button><button class="nav-child" onclick="goTo('s-d6')">屏幕显示老化【已纠正】</button>
+            <button class="nav-child" onclick="goTo('s-d1')">屏幕显示异常（单选）</button><button class="nav-child" onclick="goTo('s-d4')">图文残影(烧屏)</button><button class="nav-child" onclick="goTo('s-d5')">屏幕亮度问题</button><button class="nav-child" onclick="goTo('s-d6')">屏幕显示老化【已纠正】</button>
           </div>
         </div>
         <div class="nav-sub"><button class="nav-parent" onclick="toggleNav(this)"><span class="arrow">▶</span>功能 <span class="cat-badge">15项</span></button>
@@ -262,8 +262,8 @@
 <!-- ===== 使用说明 + 调用逻辑 + 回复逻辑 ===== -->
 <div class="section-card fade-in" id="s-usage">
   <h3>📋 版本与使用说明</h3>
-  <div class="s-id">V3.3 | 2026年6月15日</div>
-  <p style="font-size:13px">全选复制粘贴到新对话，直接发送案例（如"漏液"、"面容"、"显示坏点"、"外壳磕碰"等）即可按智能调取模式运行。<br><strong>包含：</strong>完整原始标准原文 + 调用逻辑 + 回复逻辑 + 输出格式 + 所有判责注意点 + 补充判责流程 + 已纠正标准</p>
+  <div class="s-id">V3.3 | 2026年8月17日</div>
+  <p style="font-size:13px">全选复制粘贴到新对话，直接发送案例（如"面容"、"电池拆修"、"主板维修"等）即可按智能调取模式运行。<br><strong>包含：</strong>完整原始标准原文 + 调用逻辑 + 回复逻辑 + 输出格式 + 所有已补充判责流程 + 已纠正标准</p>
 </div>
 
 <div class="section-card fade-in" id="s-call">
@@ -282,9 +282,9 @@
   ├── <strong>第三步：附加规则</strong>
   │     ├── 外观项 → 等级并列，实测直接对应，无优先级
   │     ├── 功能检测项 → 无需前置条件确认提示
-  │     ├── 维修项 → 末尾加「判定【内部拆修项】前必须确认工程师是否已勾选「无法拆机」...」
+  │     ├── 维修项 → 末尾加「注意：判定【内部拆修项】前必须确认工程师是否已勾选「无法拆机」」
   │     ├── 来源项 → 总结后加优先级注意
-  │     ├── 不回收项 → 总结后加「⚠️ 上门订单需将订单号、问题点、业务线按模版报备」
+  │     ├── 不回收项 → 总结后加「⚠️ 注意：上门订单需将订单号、问题点、业务线按模版报备。」
   │     ├── 摄像头项 → 加检测范围提示
   │     ├── 有斑/坏点项 → 总结中加「只计算单一倍数下的数量，不跨倍数累加」
   │     ├── 偏光项 → 总结中<strong>加粗「非黑色即判异常」「非深蓝色即判异常」</strong>
@@ -310,15 +310,15 @@
   ├── 条件B → 结果
   └── 条件C → 结果</div></div>
   <div class="output-block"><div class="ob-header">④ 一句话总结</div><div class="ob-body">核心结论，需加粗的关键词统一<strong>加粗</strong>。</div></div>
-  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 / ⚠️ 注意事项</div><div class="ob-body">标准自带的注意事项用「⚠️ 注意事项」；判责注意点用「⚠️ 注意」，默认以流程图展示。</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 / ⚠️ 注意事项</div><div class="ob-body">标准自带的注意事项用「⚠️ 注意事项」；判责注意点用「⚠️ 注意」，默认以流程图展示。「注意」内容另起一行。</div></div>
 </div>
 
 <!-- ==================== 3.1 基本信息（18项） ==================== -->
 <!-- 1. 机型 -->
 <div class="section-card fade-in" id="s-1"><h3>1. 机型</h3><div class="s-id">基本信息·第1项</div>
-  <p><strong>标准定义：</strong>机型即设备的官方名称。勾选机型时以设备实物特征相符的机型为准，如查询（官网/售后/公众号）的出厂机型与实物机型不符，需勾选<span class="tag tag-red">设备机型不支持回收</span>。</p>
-  <p style="margin-top:6px"><strong>检测方法：</strong>苹果→设置→通用→关于本机→型号名称；安卓/鸿蒙→设置→关于本机→型号（注意名称可修改需登录官方官网获取）；苹果可连接电脑工具查看；使用IMEI或SN码到对应品牌官网/微信公众平台查询出厂机型。</p>
-  <p style="font-size:12px;color:var(--text3);margin-top:4px">查询链接：苹果checkcoverage.apple.com/cnzh · 华为consumer.huawei.com/cn/support/warranty-query/ · 荣耀hihonor.com/cn/support/warranty-query/ · 小米mi.com/service/imei · OPPOsupport.oppo.com/cn/check/ · VIVOvivo.com/service/authenticityCheck/index</p>
+  <p><strong>标准定义：</strong>机型即设备的官方名称。勾选机型时以设备实物特征（外观样式、功能配置、处理器型号）相符的机型为准，如查询（官网/售后/公众号）的出厂机型与实物机型不符，需勾选<span class="tag tag-red">设备机型不支持回收</span>。</p>
+  <p style="margin-top:6px"><strong>检测方法：</strong>苹果设置→通用→关于本机→型号名称；安卓/鸿蒙设置→关于本机→型号（注意名称可修改，需登录官方官网获取官方名称）；苹果可连接电脑工具查看机型；使用IMEI或SN码到对应品牌官网/微信公众平台查询出厂机型；通过实物特征到官网产品介绍页进行比对。</p>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px">各品牌查询链接：苹果https://checkcoverage.apple.com/cnzh · 华为https://consumer.huawei.com/cn/support/warranty-query/ · 荣耀https://www.hihonor.com/cn/support/warranty-query/ · 小米https://www.mi.com/service/imei · 小米红米https://support.mi.com/app/full · OPPOhttps://support.oppo.com/cn/check/ · VIVOhttps://www.vivo.com/service/authenticityCheck/index · 一加https://www.oneplus.com/cn/support/protection-plan · 魅族https://service.meizu.com/authenticity.html · realmehttps://www.realme.com/support/phonecheck · 努比亚https://www.nubia.com/active/762460b1da61e90.html</p>
 </div>
 
 <!-- 2-3: IMEI, SN (brief - no judgment process) -->
@@ -344,84 +344,98 @@
 </div>
 
 <div class="section-card fade-in" id="s-6"><h3>6. 颜色</h3><div class="s-id">基本信息·第6项</div>
-  <p>按设备实物外观颜色勾选。更换后壳→勾选更换后颜色；外壳中框颜色与后盖不匹配→按后盖颜色；更换官方没有的颜色→算改版机，颜色按出厂颜色勾选。出厂颜色与实物不符判定为外壳更换。</p></div>
+  <p>按设备实物的外观颜色进行勾选。<strong>注意：</strong>如果有更换后壳则勾选更换后的颜色；如果更换的外壳中框颜色与后盖颜色不匹配按后盖颜色勾选；如果更换官方没有的颜色算改版机，颜色按查询的出厂颜色勾选。</p>
+  <p style="margin-top:4px">当颜色命名与观察颜色相符时，以实物的直观颜色进行判定。当颜色命名与观察偏差较大或未以观察颜色来命名时，需查询出厂颜色或官网商品图结合比对进行判断。如查询（官网/爬虫/公众号）的出厂颜色与实物的颜色不符判定为外壳更换。</p></div>
 
 <div class="section-card fade-in" id="s-7"><h3>7. 小型号</h3><div class="s-id">基本信息·第7项</div>
-  <p>即子型号，以实物系统内显示为准。苹果：设置→通用→关于本机→点击型号号码后面内容。三星：拨号*#1111#查看FTA SW VERSION。OPPO/VIVO等：设置→关于本机→型号/型号代码。</p>
-  <p><strong>上门门店：</strong>安卓/鸿蒙无对应小型号选择其他版本。<strong>质检中心：</strong>无对应小型号需反馈添加选项。</p></div>
+  <p>小型号即子型号，是厂商用来区分同机型下的不同版本或不同配置而赋予的代号。勾选小型号时以实物系统内显示的小型号为准。当设备无法显示、无法开机等情况导致无法查看系统内的小型号，可以按外壳的小型号填写，如外壳也没有小型号则勾选"小型号-其他版本"或选项中的第一个小型号。</p>
+  <p style="margin-top:4px"><strong>上门门店：</strong>安卓/鸿蒙机型如选项列表中无对应小型号，在确认机型勾选正确的情况下小型号选择其他版本。苹果机型小型号的选项配置是齐全的，如果找不到选项需要注意机型选择是否正确，如机型正确需要反馈添加选项。<strong>质检中心：</strong>如果选项列表中无对应小型号，在确认机型勾选正确的情况下需反馈添加选项。</p>
+  <p style="margin-top:4px"><strong>查看方法：</strong>苹果：设置→通用→关于本机，点击型号号码后面内容切换显示小型号。三星：打开拨号键盘输入*#1111#，查看FTA SW VERSION后面":"和"-"中间为小型号。其他品牌：设置→关于本机，以关于本机中"型号"或"型号代码"一栏为准。</p></div>
 
 <!-- 8. 网络制式 -->
 <div class="section-card fade-in" id="s-8"><h3>8. 网络制式（单选）</h3><div class="s-id">基本信息·第8项</div>
   <table><tr><th>选项</th><th>定义</th><th>包含制式</th></tr>
-    <tr><td>全网通</td><td>硬件同时支持三大运营商</td><td>555/554/455/454/444/234/233/232</td></tr>
-    <tr><td>移动全网通</td><td>移动定制版/优先版</td><td>555/444</td></tr>
-    <tr><td>双网通</td><td>支持移动+联通</td><td>440/330</td></tr>
+    <tr><td>全网通</td><td>硬件同时支持国内三大运营商（移动/联通/电信）</td><td>555/554/455/454/444/234/233/232</td></tr>
+    <tr><td>移动全网通</td><td>移动定制版/优先版（硬件支持全网通，销售渠道为中国移动合作定制）</td><td>555/444</td></tr>
+    <tr><td>双网通</td><td>支持移动和联通</td><td>440/330</td></tr>
     <tr><td>电信版</td><td>仅支持电信</td><td>004/224/003</td></tr>
     <tr><td>联通版</td><td>仅支持联通</td><td>240/230/044</td></tr>
     <tr><td>移动版</td><td>仅支持移动</td><td>430/420/320</td></tr></table>
   <p style="font-size:12px;color:var(--text3)">代号：第一位移动/第二位联通/第三位电信。5=5G/4=4G/3=3G/2=2G/0=不支持。如【420】=移动最高4G联通2G电信不支持。</p>
+  <p style="margin-top:4px"><strong>定制版勾选：</strong>硬件支持全网通但渠道为运营商定制版，移动的定制全网通勾选【移动全网通】，联通和电信的定制全网通勾选【全网通】。华为Mate60系列及后续机型，查询显示"全网通权益版"，网络制式勾选【移动全网通】。移动全网通/移动优先版支持三网4G的手机，有【移动全网通】选项优先勾选，无此选项勾选【移动版】。</p>
+  <p style="margin-top:4px"><strong>品牌小型号判定：</strong>华为/荣耀看小型号=后面的两位字母，第一位A=全网通/T=移动版/C=电信版/U=双网通，第二位L=4G/N=5G。OPPO看小型号最后一位字母，M为全网通，T为移动版。VIVO老款机型看机型后面是否带字母，带M为全网通，带T为移动版；新款看关于本机-软件版本号中间的字母，A为全网通，YD为移动版。</p>
+  <div class="callout warn" style="margin-top:6px"><div class="ctitle">⚠️ 注意</div>麦芒9及以上后壳无HUAWEI LOGO/小型号为TYH***开头的机型勾选电信版。</div>
 </div>
 
 <!-- 9. 购买渠道 -->
 <div class="section-card fade-in" id="s-9"><h3>9. 购买渠道（单选）</h3><div class="s-id">基本信息·第9项</div>
-  <table><tr><th>选项</th><th>说明</th></tr><tr><td>国行</td><td>中国大陆销售版本</td></tr><tr><td>港澳台版</td><td>港澳台地区销售版本</td></tr><tr><td>其他版本</td><td>美版/日版/韩版/欧版/亚太版</td></tr><tr><td>其他版本-有锁</td><td>其他版本且有网络锁</td></tr></table>
-  <p style="font-size:12px;color:var(--text3);margin-top:4px"><strong>苹果型号尾缀：</strong>CH→国行；TA→港澳台；ZP(Xr之前)→港澳台，ZP(Xr及之后)→其他版本；ZA→其他版本；LL→美版；KH→韩版；J→日版。<br>
-  <strong>三星判定：</strong>小型号(/1111#)：国行/港澳台除开头外均为数字(如SM-S9080)，其他版本中间或末尾有字母(如SM-S908B)。</p>
+  <table><tr><th>选项</th><th>说明</th></tr><tr><td>国行</td><td>中国大陆地区销售版本</td></tr><tr><td>港澳台版</td><td>港澳台地区（香港、澳门、台湾）销售版本</td></tr><tr><td>其他版本</td><td>非国行和非港澳台版本（美版/日版/韩版/欧版/亚太版）</td></tr><tr><td>其他版本-有锁</td><td>购买渠道为其他版本且有网络锁</td></tr></table>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px"><strong>苹果型号尾缀判定：</strong>CH→国行；TA→港澳台版；ZP（Xr之前机型）→港澳台版，ZP（Xr及之后机型）→其他版本；ZA→其他版本；LL→其他版本（美版）；KH→其他版本（韩版）；J→其他版本（日版）；表格列举以外的字母→其他版本。</p>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px"><strong>三星购买渠道判定：</strong>先定位机型→再观察判定点→最后对应选择版本。小型号（以*#1111#为准）：国行/港澳台除开头外均为数字（例如SM-S9080），其他版本中间或末尾有字母（例如SM-S908B、SM-S908U1）。运营商软件版本号（S10系列及以上）：国行全为CHC，港澳台全为TGY或最后一位为TGY，其他版本非CHC和TGY。单双卡（S6Edge除外）：国行/港澳台双卡，其他版本单卡。IMEI号（S24以下）：国行/港澳台无，其他版本有。后壳垃圾桶标志（S10以下）：国行无，港澳台/其他版本有。后壳CE标志（S10以下）：国行/港澳台无，其他版本有。</p>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px"><strong>通用判定方法：</strong>安卓系统有预装谷歌套件的为外版系统（其他版本），无预装谷歌套件的为国行系统。后壳无"垃圾桶"和"CE"标志为国行，后壳篆刻有"垃圾桶"、"CE"标志的为外版（其他版本），努比亚Flip除外。开关机动画或者外壳篆刻有国外运营商（Verizon、AT&T、T-Mobile、Vodafone）LOGO的则为其他版本。</p>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px"><strong>冲突判断顺序：</strong>有出厂信息的，购买渠道优先按出厂信息查询的为准，如系统版本不符判定为刷机，如后壳版本不符判定为外壳更换。无出厂信息，当后盖无维修现象时，购买渠道后盖的版本为准，如系统版本不符判定为刷机。无出厂信息，当后盖有维修现象时，购买渠道按系统版本为准，如后盖版本不符判定为外壳更换。</p>
+  <div class="callout info" style="margin-top:6px"><div class="ctitle">⚠️ 注意</div>苹果机型查看型号号码对应的购买渠道与爬虫查询的购买渠道不符，购买渠道按爬虫的结果勾选，同时勾选<span class="tag tag-red">主板-其它维修特征</span>。</div>
 </div>
 
 <!-- 10. 保修状态 -->
 <div class="section-card fade-in" id="s-10"><h3>10. 保修状态（单选）</h3><div class="s-id">基本信息·第10项</div>
   <table><tr><th>选项</th><th>判定条件</th></tr>
-    <tr><td>保修未激活</td><td>苹果官网显示"设备未激活"或爬虫"没有激活"，且设备符合全新机条件。爬虫"预激活"→按已激活判定</td></tr>
-    <tr><td>保修时长≥30天</td><td>保修到期日期-质检当天日期≥30天。只计算出厂保修，AppleCare+按激活时间算减去延保天数</td></tr>
-    <tr><td>保修时长&lt;30天或过保</td><td>剩余&lt;30天或过保；其他版本/有锁默认过保</td></tr>
-    <tr><td>更换序列号</td><td>查询显示"已更换产品的序列号"/"维修换机"/"序列号无效"等</td></tr></table>
+    <tr><td>保修未激活</td><td>苹果官网查询显示"设备未激活"或爬虫查询显示"没有激活"，且设备符合全新机条件。注意：爬虫预激活状态显示为"预激活"时不能勾选"保修未激活"，【保修状态】按照已激活判定。预激活状态仅能通过爬虫判断，如爬虫查询失败或结果为"未知"则按照非预激活标准判定</td></tr>
+    <tr><td>保修时长≥30天</td><td>"保修到期日期"-质检当天日期="保修剩余天数"。苹果机型购买渠道为国行/港澳台版，且保修剩余时间≥30天（只计算出厂保修，购买AppleCare+需要按激活时间计算减去延保天数）。其他品牌的机型保修剩余时间≥30天（有配置保修状态选项的机型才需要判断，没有配置则不需要判断保修）。部分品牌不显示保修到期日期，只显示激活日期的按激活日期+364天为保修到期日期，只显示激活月份的默认按该月的1号计算</td></tr>
+    <tr><td>保修时长&lt;30天或过保</td><td>苹果机型保修时间与激活时间异常；保修剩余时间&lt;30天或过保；购买渠道为其他版本/其他版本-有锁默认勾选过保（外版的设备在国内无法享用保修政策）；已激活的苹果设备在官网/公众号查询保修显示购买日期未验证按过保算（未激活的显示"购买日期未验证"可激活后再次查询保修时间）</td></tr>
+    <tr><td>更换序列号</td><td>苹果机型查询官网/公众号/爬虫信息时显示"已更换产品的序列号"、"维修换机"、"序列号无效"、"请输入有效序列号"、"序列号更换"等相关字眼。苹果机型的IMEI非86、99、35、01开头</td></tr></table>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px"><strong>保修查询官网：</strong>小米https://chat.kefu.mi.com/page/activation# · 华为https://consumer.huawei.com/cn/support/warranty-query/ · 苹果https://checkcoverage.apple.com/。注意：苹果机型用官网或爬虫查询保修状态时需要使用序列号进行查询，爬虫未展示保修状态或显示为【未知】时需要补充SN码进行查询。</p>
   <div class="callout warn"><div class="ctitle">⚠️ 注意</div>若工程师回收当天≥30天，复核判责时＜30天，按<span class="tag tag-orange">总部责-标准差异-工程师回收时在保</span>判定。</div>
 </div>
 
 <!-- 11. 官网信息 -->
 <div class="section-card fade-in" id="s-11"><h3>11. 官网信息情况（单选）</h3><div class="s-id">基本信息·第11项</div>
   <table><tr><th>选项</th><th>判定条件</th></tr>
-    <tr><td>串码修改/无效/为空</td><td>安卓/鸿蒙IMEI1与IMEI2完全一致；安卓无IMEI或显示null（关于本机或*#06#有其一即正常）</td></tr>
-    <tr><td>官网信息与本机不符</td><td>非苹果机型的运行内存、存储容量、小型号查询出厂信息与实物有其一不符</td></tr>
+    <tr><td>串码修改/无效/为空</td><td>安卓/鸿蒙机型IMEI1与IMEI2完全一致；安卓机型无IMEI或显示null（关于本机或*#06#有其中一个地方有即视为正常）。注意：需要注意是否能读卡，不能读卡要同时算通话功能问题</td></tr>
+    <tr><td>官网信息与本机不符</td><td>非苹果机型的运行内存、存储容量、小型号这三项信息查询（官网/爬虫/公众号）出厂信息与实物信息比对有其一项不符</td></tr>
     <tr><td>有售后服务记录</td><td>魅族机型爬虫显示有售后服务记录</td></tr></table>
-  <div class="callout info"><div class="ctitle">⚠️ 注意</div>以官网查询为准，爬虫或公众号查不到无需判定。荣耀V40前在华为官网查，V40及以后在荣耀官网查。外版小米爬虫序列号无效为正常。</div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意</div>如查得到机型但官网不显示这三项信息无需判定不符；荣耀畅玩70Plus、华为Pura70全网通权益版关于本机小型号与官网查询不一致无需判定；小型号数字后的字母与本机不一致不判定官网信息不符（比如本机AN50，官网AN50H；其中H代表典藏版）；本机小型号为官网小型号缩写（比如本机"TET"为官网"teton"缩写）不判定官网信息不符。官网可查询出厂信息的品牌（华为、荣耀、小米、红米、OPPO、VIVO、一加、realme、IQOO、魅族、努比亚）在官网查询不到任何结果也判定此项。以官网查询为准，爬虫或公众号查不到无需判定，爬虫或公众号能查到则无需另外查询官网；苹果机型官网查不到算更换序列号；荣耀V40以前的机型在华为官网查询出厂信息，V40及以后的机型需要在荣耀官网查询；外版的小米机型爬虫显示序列号无效为正常现象不做判定；后壳刻有"非新品无三包"的小米机型在官网查询不到出厂信息为正常现象不做判定。</div>
 </div>
 
 <!-- 12. 设备来源 -->
 <div class="section-card fade-in" id="s-12"><h3>12. 设备来源（单选）</h3><div class="s-id">基本信息·第12项</div>
-  <p><strong>优先级：</strong><span class="tag tag-red">监管机/政企定制机/改版机/工程机（最高·不回收）</span> > 权益机 > BS机 > 官翻机 > 官换机 > 展示机 > 零售机</p>
+  <p><strong>优先级：</strong>当机器信息符合多个来源时，来源按"权益机 &gt; BS机 &gt; 官翻机 &gt; 官换机 &gt; 展示机 &gt; 零售机"的优先级进行勾选。<span class="tag tag-red">监管机/政企定制机/改版机/工程机为最高优先级且不回收</span>。</p>
   <table><tr><th>来源</th><th>判定特征</th></tr>
-    <tr><td>零售机</td><td>正常渠道零售</td></tr>
-    <tr><td>展示机</td><td>苹果型号号码"3"开头；三星后壳刻"M"；华荣后壳"NOT FOR SALE"；有预装演示APP</td></tr>
-    <tr><td>官翻机</td><td>苹果型号"F"开头；三星后壳刻"7""R""7D""S""Я"</td></tr>
-    <tr><td>官换机</td><td>苹果型号"N"开头；关于本机显示"后置系统""逻辑板组件"</td></tr>
-    <tr><td>BS机</td><td>激活日期为197*年；爬虫显示BS机</td></tr>
-    <tr><td>权益机</td><td>苹果型号"5"开头；未到首批保修到期+非BS+过保</td></tr>
-    <tr><td style="color:var(--danger)">监管机</td><td>预装定制软件("xx公安""绿色军营""警务通")；开机动画有专用标识</td></tr>
-    <tr><td style="color:var(--danger)">政企定制机</td><td>华为鼎桥TD TECH；华为/荣耀C700字段；魅族22"小鹿"标识</td></tr>
-    <tr><td style="color:var(--danger)">改版机</td><td>更换与官方样式不一致的后壳；换官方没有的颜色</td></tr>
-    <tr><td style="color:var(--danger)">工程机</td><td>官网/爬虫/机身有"工程机""内部处理""非卖品"等字样；屏幕固定水印</td></tr></table>
-  <div class="callout info"><div class="ctitle">⚠️ 重要豁免</div>华为后壳刻"NOT FOR SALE""非卖品-服务周转-备用机"为官方篆刻，不做判定。</div>
-  <div class="callout warn"><div class="ctitle">⚠️ 注意·来源项</div>总结后加：来源按"权益机 > BS机 > 官翻机 > 官换机 > 展示机 > 零售机"优先级，监管机/政企定制机/改版机/工程机为最高优先级且不回收。</div>
+    <tr><td>零售机</td><td>设备来源为正常渠道的零售机器</td></tr>
+    <tr><td>展示机</td><td>又称演示机、样机，系统通常被定制过演示系统。苹果型号号码"3"开头；三星后壳刻"M"；华为荣耀后壳刻"NOT FOR SALE"；魅族屏幕左上角显示"体验机"；查询出厂信息显示"样机""演示用机"等字样；爬虫查询显示展示机；有预装演示APP（"小米演示""Retail Demo"等）；息屏后自动播放演示视频；状态栏显示"演示机"或"导购用机"；后壳刻"Demo"；包装盒有演示机字样。演示系统判定：点击息屏后屏幕自动亮起播放广告视频；状态栏显示"演示机"或"导购用机"字样</td></tr>
+    <tr><td>官翻机</td><td>苹果型号号码"F"开头；三星后壳刻"7""R""7D""S""Я"；华为爬虫查询显示官翻机</td></tr>
+    <tr><td>官换机</td><td>苹果型号号码"N"开头；关于本机显示"后置系统""逻辑板组件"。新增标准：爬虫查询显示为"官换机"。注意：关于本机为"M"开头零售机，但爬虫显示官换机，按官换机判定</td></tr>
+    <tr><td>BS机</td><td>激活日期/购买日期为197*年；爬虫查询显示BS机</td></tr>
+    <tr><td>权益机</td><td>苹果型号号码"5"开头；未到首批保修到期时间，且非BS机的情况下保修状态为过保</td></tr></table>
+  <p style="margin-top:8px"><strong>监管机/政企定制机/改版机/工程机（完整判定）：</strong></p>
+  <ul style="font-size:13px;margin:4px 0 0 18px;line-height:1.8">
+    <li><strong>监管机：</strong>设备系统有第三方企业或单位的监管配置，功能使用有限制。判定特征：预装定制软件或定制系统（"xx公安""绿色军营""警务通"、系统版本写有新一代安全警务终端等）；开机动画、默认壁纸、系统内有专用标识或字眼（机关单位常见：国徽、部队徽章、"81"、"xx公安"、"xx军队"、"警务专用"、"政务定制"，第三方企业常见："海底捞"、"xx保险"）；手机桌面有安全证书软件（安卓通用）。</li>
+    <li><strong>政企定制机：</strong>政府、部队、公安等机关单位或企业定制的设备，通常预装企业专属应用，通常会有监管锁，也属于监管机。华为特殊：开机界面有"鼎桥TD TECH"标识或全新机包装盒上有"鼎桥TD TECH"标识均属于定制机（涉及机型：华为Mate60系列、Mate70系列、nova13系列）；华为、荣耀全机型关于本机软件版本有"C700"字段。魅族特殊：魅族22后壳刻有"小鹿"标识或全新机包装盒上有"中国星""中国星东方暗银层定制款MEIZU22"字段均属于定制机。vivo特殊：vivo机型激活第一个界面有提示是否为企业定制机（弹出「关于vivo企业定制版手机的特别说明」协议）。</li>
+    <li><strong>改版机：</strong>外观样式被第三方改装成与官方原有样式不符的设备。更换与官方样式不一致的后壳（如iPhone 8Plus改直角边框外壳）；更换官方没有的颜色的后壳（如iPhone 7改蓝色后壳、小米8普通版改透明后壳）；更换与实际机型样式不匹配的后壳（如iPhone XR改15Pro后壳）。</li>
+    <li><strong>工程机：</strong>厂商研发新机阶段内部用于测试的样机，非上市销售的版本。通用判定特征：官网/爬虫/机身有"工程机""内部处理""内购机""内购专用""非卖品"等字样；全界面显示固定水印；系统版本显示为工程版/测试版；屏幕显示「测试用机，功能受限」字样。品牌专项辨认：华为（屏幕刻有特殊字段编码/屏幕有特殊感应开孔位/中框刻有特殊字段编码/后壳有特殊感应开孔位/后壳原本刻型号处刻成XXX类字符）；小米（屏幕刻有特殊字段编码/后壳刻有特殊字段编码/拨打##6484##→版本信息→Hardware Version不是MP）；红米（后壳刻有特殊字段编码）；魅族（后壳刻有特殊字段编码）；锤子（屏幕刻有特殊字段编码）；摩托罗拉（屏幕刻有特殊字段编码）；黑鲨（后壳有特殊编码如P1.1CN05120WCS格式）。</li>
+  </ul>
+  <div class="callout info"><div class="ctitle">⚠️ 重要豁免</div>华为后壳上刻有"NOT FOR SALE""非卖品-服务周转-备用机"等字样为官方篆刻信息，不做判定。</div>
+  <div class="callout warn"><div class="ctitle">⚠️ 注意</div>来源为监管机/政企定制机/改版机/工程机需同时勾选<span class="tag tag-red">设备机况不支持回收</span>。</div>
 </div>
 
 <!-- 13. 电池健康度 -->
 <div class="section-card fade-in" id="s-13"><h3>13. 电池健康度（单选）</h3><div class="s-id">基本信息·第13项</div>
-  <p>选项：96%≤健康度≤100% / 91%-95% / 86%-90% / 81%-85% / ≤80% / 不支持 / 无法检测 / 不检测。</p>
-  <p><strong>苹果：</strong>优先本机显示，不显示可接驳工具读取。新机未激活按100%勾选。</p>
-  <p><strong>安卓/鸿蒙：</strong>系统内无电池健康度选项或显示"评估中"→勾选<span class="tag tag-gray">不支持</span>。华为显示"评估中"可尝试调整日期时间后重启。</p>
+  <p>选项：96%≤电池健康度≤100% / 91%≤电池健康度≤95% / 86%≤电池健康度≤90% / 81%≤电池健康度≤85% / 电池健康度≤80% / 不支持 / 电池健康度无法检测 / 电池健康度不检测。</p>
+  <p style="margin-top:4px"><strong>苹果机型：</strong>优先以本机显示的电池健康度为准，如本机不显示可接驳工具（验机快/一根线）读取值填写，如本机不显示工具无法使用，勾选<span class="tag tag-gray">电池健康度无法检测</span>。全新机未激活的情况下看不到电池健康度，电池健康度按100%勾选，不选无法检测。</p>
+  <p style="margin-top:4px"><strong>安卓/鸿蒙机型：</strong>以本机系统设置内显示的电池健康度进行勾选，因系统版本差异导致系统内没有电池健康度的选项或电池容量显示"评估中"状态中测勾选<span class="tag tag-gray">不支持</span>，有电池健康度的选项但结果显示为"-"则需勾选<span class="tag tag-gray">电池健康度无法检测</span>。</p>
+  <p style="margin-top:4px"><strong>华为"评估中"处理：</strong>华为手机电池最大容量一直显示"评估中"时可以尝试：前往设置→系统和更新→日期和时间→把时间自动设置关闭→日期调到激活日期往后推个把月→时间调到凌晨一点→重启手机，重启后如果还显示"评估中"则勾选【不支持】。</p>
+  <p style="margin-top:4px"><strong>电池循环次数：</strong>即电池的充电循环次数，苹果机型使用默认工具自动回传，无需手动填写。<strong>系统版本：</strong>即IOS系统的版本号，苹果机型使用默认工具自动回传，无需手动填写。</p>
 </div>
 
 <!-- 14. 开机情况 — 含判责流程 -->
 <div class="section-card fade-in" id="s-14"><h3>14. 开机情况（单选）</h3><div class="s-id">基本信息·第14项</div>
   <table><tr><th>选项</th><th>判定条件</th></tr>
-    <tr><td class="tag tag-red" style="display:table-cell">无法开机（不回收）</td><td>按电源键无任何反应且充电后仍无反馈（无显示/声音/震动）；苹果恢复/DFU模式无法退出。上门需充电确认非亏电。质检中心需有线充电≥60分钟，更换充电器。</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">无法开机（不回收）</td><td>手机按电源键无任何反应，且充电后仍无法开机，无任何反馈（无显示、无提示音、无震动）；苹果手机恢复模式/DFU模式无法退出（可长按电源键+音量减键尝试是否能退出）。上门门店场景需要尝试对设备进行充电，确保设备不是因为亏电而无法开机。质检中心场景需要尝试对设备进行有线充电，确保设备不是因为亏电而无法开机，且需要尝试更换充电器，充电时长不低于60分钟</td></tr>
     <tr><td class="tag tag-red" style="display:table-cell">设备机况不支持回收（不回收）</td><td>命中不回收机况任一条件</td></tr>
-    <tr><td class="tag tag-red" style="display:table-cell">有锁屏密码（不回收）</td><td>有锁屏密码无法关闭；触摸局部失灵导致可解锁但无法关闭密码</td></tr>
-    <tr><td class="tag tag-red" style="display:table-cell">屏幕无法正常显示（不回收）</td><td>屏幕不亮但插充电器有提示音/振动；间歇黑屏>5秒；花屏文字看不清或超50%错乱；不显示区域横纵直径均超50%</td></tr>
-    <tr><td class="tag tag-red" style="display:table-cell">自动重启/关机（不回收）</td><td>未点按电源键且未设定时关机情况下自动重启或关机；测试中出现一次及以上即勾选</td></tr>
-    <tr><td>有重启记录-iOS</td><td>苹果机型验机工具读出有重启记录（此项可正常回收，非不回收机况）</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">有锁屏密码（不回收）</td><td>设备有锁屏密码无法关闭；屏幕触摸局部失灵导致可以解锁但无法关闭密码；设备有应用锁/隐私密码无法关闭（如还原后可清除则无需勾选）。检测生物识别功能需要设置密码时，密码统一设置为4个"0"或6个"0"，检测后需要关闭密码</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">屏幕无法正常显示（不回收）</td><td>屏幕不亮但插充电器或按按键有提示音/振动反馈；屏幕间歇性黑屏不显示，如黑屏后5秒内亮起算闪屏，持续黑屏超过5秒算屏幕无法显示（距离感应器损坏导致屏幕自动息屏无需判定无法显示和闪屏）；屏幕花屏导致无法正常显示内容，花屏且屏幕显示的文字看不清楚或超过50%的文字位置错乱则算屏幕无法显示；双屏手机主屏幕无法显示副屏可正常显示（此情况不可还原手机，否则无法使用副屏激活）；屏幕不显示区域的横向直径和纵向直径均超过50%</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">自动重启/关机（不回收）</td><td>未点按电源键重启和未设置定时关机的情况下设备自动发生重启或关机；电量正常的情况下出现自动重启/关机现象；只能插着充电器开机拔掉充电器立马黑屏；打开系统应用自动重启（设置、相机、拨号等）。在测试过程中出现一次及以上的重启勾选自动重启/关机</td></tr>
+    <tr><td>有重启记录-iOS</td><td>上门门店场景苹果机型使用验机工具（一根线）读出有重启记录；质检中心场景苹果机型使用验机工具（验机侠）读出有重启记录。注意：此项可正常回收，不属于不回收机况</td></tr>
     <tr><td class="tag tag-red" style="display:table-cell">触屏完全失灵（不回收）</td><td>屏幕触控完全失灵，无法进行任何操作和质检</td></tr></table>
 
   <div class="output-block"><div class="ob-header">③ 判定方向 — 无法开机</div>
@@ -462,56 +476,61 @@
 <!-- 15. 账号状态 -->
 <div class="section-card fade-in" id="s-15"><h3>15. 账号状态（单选）</h3><div class="s-id">基本信息·第15项</div>
   <table><tr><th>选项</th><th>判定条件</th></tr>
-    <tr><td>账号已注销</td><td>本地和云端账号均已关闭</td></tr>
-    <tr><td class="tag tag-red" style="display:table-cell">账号无法注销（不回收）</td><td>本地账号无法退出；激活过程中显示有账号；云端账号开启无法关闭；系统有隐藏账号；安卓15及以上谷歌账号无法移除</td></tr>
-    <tr><td class="tag tag-red" style="display:table-cell">账号状态无法检测（不回收）</td><td>刷第三方系统无法查看原系统账号；触摸失灵/无法显示等导致无法查看</td></tr>
-    <tr><td>公交卡未解绑</td><td>还原时提示有公交卡未解绑且无法删除</td></tr></table>
-  <div class="callout info"><div class="ctitle">⚠️ 注意</div>确认差价是否符合整备条件，上门订单差额300+留整备；门店订单不看差额，命中即留整备。</div>
+    <tr><td>账号已注销</td><td>本地账号和云端账号均已关闭</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">账号无法注销（不回收）</td><td>系统内有登录本地账号无法退出（所有品牌）；设备激活过程中显示有账号（同时勾选无法激活）；设备查询云端账号状态为开启无法关闭（小米、红米、苹果需要查询云端账号，本地或云端账号有其一无法注销即算做有账号）；设备系统有隐藏账号；安卓手机设置密码时提示"密码设置失败，请重新登录谷歌账号"；安卓15及以上系统中有谷歌账号无法移除</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">账号状态无法检测（不回收）</td><td>刷第三方系统导致无法查看原系统是否有账号；触摸失灵、屏幕无法正常显示、反复重启、无法进入系统等导致无法查看是否登录账号；魅族、锤子、乐视无法实测是否有账号（例如魅族基带坏无法登录账号实测、乐视登陆异常）</td></tr>
+    <tr><td>公交卡未解绑</td><td>还原时提示有公交卡未解绑且无法删除公交卡</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 账号无法注销</div><strong>检测方法：</strong>安卓15及以上系统需在设置里面查看是否有登录谷歌账号并尝试移除账号，恢复出厂设置后必须再次激活进入桌面查看指纹、面容是否能正常设置，如无法设置则判定账号无法注销。<strong>机型：</strong>小米13及以上机型、一加13及以上机型。<br><strong>隐藏账号查看方法：</strong>魅族打开设置登陆账号的页面输入一个注册过的魅族账号点击登陆，如下方显示一行红色小字提示账号未退出即为有账号；锤子输入一个注册过的欢喜云账号登陆退出过程弹其他账号即为有账号；荣耀50/50Pro需还原后重新激活查看；设备还原时提示"需验证账号密码"或"非主机主账户无权限"。<br>确认差价是否符合整备条件，如符合，需留下整备。上门订单：差额300+；门店订单：不看差额，命中【账号无法注销】判责项即留下整备。</div>
 </div>
 
 <!-- 16. 系统情况 -->
 <div class="section-card fade-in" id="s-16"><h3>16. 系统情况（单选）</h3><div class="s-id">基本信息·第16项</div>
-  <p><strong>设备符合全新机条件：</strong></p>
-  <p><strong>苹果：</strong>保修未激活（爬虫"没有激活"或官网"设备未激活"）且质检时不能激活设备；国行/港澳台；三码合一（包装盒+产品标签+手机IMEI一致）；原装配件齐全未拆封未使用；无任何使用痕迹；包装盒完好无破损涂写。</p>
-  <p><strong>安卓/鸿蒙：</strong>保修剩余>360天或未激活（支持查询品牌），或生产日期与质检日期相差<1年（不支持查询品牌）；国行；三码合一；原装配件齐全未拆封未使用；无使用痕迹；包装盒完好。</p>
-  <div class="callout info"><div class="ctitle">⚠️ 注意 — 全新机</div>注意确认是否有【全新机】标识，原厂新机膜是否缺失，可调取拆包视频确认。全新机需同时满足①标识含「全新机」字段②保修未激活/剩余>360天/生产日期<1年③国行/港澳台④三码合一⑤原装配件齐全未拆封⑥无使用痕迹⑦包装盒完好，缺一不可。</div>
+  <p><strong>设备符合全新机条件 — 苹果：</strong>保修状态为未激活（爬虫显示"没有激活"或官网显示"设备未激活"），且质检时不能激活设备；购买渠道为国行/港澳台版；三码合一（包装盒、产品标签、手机的三处IMEI一致）；原装配件齐全且未拆封未使用；手机无任何使用痕迹；手机包装盒完好无破损和涂写。<strong>注意：</strong>爬虫预激活状态显示"预激活"时不符合全新机条件；保修查询结果为购买日期未验证时不能算作全新机；iPhone15系列的进网许可为电子版不算缺失；质检时iPhone的屏幕贴纸撕开检查后需要盖回去。</p>
+  <p style="margin-top:4px"><strong>设备符合全新机条件 — 安卓/鸿蒙：</strong>官网支持查询保修的品牌保修时间剩余时间需要&gt;360天或者未激活；官网不支持查询保修的品牌需要满足生产日期和质检时的日期相差小于1年；设备购买渠道为国行；三码合一；原装配件齐全且未拆封未使用；手机无任何使用痕迹（原厂屏幕贴膜不算）；手机包装盒完好无破损和涂写。<strong>注意：</strong>质检时华为、荣耀、三星这三个品牌不能激活，需要通过测试代码核对IMEI/SN码，否则激活设备后会开始计算保修时间。</p>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 华为全新机特殊规则</div>出厂3个月后会自动跳预估保修时间，实际机器属于"未激活"状态。初步判断符合全新机要求的机器→使用IMEI在官网查询是否已经激活→官网查询到电子三包凭证提示"未查询到，请联网正常使用3~5天后查询或检查以下原因"→基本信息-全新机：是→保修时间删除留空白→激活时间删除留空白→生产时间根据包装填写→基本情况-系统情况：设备符合全新机条件。</div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 全新机标识规范（所有设备适用）</div>设备无全新机标识→不可算作全新机；标识必须包含「全新机」字段→才符合全新机要求。可调取拆包视频确认：注意确认是否有【全新机】标识，原厂新机膜是否缺失。全新机需同时满足①标识含「全新机」字段②保修未激活/剩余&gt;360天/生产日期&lt;1年③国行/港澳台④三码合一⑤原装配件齐全未拆封⑥无使用痕迹⑦包装盒完好，缺一不可，请按标准一一核对。</div>
   <table><tr><th>其他选项</th><th>说明</th></tr>
-    <tr><td>已激活，可还原</td><td>非全新机，可正常激活和还原</td></tr>
-    <tr><td class="tag tag-red" style="display:table-cell">已激活，无法还原（不回收）</td><td>无还原选项/还原后系统无变化/还原失败/苹果基带坏</td></tr>
-    <tr><td class="tag tag-red" style="display:table-cell">无法激活进入系统（不回收）</td><td>停留在待激活页面/卡在工程模式或刷机界面/开机动画页面无法进入系统；激活时有账号(同时勾选账号无法注销)</td></tr>
-    <tr><td>已越狱/ROOT/解锁BL</td><td>ROOT软件/Cydia/锁头打开标志/刷第三方系统</td></tr>
-    <tr><td>有访问限制密码</td><td>苹果还原时显示有访问限制密码/屏幕时间密码(无需勾选无法还原)</td></tr></table>
-  <div class="callout info"><div class="ctitle">⚠️ 注意 — 无法激活进入系统</div>触摸失灵导致无法激活或苹果无基带→按对应责任方判责。三星非国行激活时需断开网络。工程师检测时正常复核无法进入系统→业务责-隐性故障。</div>
+    <tr><td>已激活，可还原</td><td>设备非全新机，可以正常激活和还原</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">已激活，无法还原（不回收）</td><td>设备无还原选项；还原选项为灰色无法点击还原；还原后系统无变化（还原后仍处于已激活状态）或显示还原失败；苹果机型基带坏（还原后会导致系统无法激活）</td></tr>
+    <tr><td class="tag tag-red" style="display:table-cell">无法激活进入系统（不回收）</td><td>设备停留在待激活页面无法激活进入系统；安卓设备卡在工程模式或刷机升级界面无法进入系统；在待激活页面因触摸失灵无法进入系统；激活过程中有账号无法进行激活（同时勾选账号无法注销）；开机时卡在开机动画页面无法进入系统</td></tr>
+    <tr><td>已越狱/ROOT/解锁BL</td><td>ROOT：有安装ROOT相关软件、开关机页面有"TWRP"标识、开机过程中有提示权限已开启的英文提示"unlocked"（常见一加、OPPO、VIVO）；越狱：系统有安装"Cydia"软件；已解锁BL锁：小米、红米、索尼机型开关机界面有锁头打开的标志；刷机：刷了非本品牌的系统或第三方系统、安卓设备爬虫为其他版本系统为国行（无谷歌软件）或爬虫为国行系统为其他版本（有谷歌软件）</td></tr>
+    <tr><td>有访问限制密码</td><td>苹果设备还原时显示有访问限制密码、屏幕时间密码（无需勾选无法还原）。如果设备同时有越狱和访问限制密码两个现象仅勾选越狱即可</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 已激活无法还原（苹果基带坏判断方法）</div>关于本机"调制解调器固件"后面的数字为空或全为0；系统内不显示IMEI；未插卡的情况下信号栏持续显示"正在搜索/无服务/三角形感叹号图标/圆圈信号载入图标"。<br>当有以下情况时不可还原设备无需勾选无法还原——越狱/ROOT（上门门店手动删除基本隐私信息到质检中心再做深度隐私清除）；屏幕触摸局部失灵（还原会导致点不到激活步骤的按钮）；苹果机型有访问限制密码（有条件的可用爱思助手进行还原，还原不了的手动清除隐私）。</div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 无法激活进入系统</div>触摸失灵导致设备无法正常激活或苹果设备无基带，确认为工程师或总部操作还原的按对应责任方判责即可。苹果设备基带损坏会导致无法激活，如质检时发现基带损坏不进行还原。三星非国行设备激活时需断开网络，否则无法激活。除以上情况外，工程师检测时正常，复核无法进入系统按【业务责-隐性故障-工程师检测时正常进入系统，复核无法进入系统...】判定。</div>
   <div class="callout info"><div class="ctitle">⚠️ 注意 — 更换序列号</div>序列号查询需至少在工作日查询2天才可判定（避免周末服务器维护查询不准）。</div>
 </div>
 
 <!-- 17. 系统提示维修 -->
 <div class="section-card fade-in" id="s-17"><h3>17. 系统提示维修</h3><div class="s-id">基本信息·第17项</div>
+  <p style="font-size:13px;font-weight:700">官方配件提示：</p>
   <table><tr><th>类别</th><th>提示内容</th></tr>
-    <tr><td><span class="tag tag-blue">官方</span> 原深感摄像头/面容</td><td>弹窗"原深感摄像头-正品Apple部件""面容ID-正品"</td></tr>
-    <tr><td><span class="tag tag-blue">官方</span> 相机</td><td>弹窗"相机-正品Apple部件""相机-正品"</td></tr>
-    <tr><td><span class="tag tag-blue">官方</span> 电池</td><td>弹窗"电池-正品Apple部件"；华为通知栏"正品电池部件"</td></tr>
-    <tr><td><span class="tag tag-blue">官方</span> 屏幕</td><td>弹窗"屏幕-正品Apple部件"；华为通知栏"正品屏幕部件"</td></tr>
-    <tr><td><span class="tag tag-orange">第三方</span> 前摄</td><td>弹窗"检测到新前置相机""前置相机-未知/已使用/二手"</td></tr>
-    <tr><td><span class="tag tag-orange">第三方</span> 后摄</td><td>弹窗"相机-未知部件""无法验证此相机""检测到新相机"</td></tr>
-    <tr><td><span class="tag tag-orange">第三方</span> 电池</td><td>弹窗"电池-未知部件"；华为通知栏"未知电池部件"</td></tr>
-    <tr><td><span class="tag tag-orange">第三方</span> 屏幕</td><td>苹果11+弹窗"未知部件""显示屏-未知""无法验证此屏幕"</td></tr>
-    <tr><td><span class="tag tag-red">主板异常</span></td><td>蜂窝网络问题/超宽带问题/温度警告；华为通知栏主板异常</td></tr>
-    <tr><td>后壳弹窗</td><td>弹窗"背面玻璃""机身-检测到新机身"</td></tr></table>
-  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 第三方弹窗/官方配件提示 判责</div>
-    <div class="ob-body">判责前需确认工程师关于本机照片是否正常 → 工程师照片无弹窗且此部件无其他维修现象 → 按【业务责-隐性故障-工程师质检时关于本机无弹窗】判定。</div></div>
+    <tr><td><span class="tag tag-blue">官方</span> 原深感摄像头/面容</td><td>关于本机弹窗显示"原深感摄像头-正品Apple部件""原深感摄像头-完成维修"或"面容ID-正品""原深感摄像头-二手""面容ID-问题"</td></tr>
+    <tr><td><span class="tag tag-blue">官方</span> 相机</td><td>关于本机弹窗显示"相机-正品Apple部件"、"相机-正品"</td></tr>
+    <tr><td><span class="tag tag-blue">官方</span> 电池</td><td>关于本机弹窗"电池-正品Apple部件""电池-正品"。华为机型通知栏提示"正品电池部件"。注意：P70和Mate60系列及后续机型需要下拉通知栏查看有无提示；如质检时遇系统提示智能检测需点击同意按钮</td></tr>
+    <tr><td><span class="tag tag-blue">官方</span> 屏幕</td><td>关于本机弹窗显示"屏幕-正品Apple部件""显示屏-正品"。华为机型通知栏提示"正品屏幕部件"</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 注意</div>当关于本机已显示部件为"正品部件"时，不用看工具的验机报告是否异常。</div>
+  <p style="margin-top:8px;font-size:13px;font-weight:700">第三方配件提示：</p>
+  <table><tr><th>类别</th><th>提示内容</th></tr>
+    <tr><td><span class="tag tag-orange">第三方</span> 前摄</td><td>苹果机型关于本机弹窗"检测到新前置相机""前置相机-完成维修""前置相机-未知""前置相机-已使用""前置相机-二手"</td></tr>
+    <tr><td><span class="tag tag-orange">第三方</span> 后摄</td><td>苹果机型关于本机弹窗显示"相机-未知部件""无法验证此相机""相机-完成维修""检测到新相机""相机-已使用""相机-二手"</td></tr>
+    <tr><td><span class="tag tag-orange">第三方</span> 电池</td><td>关于本机弹窗"电池-未知部件""无法验证此电池""电池-完成维修""检测到新电池""电池-已使用""电池-二手"。华为机型通知栏提示"未知电池部件"。注意：P70和Mate60系列及后续机型需要下拉通知栏查看有无提示；如质检时遇系统提示智能检测需点击同意按钮</td></tr>
+    <tr><td><span class="tag tag-orange">第三方</span> 屏幕</td><td>苹果11系列及后续机型关于本机弹窗显示"未知部件""显示屏-未知""无法验证此屏幕""显示屏-完成维修""检测到新显示屏""显示屏-已使用""显示屏-二手"。华为机型通知栏提示"未知屏幕部件"</td></tr>
+    <tr><td><span class="tag tag-red">主板-异常故障提示</span></td><td>提示蜂窝网络问题（苹果机型提示"蜂窝网络-问题""蜂窝网络连接-检测到问题"）；提示超宽带问题（苹果机型关于本机提示"超宽带-问题"）；温度警告（设备在正常状态下持续提示过热/过冷警告）；华为机型通知栏提示主板异常</td></tr>
+    <tr><td>后壳弹窗</td><td>本机弹窗提示"背面玻璃"机身-检测到新机身</td></tr></table>
+  <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚠️ 注意 — 官方配件提示（前摄/后摄/电池/屏幕·4项共用）</div>判责前需确认工程师关于本机照片是否正常，工程师照片无弹窗且此部件无其他维修现象的按【业务责-隐性故障-工程师质检时关于本机无弹窗】判定。</div>
+  <div class="callout warn"><div class="ctitle">⚠️ 注意 — 第三方弹窗（前摄/后摄/电池/屏幕/后壳弹窗·5项共用）</div>判责前需确认工程师关于本机照片是否正常，工程师照片无弹窗且此部件无其他维修现象的按【业务责-隐性故障-工程师质检时关于本机无弹窗】判定。</div>
 </div>
 
 <!-- 18. 工具读出维修 -->
 <div class="section-card fade-in" id="s-18"><h3>18. 工具读出维修</h3><div class="s-id">基本信息·第18项</div>
   <table><tr><th>项</th><th>上门门店（一根线）</th><th>质检中心（验机侠）</th><th>豁免</th></tr>
-    <tr><td>前摄</td><td>读出"异常"</td><td>除"用户判断/存在风险/高风险/正常"外的结果</td><td>正品部件→不看</td></tr>
-    <tr><td>后摄</td><td>读出"异常"</td><td>同上</td><td>正品部件→不看</td></tr>
-    <tr><td>电池</td><td>读出"异常"</td><td>同上</td><td>正品部件→不看</td></tr>
-    <tr><td>屏幕</td><td>读出"异常"</td><td>同上</td><td>正品部件→不看</td></tr>
-    <tr><td>主板</td><td>主板信息有其一项异常</td><td>除"存在风险/高风险/正常"外的结果</td><td>无豁免</td></tr></table>
-  <p style="margin-top:6px;font-size:13px"><strong>电池-健康值数据修改：</strong>适用电池未更换或更换为原装电池。条件①健康度与循环次数不匹配（=100%+充电>300次；≤98%+充电<10次；90%-99%+充电>1000次；80%-89%+充电>1800次）；条件②本机电池效率≥80%且比工具读出高出≥6%。</p>
-  <p style="font-size:13px"><strong>主板-内存与出厂不符：</strong>苹果关于本机储存容量与官网/爬虫/公众号查询不一致。</p>
+    <tr><td>前摄</td><td>读出前置摄像头结果为"异常"</td><td>读出前置摄像头有除"用户判断""存在风险、高风险、正常"以外的结果</td><td>正品部件→不看</td></tr>
+    <tr><td>后摄</td><td>读出后置摄像头结果为"异常"</td><td>读出后置摄像头有除"用户判断""存在风险、高风险、正常"以外的结果</td><td>正品部件→不看</td></tr>
+    <tr><td>电池</td><td>读出电池结果为"异常"</td><td>读出电池有除"用户判断""存在风险、高风险、正常"以外的结果</td><td>正品部件→不看</td></tr>
+    <tr><td>屏幕</td><td>读出屏幕结果为"异常"</td><td>读出屏幕有除"用户判断""存在风险、高风险、正常"以外的结果</td><td>正品部件→不看</td></tr>
+    <tr><td>主板</td><td>读出主板信息（含销售地区/监管型号/设备序列号/销售型号/WiFi地址/蓝牙地址/蜂窝地址/主板序列号/是否水改行）有其一异常</td><td>验机侠读出主板信息除"存在风险、高风险、正常"以外的结果均为异常</td><td>无豁免</td></tr></table>
+  <p style="margin-top:6px;font-size:13px"><strong>电池-健康值数据修改：</strong>适用电池未更换或更换为原装电池。条件①关于本机电池健康度与充电循环次数不匹配：=100%但充电&gt;300次；≤98%但充电&lt;10次；90%≤健康度≤99%但充电&gt;1000次；80%≤健康度≤89%但充电&gt;1800次。条件②当本机电池效率≥80%且关于本机的电池健康度比工具读出的电池健康度高出≥6%。</p>
+  <p style="font-size:13px"><strong>主板-内存与出厂不符：</strong>苹果机型关于本机的储存容量大小与官网/爬虫/公众号查询的不一致。如三渠道不一致以官网查询结果为准。当查询的型号与手机实际机型不匹配时不以储存容量大小不一致判定主板维修。苹果机型使用验机工具读出报告显示出厂容量与读出容量不一致。</p>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 工具读出维修 判责</div>
     <div class="ob-body">复核一根线实测为正常，验机侠测试为异常 → 按【总部责-APP差异】判定，需上传两个质检工具读取结果照片（需进入验机详情留证）。</div></div>
 </div>
@@ -520,10 +539,10 @@
 <!-- 19. 无线功能 -->
 <div class="section-card fade-in" id="s-19"><h3>19. 无线功能（多选）</h3><div class="s-id">功能检测·第19项</div>
   <table><tr><th>选项</th><th>判定</th></tr>
-    <tr><td>无线功能正常 <span class="tag tag-green">✅</span></td><td>WiFi、蓝牙、NFC均可正常使用</td></tr>
-    <tr><td>WiFi/蓝牙（无法打开/无法连接）<span class="tag tag-red">❌</span></td><td>开关无法打开；无法搜索到信号</td></tr>
-    <tr><td>NFC（无法打开/识别/Apple Pay问题）<span class="tag tag-red">❌</span></td><td>NFC无法识别；开关为灰色；苹果"Apple Pay问题"</td></tr></table>
-  <p style="font-size:12px;color:var(--text3)">NFC检测：使用带NFC功能的卡片贴紧手机背面上方，有识别反馈（弹窗/提示音/振动）即正常。可用公交卡/门禁卡/会员卡，不可用身份证/银行卡。</p>
+    <tr><td>无线功能正常 <span class="tag tag-green">✅</span></td><td>WiFi、蓝牙、NFC功能均可正常使用</td></tr>
+    <tr><td>WiFi/蓝牙（无法打开/无法连接）<span class="tag tag-red">❌</span></td><td>WiFi/蓝牙开关无法打开；无法搜索到WiFi信号无法进行连接</td></tr>
+    <tr><td>NFC（无法打开/识别/Apple Pay问题）<span class="tag tag-red">❌</span></td><td>NFC无法识别；NFC开关无法打开开关选项为灰色；苹果手机关于本机机型显示"Apple Pay问题"</td></tr></table>
+  <p style="font-size:12px;color:var(--text3);margin-top:4px"><strong>NFC检测方法：</strong>先确保NFC开关已打开，使用一张带NFC功能的卡片贴紧手机背面靠上的位置，APP检测结果为通过则为正常，如未通过可能是APP未读取到传感器权限需手动复测。手动测试：有识别卡片的反馈（读卡弹窗、提示音、振动）即为正常，如无任何反应即为异常。测试时可使用公交卡、门禁卡、会员卡等类型的卡片，不可使用身份证、银行卡等非加密的卡片。华为机型需要确认Huawei Beam是否开启。如果识别失败则需打开钱包APP页面再尝试。</p>
 
   <div class="output-block"><div class="ob-header">③ 判定方向</div>
     <div class="ob-body">无线功能
@@ -543,10 +562,10 @@
 <!-- 20. 传感器 -->
 <div class="section-card fade-in" id="s-20"><h3>20. 传感器功能（多选）</h3><div class="s-id">功能检测·第20项</div>
   <table><tr><th>选项</th><th>检测方法</th></tr>
-    <tr><td>距离感应（通话无法自动息/亮屏）</td><td>拨打运营商电话→贴近耳部自动息屏、拿开自动亮屏即正常</td></tr>
-    <tr><td>光线感应（无法自动调节亮度）</td><td>亮度条拉至20%→手电筒照射传感器位置→亮度条或屏幕亮度升高即正常。部分机型传感器在屏幕下半部</td></tr>
-    <tr><td>重力感应（屏幕无法自动旋转）</td><td>关闭方向锁定→打开相册旋转屏幕→图片随之旋转即正常</td></tr>
-    <tr><td>指南针（无法打开/指向异常）</td><td>打开系统预装指南针APP→转动设备指针跟随转动即正常。需校准时先校准。无预装指南针APP的机型默认正常</td></tr></table>
+    <tr><td>距离感应（通话无法自动息/亮屏）</td><td>通话时无法自动息屏/亮屏。APP检测通过则为正常，未通过需手动复测。手动拨打三大运营商客服电话接通后将手机贴近耳部，贴近后自动息屏拿开后自动恢复亮屏即为正常；未贴近就自动息屏且无法恢复亮屏或贴近后不会自动息屏则为异常。注意：当功能异常时需检查传感器的位置是否有污垢或钢化膜遮挡，如有需清理后再次测试</td></tr>
+    <tr><td>光线感应（无法自动调节亮度）</td><td>屏幕无法根据环境光线强度自动调节亮度；苹果机型自动调节亮度选项缺失。检测前先打开屏幕亮度自动调节开关，先将屏幕亮度条拉到20%左右，使用手电筒照射光线传感器位置（一般处于前置摄像头附近，如无反应需依次照射屏幕四周进行尝试），亮度条或屏幕实际亮度会升高即为正常，如持续照射超过5秒以上亮度条和实际亮度都未发生变化则为异常。注意：部分机型亮度条变化反应较慢只要显示亮度有变化也视为正常；部分机型光线感应器在屏幕下半部分，如照射上半部分亮度无变化需尝试照下半部分；使用APP测试未通过时需要手动测试以手动测试结果为准；大折叠屏测试光线感应无数值变化时需展开屏幕测试；如在户外光线较强的场景将亮度条拉到20%左右，亮度条或屏幕实际亮度无需手电筒照射即自动升高也视为正常</td></tr>
+    <tr><td>重力感应（屏幕无法自动旋转）</td><td>重力传感器功能异常屏幕无法自动旋转。APP检测转动设备时屏幕中的小球会随着转动方向滚动则为正常；手动检测关闭屏幕方向锁定后打开相册图片将手机从竖持旋转为横持图片方向随之旋转则为正常</td></tr>
+    <tr><td>指南针（无法打开/指向异常）</td><td>指南针功能异常，指南针APP无法打开、闪退、指向失灵。手动检测打开系统预装的指南针APP转动设备指针会跟随同方向转动即为正常。注意：当指南针需要校准时需先按照提示完成校准后再测试；如无法使用APP检测系统有预装指南针APP的则用指南针APP检测，没有预装指南针APP的机型功能默认正常</td></tr></table>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 重力感应/指南针 判责</div>
     <div class="ob-body">确认工程师是否有APP自动检测记录：有自动检测正常→总部责-APP差异；无自动检测但照片体现正常→业务责-隐性故障。</div></div>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 光线感应</div>
@@ -641,9 +660,9 @@
 <div class="section-card fade-in" id="s-24"><h3>24. 通话功能-SIM卡1/卡2（单选）</h3><div class="s-id">功能检测·第24项</div>
   <table><tr><th>选项</th><th>判定</th></tr>
     <tr><td>卡功能正常</td><td>SIM卡功能正常 <span class="tag tag-green">✅</span></td></tr>
-    <tr><td>卡（不读卡/无信号/卡槽坏/无法拨号/基带坏）<span class="tag tag-red">❌</span></td><td>不读卡(需重启)；无信号；信号弱持续≤2格；无法拨号；基带坏；卡槽损坏无法插入SIM卡；卡托缺失</td></tr>
-    <tr><td>有网络锁，无法检测</td><td>苹果"其他版本-有锁"时勾选</td></tr>
-    <tr><td>卡2不支持</td><td>该设备为单卡版本</td></tr></table>
+    <tr><td>卡（不读卡/无信号/卡槽坏/无法拨号/基带坏）<span class="tag tag-red">❌</span></td><td>不读卡（需尝试重启）；无信号（需尝试开关飞行模式，信号格有信号强度才算有信号，显示无服务、仅限紧急通话等均为无信号）；信号弱持续≤2格（需对比其他同运营商的手机查看当前环境的信号强度是否正常）；无法拨号；基带坏（苹果机型调制解调器固件为空或全0/系统内不显示IMEI/未插卡信号栏持续显示正在搜索/无服务/三角形感叹号图标/圆圈信号载入图标）；三星机型有网络锁插卡后提示SIM卡无效；苹果14及以上美版机型原厂无卡槽开孔无法使用SIM卡（如已开孔并可正常使用SIM卡则不算功能问题）。注意：iPhone17系列除美版外有部分国家也不支持实体卡槽<br><strong>卡槽坏：</strong>设备卡槽损坏或有异物堵塞无法插入SIM卡；设备插入卡针无法弹出卡托（如卡托无法取出导致机身内部有SIM卡/存储卡无法取出的涉及用户隐私问题拒不回收）<br><strong>卡托缺失：</strong>上门门店场景确认卡槽内无异物堵塞的情况下通话功能算正常；质检中心场景需找同款机型的卡托插卡测试如SIM卡功能正常只判定卡托缺失</td></tr>
+    <tr><td>有网络锁，无法检测</td><td>苹果机型购买渠道为"其他版本-有锁"时通话功能勾选此项</td></tr>
+    <tr><td>卡2不支持</td><td>该设备为单卡版本不支持SIM卡2</td></tr></table>
   <div class="output-block"><div class="ob-header">③ 判定方向</div>
     <div class="ob-body">SIM卡功能
   ├── 不读卡(重启仍无效)/无信号/信号弱≤2格/无法拨号/基带坏/卡槽坏 → 异常 ❌
@@ -651,27 +670,29 @@
   ├── 卡托缺失(上门门店无异物堵塞→通话正常；质检中心借同款卡托测试) → 按实测结果
   └── 可正常读卡+有信号+可拨号 → 正常 ✅</div></div>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — SIM卡 判责流程</div>
-    <div class="ob-body">1、确认工程师是否有APP自动检测记录
+    <div class="ob-body">1、请确认工程师是否有APP自动检测记录
   ├── ① 有自动检测记录且正常 → 【总部责-APP差异】需上传实测异常照片
-  └── ② 无自动检测记录，但工程师质检照片已体现功能正常 → 【业务责-隐性故障】需上传实测异常照片
-2、插入卡针卡托无法正常弹出，不看APP检测通过，正常取证判责工程师。
-3、卡托内有异物，可尝试整备后再判责。
+  └── ② 无自动检测记录，但工程师质检照片已体现功能正常 → 【业务责-隐性故障-工程师质检照片已体现正常】需上传实测异常照片
+
+2、插入卡针，卡托无法正常弹出，不看是否有APP检测通过，正常取证判责工程师。
+3、卡托内有异物的，可尝试整备后再判责。
 4、卡托缺失导致勾选SIM卡异常的，需借出同款机型卡托实际测试，功能正常的需修改报告为正常，勾选卡托缺失即可。</div></div>
 </div>
 
 <!-- 25. 前置摄像头 -->
 <div class="section-card fade-in" id="s-25"><h3>25. 前置摄像头功能（单选）</h3><div class="s-id">功能检测·第25项</div>
-  <p><strong>检测范围：</strong>照片模式<span class="kw">【1倍】</span>+<span class="kw">【人像模式】</span></p>
+  <p><strong>检测范围：</strong>前置摄像头需要检测照片模式的<span class="kw">【1倍】</span>和<span class="kw">【人像模式】</span>。</p>
   <table><tr><th>选项</th><th>判定</th></tr>
     <tr><td>前摄功能正常 <span class="tag tag-green">✅</span></td><td>前摄功能正常</td></tr>
-    <tr><td>升降摄像头无法完全升降 <span class="tag tag-red">❌</span></td><td>摄像头升降/翻转模块无法完全升起/收回/翻转至正常位置</td></tr>
-    <tr><td>前摄无画面/闪退报错/无法切换/卡顿/裂纹 <span class="tag tag-red">❌</span></td><td>无画面(全黑全白)；无法切换；裂纹(球面镜片碎裂或取景画面有裂痕)；闪退报错；卡顿>5秒</td></tr>
-    <tr><td>前摄模糊/抖动/不对焦/成像画面异常 <span class="tag tag-red">❌</span></td><td>不对焦；成像有异常纹路色斑色块/上下颠倒/颜色异常；模糊；非手抖画面抖动</td></tr>
-    <tr><td>有斑数量>15或直径>20mm <span class="tag tag-red">❌</span></td><td>白底取景可见有斑>15个或单个直径>20mm</td></tr>
-    <tr><td>前摄坏点直径>0.5mm或数量>3 <span class="tag tag-red">❌</span></td><td>取景画面有坏点直径>0.5mm或数量>3</td></tr>
-    <tr><td>有斑数量≤15且直径≤20mm <span class="tag tag-red">❌</span></td><td>有斑≤15且每个斑点直径≤20mm</td></tr>
-    <tr><td>有斑数量≤3且直径≤5mm <span class="tag tag-red">❌</span></td><td>有斑≤3且直径≤5mm</td></tr></table>
-  <div class="callout info"><div class="ctitle">⚠️ 注意</div>「有斑数量≤3且直径≤5mm」优先级高于「有斑数量≤15且直径≤20mm」。只计算单一倍数下的数量不累加（1倍有1个5倍有2个最多只算2个）。</div>
+    <tr><td>升降摄像头无法完全升降 <span class="tag tag-red">❌</span></td><td>摄像头升降模块（不区分前后摄像头）无法完全升起或完全收回；翻转摄像头模块无法翻转至正常位置。如无法露出摄像头进行取景需摄像头无画面</td></tr>
+    <tr><td>前摄无画面/闪退报错/无法切换/卡顿/裂纹 <span class="tag tag-red">❌</span></td><td>无画面（全黑或全白）；无法切换（相机无法切换到前置摄像头）；裂纹（摄像头球面镜片有碎裂纹路或取景画面有裂痕）；闪退报错（打开相机APP时闪退、报错、无法进入取景页面）；卡顿（切换到前置摄像头时卡顿超过5秒）</td></tr>
+    <tr><td>前摄模糊/抖动/不对焦/成像画面异常 <span class="tag tag-red">❌</span></td><td>不对焦；成像画面异常（有异常的纹路、色斑、色块、成像画面上下颠倒、颜色异常如拍绿色物体变成蓝色）；模糊；抖动（非手抖产生的画面抖动）</td></tr>
+    <tr><td>有斑数量>15或直径>20mm <span class="tag tag-red">❌</span></td><td>在白底背景下通过前置摄像头取景观察可见有斑数量&gt;15个或单个斑点直径&gt;20mm（只计算单一倍数下的数量不累加，如1倍有1个5倍有2个最多只算2个）</td></tr>
+    <tr><td>前摄坏点直径>0.5mm或数量>3 <span class="tag tag-red">❌</span></td><td>前置摄像头取景画面有坏点直径&gt;0.5mm或数量&gt;3（只计算单一倍数下的数量不累加）</td></tr>
+    <tr><td>有斑数量≤15且直径≤20mm <span class="tag tag-red">❌</span></td><td>可见有斑数量≤15且每个斑点直径≤20mm</td></tr>
+    <tr><td>有斑数量≤3且直径≤5mm <span class="tag tag-red">❌</span></td><td>可见有斑数量≤3且直径≤5mm</td></tr></table>
+  <div class="callout info"><div class="ctitle">⚠️ 注意</div>「有斑数量≤3且直径≤5mm」的判定优先级高于「有斑数量≤15且直径≤20mm」。检测方法：将摄像头对准白色背景（A4纸、打标纸）进行取景，在白色背景下观察是否有斑/坏点。只计算单一倍数下的数量不累加。</div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意 — 模糊/抖动/不对焦/成像画面异常</div>摄像头偏移或更换外屏导致被遮挡取景有黑影并非摄像头本身功能问题不以此现象判定；使用白纸遮挡拍摄时会有浅灰色的螺旋状纹路为正常现象；苹果手机面容识别异常导致前摄的人像模式背景虚化功能缺失不判定；不能因老机型像素较低误判为画面异常需与同机型对比差异；前摄如图例中显示规则圆圈光影效果为正常现象不判定画面异常（案例机型Mate60Pro前摄广角/红米Note11TPro）；屏幕碎裂或摄像头镜片碎裂裂痕覆盖到镜头导致拍照有眩光的不以此现象判定摄像头画面异常。</div>
 
   <div class="output-block"><div class="ob-header">③ 判定方向 — 前摄</div>
     <div class="ob-body">前置摄像头
@@ -684,10 +705,11 @@
   ├── 有斑≤3且直径≤5mm → 异常 ❌
   └── 以上现象均无 → 正常 ✅</div></div>
 
-  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 前摄 判责</div>
-    <div class="ob-body">无画面/闪退报错等：1、需按检测范围（1倍+人像）取证。2、实测无异常修改前需给品控确认视频留证后再修改报告。
-模糊/抖动等：同上+留取【白底照片/视频留证画面正常】证据。
-有斑/坏点：1、需按检测范围取证。2、不可在微距模式取证，不可调整曝光。3、斑点重叠按1个计算。4、实测无异常修改前需给品控确认，留取白底照片/视频证据。</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 前摄/后摄相关注意点（判责）</div>
+    <div class="ob-body">1、需按检测范围取证（前摄照片模式1倍+人像模式；后摄常驻倍数+人像模式）
+2、不可在微距模式取证，不可调整曝光
+3、两个或多个斑点重叠在一起的，按1个斑点计算
+4、实测无异常修改前需给品控确认，留取【白底照片/视频留证画面正常】证据再修改报告</div></div>
 </div>
 
 <!-- 26. 后置摄像头 -->
@@ -698,18 +720,21 @@
     <li><strong>苹果单摄/双摄：</strong>照片模式【常驻倍数】+【人像模式】默认倍数</li>
     <li><strong>安卓/鸿蒙：</strong>后摄照片【常驻倍数】+【人像模式】1倍；无常驻倍数→手动拖动变焦条到【0.5倍/1倍/3倍/5倍】观测</li>
   </ul>
-  <p style="margin-top:4px;font-size:13px">后摄无画面/闪退报错/模糊/抖动/不对焦/有斑/坏点分级标准<strong>同前摄逻辑一致</strong>。</p>
+  <p style="margin-top:4px;font-size:13px">后摄功能正常、后摄无画面/闪退报错/无法切换/卡顿/裂纹、后摄模糊/抖动/不对焦/成像画面异常、有斑/坏点分级标准<strong>同前摄逻辑一致</strong>。</p>
+  <div class="callout info"><div class="ctitle">⚠️ 注意</div>华为P60Pro后摄3.5倍超近白底测试时有竖纹为正常现象无需判定画面异常；摄像头偏移导致被遮挡取景有黑影并非摄像头本身功能问题；使用白纸遮挡后摄会有浅灰色的螺旋状纹路为正常现象；不能因老机型像素较低误判为画面异常需与同机型对比差异；摄像头镜头碎裂裂痕覆盖到镜头导致拍照有眩光的不以此现象判定摄像头画面异常。</div>
 
-  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 后摄 判责</div>
-    <div class="ob-body">无画面/闪退等：1、需按检测范围确认。2、不确认常驻倍数需借同款对比。3、实测无异常修改前需给品控确认视频留证。
-模糊/抖动等：1、需按检测范围取证。2、不可在微距模式取证，不可调整曝光。3、实测无异常修改前需给品控确认，留取白底照片/视频证据。
-有斑/坏点：同前摄要求。</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 前摄/后摄相关注意点（判责）</div>
+    <div class="ob-body">1、需按检测范围取证（前摄照片模式1倍+人像模式；后摄常驻倍数+人像模式）
+2、不可在微距模式取证，不可调整曝光
+3、两个或多个斑点重叠在一起的，按1个斑点计算
+4、实测无异常修改前需给品控确认，留取【白底照片/视频留证画面正常】证据再修改报告</div></div>
 </div>
 
 <!-- 27. 按键功能 -->
 <div class="section-card fade-in" id="s-27"><h3>27. 按键功能（多选）</h3><div class="s-id">功能检测·第27项</div>
-  <p>检测范围：电源键、音量键、其他按键（Home键/静音键/拍照键/智灵键/游戏肩键等）。苹果16及以上机型需测试拍摄键触控功能：设置→相机→相机控制按钮。</p>
-  <p>异常类型：<span class="tag tag-red">失灵</span>（按压无反馈/未按压自动触发）· <span class="tag tag-red">回弹差</span>（回弹反馈弱）· <span class="tag tag-red">凹陷</span>（键帽高度持平或低于外壳）· <span class="tag tag-red">卡死</span>（无法按压或按后卡住）· <span class="tag tag-red">键帽缺失</span>（同时算外壳辅件缺损）</p>
+  <p><strong>电源键（失灵/回弹差/凹陷/卡死/缺失）：</strong>失灵（按压系统无反馈或未按压自动触发反馈，正常力度按压无反馈需重按才有反馈）；回弹差（按压回弹反馈弱没有回弹的声音）；凹陷（键帽整体凹陷或单侧凹陷，高度持平或低于外壳表面）；卡死（无法往下按压或按压后卡住无法回弹）；键帽缺失（键帽缺失同时算外壳辅件缺损）。<strong>音量键：</strong>同电源键标准。</p>
+  <p style="margin-top:4px"><strong>其他按键（失灵/回弹差/凹陷/卡死/缺失）：</strong>除电源键和音量键外均算做其他按键，如Home键、静音键、拍照键、智灵键、游戏肩键等。除Home键外其他按键键帽缺失同时算外壳辅件缺损，如键帽碎裂不影响功能使用仅勾选辅件缺损。苹果16及以上机型需测试拍摄键的触控功能：打开设置→相机→相机控制按钮切换回相机app，轻触滑动机身侧面拍照键是否可用相机变焦等功能。</p>
+  <p style="margin-top:4px"><strong>检测方法：</strong>每个按键反复按压3次，按压按键中心点；音量+/-同一键帽分别按压1/4和3/4位置。</p>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 按键 判责</div>
     <div class="ob-body">按键回弹差、卡死需使用小刷子蘸取少量酒精整备，避免脏污导致异常。</div></div>
 </div>
@@ -717,9 +742,9 @@
 <!-- 28. 触控功能 -->
 <div class="section-card fade-in" id="s-28"><h3>28. 触控功能（多选）</h3><div class="s-id">功能检测·第28项</div>
   <table><tr><th>选项</th><th>判定</th></tr>
-    <tr><td>触屏（含触控键）失灵/乱触/漂移 <span class="tag tag-red">❌</span></td><td>失灵(全屏/局部无反馈/间歇性/断触)；乱触(未点击自动跳动)；漂移(点A响应B)</td></tr>
-    <tr><td>3D-Touch按压无反馈 <span class="tag tag-red">❌</span></td><td>苹果机型APP检测3D-Touch全部检测点无反馈或有其一</td></tr>
-    <tr><td>副屏触控失灵/乱触/漂移 <span class="tag tag-red">❌</span></td><td>同主屏标准</td></tr></table>
+    <tr><td>触屏（含触控键）失灵/乱触/漂移 <span class="tag tag-red">❌</span></td><td>失灵（全屏/局部点击无反馈、间歇性无反馈、断触）；乱触（未点击屏幕自动跳动）；漂移（手指点击A点屏幕响应B点）。检测：APP快速滑动触屏通过则正常；手动拖动桌面图标从左到右从上到下滑动无失灵断触乱触即正常；触摸键点击有反馈即正常</td></tr>
+    <tr><td>3D-Touch按压无反馈 <span class="tag tag-red">❌</span></td><td>苹果机型使用APP检测3D-touch按压全部检测点时无反馈或有其一检测点无反馈。APP检测通过则为正常未通过则为异常</td></tr>
+    <tr><td>副屏触控失灵/乱触/漂移 <span class="tag tag-red">❌</span></td><td>同主屏标准。全尺寸副屏按主屏测试方法，视窗型副屏滑动有反馈即正常</td></tr></table>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 触屏失灵（非完全失灵）判责流程</div>
     <div class="ob-body">实测异常 + 总部有报损 → 【最终总部责】
 实测异常 + 总部无报损
@@ -733,7 +758,15 @@
 
 <!-- 29. 有线充电 -->
 <div class="section-card fade-in" id="s-29"><h3>29. 有线充电功能（单选）</h3><div class="s-id">功能检测·第29项</div>
-  <p>异常判定：<strong>不充电</strong>（连接充电器无提示）· <strong>无法双边充</strong>（Type-C或Lightning正反插有一面无提示）· <strong>接口损坏</strong>（接口断裂/缺损/变形无法连接数据线）· <strong>接触不良</strong>（充电断续/接口松动无法卡紧，按住数据线距接头5CM处左右摇晃≤2CM充电断续即判；充电口垂直朝下数据线自动掉下即判）· <strong>未插线显示充电</strong>（需重启至少一次排除系统bug）</p>
+  <p><strong>异常判定：</strong></p>
+  <ul style="font-size:13px;margin:4px 0 0 18px;line-height:1.8">
+    <li><strong>不充电：</strong>连接充电器后无充电提示</li>
+    <li><strong>无法双边充：</strong>Type-C或Lightning正反插有一面无充电提示</li>
+    <li><strong>接口损坏：</strong>充电接口有断裂、缺损或变形无法连接数据线（注意接口内部针脚弯曲但可正常充电+无松动+无接触不良不判）</li>
+    <li><strong>接触不良：</strong>充电断续/接口松动无法卡紧数据线。检测：按住数据线距接头5CM位置左右摇晃≤2CM充电断续即判；接口松动——充电口垂直朝下数据线自动掉下即判</li>
+    <li><strong>未插线显示充电：</strong>手机未连接充电线桌面充电图标显示正在充电（需重启至少一次排除系统bug）</li>
+  </ul>
+  <div class="callout info"><div class="ctitle">⚠️ 注意</div>无充电提示需先检查接口是否有异物堵塞，有异物需用镊子清理后再测试；不开机设备需充电60分钟以上确认是否能开机。</div>
   <div class="output-block"><div class="ob-header">③ 判定方向</div>
     <div class="ob-body">有线充电
   ├── 连接充电器无充电提示 → 不充电 ❌（先检查接口是否有异物堵塞）
@@ -823,91 +856,101 @@
   ├── 总部无报损+拆包已体现缺失 → 判责工程师
   ├── 总部无报损+拆包视频模糊无法确认 → 判责工程师
   └── 总部有报损 → 【最终总部责】</div></div>
-
-  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 呼吸灯判责流程</div>
-    <div class="ob-body">呼吸灯不亮
-  ├── 工程师有正常使用照片 → 【业务责-隐性故障-工程师质检时已体现正常】
-  └── 工程师未测试/实际异常 → 判责工程师</div></div>
-
-  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 风扇判责流程</div>
-    <div class="ob-body">风扇不转/异响
-  ├── 工程师有正常使用照片/视频 → 【业务责-隐性故障-工程师质检时已体现正常】
-  └── 工程师未测试/实际异常 → 判责工程师
-注意：需进入游戏模式测试，普通模式下风扇可能不会启动。检测前确认机型是否硬件支持散热风扇功能。</div></div>
 </div>
 
-<!-- ==================== 3.3 屏幕显示（4项+扩展） ==================== -->
-<!-- 屏幕显示异常：漏液/条纹/闪烁/图层错乱 -->
-<div class="section-card fade-in" id="s-d1"><h3>屏幕显示异常：漏液/条纹/闪烁/图层错乱</h3><div class="s-id">屏幕显示·3.3 | 单选</div>
-  <p>任意背景色可见色块或>0.5mm黑点；贯穿直线；闪烁波纹；错乱模糊重影。分别在纯白色、纯灰色、纯黑色三个背景色下查看。</p>
+<!-- ==================== 3.3 屏幕显示（4项） ==================== -->
+<!-- 屏幕显示异常（单选）：漏液/条纹/闪烁/图层错乱+压伤+内屏材质变色+色斑+显示坏点 -->
+<div class="section-card fade-in" id="s-d1"><h3>屏幕显示异常（单选）</h3><div class="s-id">屏幕显示·3.3 | 单选</div>
+  <p><strong>漏液/条纹/闪烁/图层错乱：</strong>任意背景色可见色块或&gt;0.5mm黑点；贯穿直线；闪烁波纹；错乱模糊重影。<strong>压伤：</strong>显示黑色背景时有色块（压伤仅黑色背景下有色块浅色正常）。<strong>内屏材质变色：</strong>息屏看内屏材质变色（灼伤氧化正面观测红米K80边角蓝边豁免）。<strong>色斑：</strong>显示浅色背景时其他颜色的斑块（色斑不遮挡显示内容）。<strong>显示坏点：</strong>显示白底下有黑点≤0.5mm且数量&gt;3/≤3。<br>检测方法：分别在纯白色、纯灰色、纯黑色三个背景色下查看。</p>
 
-  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 屏幕显示异常（漏液/条纹/闪烁/图层错乱）</div>
     <div class="ob-body">屏幕显示异常
   ├── 任意背景色可见色块或>0.5mm黑点 → 异常 ❌
   ├── 贯穿直线 → 异常 ❌
   ├── 闪烁波纹 → 异常 ❌
   ├── 错乱模糊重影 → 异常 ❌
   └── 三个背景色下均无以上现象 → 正常 ✅</div></div>
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 屏幕显示异常（漏液/条纹/闪烁/图层错乱）判责流程</div>
+    <div class="ob-body">屏幕显示异常：漏液/条纹/闪烁/图层错乱 判责流程
 
-  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 漏液/条纹/闪烁/图层错乱 判责流程</div>
-    <div class="ob-body">屏幕显示异常判责流程
-  ├── 1、工程师质检照片已体现屏幕显示异常 → 判工程师责
+  ├── 1、工程师质检照片已体现屏幕显示异常
+  │      └── 判工程师责
+  │
   ├── 2、工程师回收显示正常，但总部收到有漏液
-  │     ├── a、拆包视频显示运输破损 → 判工程师责（工程师自行提供证据申诉）
-  │     └── b、拆包视频无异常，总部无报损 → 判工程师责
-  └── 3、总部有报损 → 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致
-注意事项：判责前查看总部是否有报损记录，避免误判。</div></div>
-</div>
+  │      ├── a、拆包视频显示运输破损
+  │      │      └── 判工程师责（工程师自行提供证据申诉）
+  │      └── b、拆包视频无异常，总部无报损
+  │             └── 判工程师责（工程师自行提供证据申诉）
+  │
+  └── 3、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致
 
-<!-- 压伤/材质变色/色斑 -->
-<div class="section-card fade-in" id="s-d2"><h3>压伤 / 内屏材质变色（灼伤氧化）/ 色斑</h3><div class="s-id">屏幕显示·3.3</div>
-  <p><strong>压伤：</strong>显示黑色背景时有色块（仅黑色背景有色块浅色正常）。<strong>内屏材质变色：</strong>息屏看内屏材质变色（灼伤氧化），正面观测。<strong>色斑：</strong>显示浅色背景时其他颜色的斑块，不遮挡显示内容。</p>
+注意事项：判责前查看总部是否有报损记录，避免误判。</div></div>
 
   <div class="output-block"><div class="ob-header">③ 判定方向 — 压伤</div>
     <div class="ob-body">压伤
   ├── 黑色背景下可见色块 → 异常 ❌
   └── 黑色背景下无色块 → 正常 ✅</div></div>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 压伤判责流程</div>
-    <div class="ob-body">1、工程师质检照片已体现压伤 → 判工程师责
-2、工程师回收无法体现压伤但总部有 → 判工程师责
-3、总部有报损 → 判总部责-最终总部责-二检失误引起的人为拆损/流转导致</div></div>
+    <div class="ob-body">压伤判责流程
 
-  <div class="output-block"><div class="ob-header">③ 判定方向 — 内屏材质变色</div>
+  ├── 1、工程师质检照片已体现压伤（黑色背景有色块）
+  │      └── 判工程师责
+  │
+  ├── 2、工程师回收无法体现压伤，但总部质检有压伤
+  │      └── 判工程师责
+  │
+  └── 3、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致</div></div>
+
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 内屏材质变色（灼伤氧化）</div>
     <div class="ob-body">内屏材质变色
   ├── 息屏正面观测可见变色 → 异常 ❌
   └── 息屏无变色 → 正常 ✅
 ⚠️ 红米K80息屏边角蓝边为豁免项，不判异常。</div></div>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 内屏材质变色判责流程</div>
-    <div class="ob-body">1、工程师质检照片已体现内屏材质变色 → 判工程师责
-2、工程师回收无法体现但实际有变色 → 判工程师责
-3、总部有报损 → 判总部责-最终总部责</div></div>
+    <div class="ob-body">内屏材质变色（灼伤/氧化）判责流程
+
+  ├── 1、工程师质检照片已体现内屏材质变色
+  │      └── 判工程师责
+  │
+  ├── 2、工程师回收无法体现，但实际质检有变色
+  │      └── 判工程师责
+  │
+  └── 3、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致
+
+注意事项：判责前查看总部是否有报损记录，避免误判。红米K80息屏边角蓝边为豁免项，不判异常。</div></div>
 
   <div class="output-block"><div class="ob-header">③ 判定方向 — 色斑</div>
     <div class="ob-body">色斑
   ├── 浅色背景下可见其他颜色斑块 → 异常 ❌
   └── 浅色背景下无异常色块 → 正常 ✅</div></div>
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 色斑判责流程</div>
-    <div class="ob-body">1、工程师质检照片已体现色斑 → 判工程师责
-2、工程师回收无法体现但总部有色斑 → 判工程师责</div></div>
-</div>
+    <div class="ob-body">色斑判责流程
 
-<!-- 显示坏点【已纠正】 -->
-<div class="section-card fade-in" id="s-d3"><h3>显示坏点（白底黑点）【已纠正】</h3><div class="s-id">屏幕显示·3.3 | <span class="tag tag-orange">已纠正</span></div>
+  ├── 1、工程师质检照片已体现色斑（浅色背景有色块）
+  │      └── 判工程师责
+  │
+  └── 2、工程师回收无法体现，但总部质检有色斑
+         └── 判工程师责</div></div>
 
-  <div class="output-block"><div class="ob-header">③ 判定方向</div>
+  <div class="output-block"><div class="ob-header">③ 判定方向 — 显示坏点（白底黑点）【已纠正】</div>
     <div class="ob-body">显示坏点（白底黑点）
   ├── 白底背景下有黑点
   │     ├── 黑点直径 ≤ 0.5mm 且数量 ≤ 3个 → 异常 ❌
   │     ├── 黑点直径 ≤ 0.5mm 且数量 > 3个 → 异常 ❌
   │     └── 黑点直径 > 0.5mm → 异常 ❌（按屏幕有漏液/黑点判定）
   └── 白底背景下无黑点 → 正常 ✅</div></div>
-
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 显示坏点判责流程</div>
-    <div class="ob-body">显示坏点判责流程
-  ├── 1、工程师质检照片已体现显示坏点 → 判工程师责
+    <div class="ob-body">显示坏点（白底黑点）判责流程
+
+  ├── 1、工程师质检照片已体现显示坏点
+  │      └── 判工程师责
+  │
   └── 2、工程师回收照片无法体现，总部质检有坏点
-        ├── a、黑点直径 ≤ 0.5mm 且数量 ≤ 3个 → 判工程师责
-        └── b、黑点直径 ≤ 0.5mm 且数量 > 3个 → 判工程师责</div></div>
+         ├── a、黑点直径 ≤ 0.5mm 且数量 ≤ 3个 → 判工程师责
+         └── b、黑点直径 ≤ 0.5mm 且数量 > 3个 → 判工程师责</div></div>
 
   <div class="callout warn" style="margin-top:8px"><div class="ctitle">⚠️ 纠正说明</div>原标准中"黑点直径≤0.5mm且数量≤3个"判定为正常，已更改为异常。<strong>凡白底背景下出现黑点，一律判异常。</strong></div>
 </div>
@@ -973,13 +1016,16 @@
 <!-- 3.4 屏幕及正面外观 -->
 <div class="section-card fade-in" id="s-app1"><h3>3.4 屏幕及正面外观（5项）</h3><div class="s-id">屏幕外观 | 外观项等级为并列关系，实测直接对应无优先级</div>
   <ul style="font-size:13px;margin:4px 0 0 18px;line-height:1.8">
-    <li><strong>屏幕碎裂/支架破损（单选）：</strong>碎裂/磕点/掉漆/气泡>5mm或数量>1；折叠屏主屏凹痕/折痕泛白；支架/胶条缺损断裂、听筒网破损；碎裂/磕点/掉漆/气泡≤5mm且数量=1。<br><span style="font-size:11px;color:var(--text3)">磕点直径≤1mm算触感划痕，>1mm算磕点；Home键碎裂/划痕按屏幕外观现象值勾选。</span></li>
-    <li><strong>屏幕有触感划痕（单选）：</strong>>20mm或>10条 / 10~20mm且≤10条 / 3~10mm且≤10条 / ≤3mm且≤10条 / 无以上问题。指甲横向刮过有阻塞感。同一条部分有触感+部分无触感→按有触感只算有触感部分长度。</li>
-    <li><strong>屏幕无触感划痕（单选）：</strong>>30mm或>20条 / ≤30mm且≤20条 / ≤10mm且≤10条（优先判定）/ 无以上问题（≤3mm且≤5条正常）。指甲刮过顺滑无阻塞感。</li>
-    <li><strong>折叠屏保护膜情况（单选）：</strong>破损或翘边/气泡>10mm / 翘边/气泡≤10mm / 无保护膜 / 有保护膜 / 不检测。</li>
-    <li><strong>屏幕外观其他现象（多选）：</strong>前摄进灰>0.5mm或数量>5；屏幕脱胶（盖板凸起按压起伏支架凸起>1mm）；边缘胶条脱落（曲面屏封胶缺失≤10mm只看最大单处；>10mm算脱胶）；缓冲胶垫破损缺失（折叠屏四角）；内屏凸起褶皱>10mm；盖板打磨凹陷。</li>
+    <li><strong>屏幕碎裂/支架破损（单选）：</strong>碎裂/磕点/掉漆/气泡&gt;5mm或数量&gt;1；折叠屏主屏有凹痕/折痕泛白；屏幕支架/折叠屏胶条缺损/断裂、听筒网破损；碎裂/磕点/掉漆/气泡≤5mm且数量=1。<br><span style="font-size:11px;color:var(--text3)">注意：磕点直径≤1mm算屏幕有触感划痕的现象值，直径&gt;1mm算屏幕磕点的现象值；Home键有碎裂/划痕按屏幕外观的碎裂/划痕的现象值勾选。</span></li>
+    <li><strong>屏幕有触感划痕（单选）：</strong>&gt;20mm或&gt;10条 / 10~20mm且≤10条 / 3~10mm且≤10条 / ≤3mm且≤10条 / 无以上问题 / 屏幕外观不检测。<br><span style="font-size:11px;color:var(--text3)">定义：用指甲横向刮过有阻塞感。非直线取最长直径。同一条部分有触感+部分无触感→按有触感划痕算长度只算有触感部分。有触感和无触感分别计数。屏幕油层脱落根据直径按有触感划痕的现象值勾选。</span></li>
+    <li><strong>屏幕无触感划痕（单选）：</strong>&gt;30mm或&gt;20条 / ≤30mm且≤20条 / ≤10mm且≤10条（优先判定）/ 无以上问题（≤3mm且≤5条正常）/ 屏幕外观不检测。<br><span style="font-size:11px;color:var(--text3)">定义：指甲刮过顺滑无阻塞感。</span></li>
+    <li><strong>折叠屏保护膜情况（单选）：</strong>保护膜破损或翘边/气泡&gt;10mm；翘边/气泡≤10mm；无保护膜；有保护膜；屏幕外观不检测。</li>
+    <li><strong>屏幕外观其他现象（多选）：</strong>前摄进灰&gt;0.5mm或数量&gt;5；屏幕脱胶（盖板凸起/按压起伏）支架凸起&gt;1mm（检测：屏幕面朝地面后盖朝上按压；苹果12及以上仅拆机可见支架盖板分离装机后无凸起按压无起伏不判定脱胶）；屏幕边缘胶条脱落（曲面屏封胶缺失≤10mm只看最大单处不叠加只判整段缺失表面小坑锯齿不判；&gt;10mm算脱胶）；屏幕缓冲胶垫破损缺失（折叠屏四角）；内屏凸起褶皱&gt;10mm（息屏查看安卓豁免区屏幕边缘10mm内+指纹5mm内；折叠屏视窗副屏和折叠主屏不看褶皱）；屏幕盖板打磨凹陷（仅直面屏卡片贴紧有缝隙透光；曲面屏出厂凹陷不判；OPPO Find X8轻微凹陷正常）。</li>
   </ul>
-  <div style="font-size:12px;color:var(--text3);margin-top:6px">适用判责模式（划痕类）：工程师照片已体现→判工程师责；工程师无法体现但总部有→判工程师责（检测遗漏）；总部有报损→判总部责。</div>
+  <div style="font-size:12px;color:var(--text3);margin-top:6px">适用判责模式（划痕类）：
+  ├── 1、工程师质检照片已体现 → 判工程师责（按实际等级勾选）
+  ├── 2、工程师回收无法体现，总部质检有 → 判工程师责（检测遗漏/未按标准检测）；符合复核策略的需执行复核策略
+  └── 3、总部有报损 → 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致</div>
 </div>
 
 <!-- 3.5 中框及外壳外观 -->
@@ -987,31 +1033,36 @@
 
   <p style="font-size:13px;font-weight:700">外壳碎裂/刻字/脱胶（单选）</p>
   <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
-    <li>后盖缺失/有刻字/辅件缺损（不当刻字不回收；三星7D/S/R/Я/M、小米非全新无三包、华为NOT FOR SALE为官方篆刻豁免）</li>
-    <li>碎裂/玻璃磕点>2mm；碎裂/玻璃磕点≤2mm；镜片缺失碎裂、网罩破损；后盖脱胶</li>
-    <li>碎裂判定：玻璃/陶瓷有碎裂纹直接判；金属裂宽>0.3mm判碎裂≤0.3mm判磕碰；塑料穿透本体判碎裂仅表面判磕碰；素皮表层破损判磕碰露底层判碎裂</li>
+    <li>后盖缺失/有刻字/辅件缺损（不当刻字不回收；三星7D/S/R/Я/M、小米非全新无三包/瑕疵机无三包/非新品无三包、华为NOT FOR SALE/非卖品-服务周转-备用机为官方篆刻豁免）</li>
+    <li>碎裂/玻璃磕点&gt;2mm；碎裂/玻璃磕点≤2mm；外壳上的镜片缺失/碎裂、网罩破损；后盖脱胶（平面后盖翘起按压起伏；曲面0.3mm塞规平行插入可完全插入；素皮边缘翘边无破损）</li>
+    <li>碎裂判定：玻璃/陶瓷有碎裂纹直接判；金属裂宽&gt;0.3mm判碎裂≤0.3mm判磕碰；塑料穿透本体判碎裂仅表面判磕碰；素皮仅表层破损判磕碰露底层判碎裂；天线条缝隙判碎裂</li>
   </ul>
 
   <p style="font-size:13px;font-weight:700">外壳磕碰/掉漆（单选）</p>
   <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
-    <li>最大直径>10mm或2mm以上数量>10 / ≤10mm且>2mm点数≤10 / ≤3mm且>2mm点数≤5（直径<2mm点数>3后最高此项）/ 最大直径≤2mm且总数量≤3（苹果镜头框掉漆上限）/ 无以上问题（≤0.5mm且≤3个）</li>
+    <li>最大直径&gt;10mm或2mm以上数量&gt;10；≤10mm且&gt;2mm点数≤10；≤3mm且&gt;2mm点数≤5（直径&lt;2mm点数&gt;3后最高此项）；最大直径≤2mm且总数量≤3（苹果镜头框掉漆上限）；无以上问题（≤0.5mm且≤3个）</li>
+    <li>直径&lt;2mm点数&gt;3后需重新计算；磕碰掉漆数量合计；开孔边缘以开孔边缘为起点同孔位算1次</li>
   </ul>
 
   <p style="font-size:13px;font-weight:700">外壳磨损（单选）</p>
   <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
-    <li>磨损直径>机身1/3（后壳>1/3或中框左右单边>90%）/ ≤机身1/3（单处>20mm）/ 5-20mm或>3处 / 无以上问题（≤5mm且≤3处）</li>
+    <li>磨损直径&gt;机身1/3（后壳大于1/3或中框左右单边&gt;90%）；≤机身1/3（单处&gt;20mm）；5-20mm或&gt;3处（屏幕支架/按键/卡托/充电口最高此项）；无以上问题（≤5mm且≤3处）</li>
+    <li>磨损类型：灰白/灰黑点状印记、无规则细小划痕(单条≤3mm)、磁吸环色差、油光污渍发黄无法擦除、屏幕支架按键卡托外侧、充电口保护壳开孔周边</li>
+    <li>测量：单处边缘两点最长距离多处不叠加取最大；两点≤10mm=同一处&gt;10mm=不同处</li>
   </ul>
 
   <p style="font-size:13px;font-weight:700">外壳划痕（单选）</p>
   <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
-    <li>最长划痕>40mm或>20条 / ≤40mm且≤20条 / ≤20mm且≤10条 / 无以上问题（≤3mm且≤5条正常）</li>
+    <li>最长划痕&gt;40mm或&gt;20条；≤40mm且≤20条；≤20mm且≤10条；无以上问题（≤3mm且≤5条正常）。外观项等级为并列关系按实际测量值直接对应无优先级</li>
   </ul>
 
   <p style="font-size:13px;font-weight:700">机身弯曲情况（单选）</p>
-  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7"><li>≥2mm / 1mm≤弯曲<2mm / 无以上问题(<1mm正常)</li></ul>
+  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7">
+    <li>≥2mm；1mm≤弯曲&lt;2mm；无以上问题(&lt;1mm正常)。侧边弯曲：最明显边贴平面按住拐点较长侧测另一端距离。对角弯曲：凹陷面朝下按压四角取最高角距离</li>
+  </ul>
 
   <p style="font-size:13px;font-weight:700">机身其他现象（多选）</p>
-  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7"><li>卡托断裂变形缺失；后摄进灰>0.5mm或数量>5；玻璃后盖内漆面褶皱>5mm；卡托颜色或串号不符（苹果卡托IMEI缺失不判）</li></ul>
+  <ul style="font-size:12px;margin:4px 0 8px 18px;line-height:1.7"><li>卡托断裂变形缺失；后摄进灰&gt;0.5mm或数量&gt;5；玻璃后盖内漆面褶皱&gt;5mm；卡托颜色或串号不符（苹果卡托IMEI缺失不判）</li></ul>
 
   <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 外壳磕碰/划痕/磨损/印记 判责流程（统一模式）</div>
     <div class="ob-body">1、工程师质检照片已体现 → 判工程师责（按实际等级勾选）
@@ -1025,15 +1076,304 @@
 <div class="section-card fade-in" id="s-repair"><h3>3.6 拆修及浸液情况（9项）</h3><div class="s-id">拆修检测</div>
   <ul style="font-size:13px;margin:4px 0 0 18px;line-height:1.8">
     <li><strong>气密仪检测情况（单选）：</strong>有气密（苹果12及以上气密值40-60指针匀速下降全过程/保持指针不变5s）；无气密。</li>
-    <li><strong>前置/后置摄像头拆修：</strong>缺损维修（主体缺损排线断裂/有焊接痕迹飞线）；第三方更换（有第三方标识）。</li>
-    <li><strong>电池拆修情况（单选）：</strong>状态异常（鼓包/破损/褶皱/松动/弹窗异常）；第三方更换（第三方标识/其他品牌/样式不符）；平台焕新电池（韩客/华严苛/海斯/品胜+焕新专用标识）。<br><span style="font-size:11px;color:var(--text3)">注意：符合更换认证品牌电池标准时优先勾选此项不用判定第三方标识/其他品牌/样式不符。</span></li>
-    <li><strong>屏幕拆修情况（单选）：</strong>更换非原厂屏（偏光异常/材质不符/第三方品牌/IC排线样式不符/指关节异常/其他特征）；平台整屏焕新；屏幕维修（无原彩/排线焊油/IC封胶异常）；更换屏幕外玻璃（紫光灯印记/边界异常/感应孔样式不符/边缘溢胶）。<br><span style="font-size:11px;color:var(--text3)">偏光检测：苹果6号孔(iPhone13-17)/7号孔(iPhone6-11/SE2-3)/8号孔(iPhoneX/XS/11Pro/11ProMax/12系列)→<strong>非深蓝色即判异常</strong>。安卓OPPO/Realme/一加10号孔、小米/红米/华为/荣耀/vivo/努比亚/三星12号孔→<strong>非黑色即判异常</strong>。iPhone11系列跨7号和8号孔位，判定前需确认完整型号。</span></li>
-    <li><strong>后壳拆修（单选）：</strong>颜色版本不符；小型号不符字体异常；激光雷达颜色异常(苹果12-16Pro&ProMax)；开孔样式不符；镜头框缝隙异常；第三方标识；其它维修特征；<strong>CNC工艺不符（仅质检中心适用）</strong>— 苹果17Pro/ProMax闪光灯开孔无高光倒角/后置麦克风倒角不符/中框与后盖衔接处褶皱纹路。</li>
-    <li><strong>主板拆修（单选）：</strong>主板维修（美版开卡槽/焊接痕迹/飞线/爬虫与关于本机购买渠道不一致→按爬虫+勾选此项）；主板小修（石墨纸缺损>10mm/屏蔽罩变形/螺母泡棉缺失/第三方标识）。</li>
-    <li><strong>零部件拆修情况（多选）：</strong>零部件缺失/无法拆机；其他零部件拆修（后盖与中框衔接处溢胶撬痕；镜头印记擦洗异物脏污指印；分体式卡槽更换等）。<br><span style="font-size:11px;color:var(--text3)">判定零部件拆修前，如有同等级具体拆修项需优先判责【具体拆修项】。判定【内部拆修项】前必须确认工程师是否已勾选「无法拆机」，有气密视频的如有外部拆修项需同步判责。</span></li>
-    <li><strong>浸液情况（单选）：</strong>机身内部浸液（主板区域锈迹/水残留；摄像头水雾；内部其他零件锈迹/发霉/水残留；主板处防水标变红；苹果防水标缺失）。<br><span style="font-size:11px;color:var(--text3)">金属件或黑纸上有印渍无需判定为水残留。拆机过程中渗入的酒精需自行用纸/布吸干。</span></li>
+    <li><strong>前置摄像头拆修：</strong>前摄缺损/维修（主体缺损排线断裂→前摄-主体缺损/排线断裂；有焊接痕迹飞线→前摄-有焊接痕迹/飞线）；第三方更换前摄（有第三方标识→前摄-有第三方标识）；拆修不检测；无维修更换。</li>
+    <li><strong>后置摄像头拆修：</strong>后摄缺损/维修（主体缺损排线断裂→后摄-主体缺损/排线断裂；有焊接痕迹飞线→后摄-有焊接痕迹/飞线）；第三方更换后摄（有第三方标识→后摄-有第三方标识，苹果铁罩上也算）；拆修不检测；无维修更换。</li>
+    <li><strong>电池拆修情况（单选）：</strong><br><strong>电池状态异常（电池-鼓包/破损/褶皱/松动/弹窗异常）：</strong>褶皱直径&gt;2cm或&gt;3处（小块凸起按压实心无气体不判）；鼓包可拆按压有气体/不可拆后盖屏幕被顶起（&gt;5mm不回收以中框为起点）；破损/漏液；松动手触可晃/晃动异响；弹窗提示"电池异常，请前往客户服务中心检测""电池状态异常，无法验证此电池是官方电池"；华为及荣耀机型设置→电池→最大容量显示"--"且提示"电池异常，请前往华为客户服务中心进行检测"。<br><strong>第三方更换电池（电池-第三方标识/其他品牌/样式不符）：</strong>电池本体上有第三方标识；更换其他品牌电池；电池封装/丝印与原装不符（易拉胶材质不符缺失/小板封边贴纸宽度不符/印刷字体模糊歪斜间距不一致/L形电池拐角贴纸不符缺失）。电池-外挂小板/有飞线：苹果电池排线有内/外置芯片小板；电池排线有飞线。<br><strong>平台焕新电池（电池-认证品牌）：</strong>韩客(5S-12+售出记录)/华严苛(售出记录+转转防拆标)/海斯(售出记录)/品胜(售出记录+转转防拆标)。电池焕新【焕新专用】/华为电池焕新【焕新专用】。<br><span style="font-size:11px;color:var(--text3)">注意：当符合更换认证品牌电池的标准时优先勾选此项不用判定第三方标识/其他品牌/样式不符。</span></li>
+    <li><strong>屏幕拆修情况（单选）：</strong><br><strong>更换非原厂屏：</strong>屏幕-偏光检测异常；屏幕-内屏材质不符（OLED换LCD）；屏幕-第三方品牌屏幕（GX/GW/JK/JQJQ等，JQJQ+转转防拆标→整屏焕新）；屏幕-IC/排线样式不符；屏幕-指关节交互无法使用（华为/荣耀需确保开关打开）；屏幕-其它非原厂屏特征（分辨率明显低/离型纸/息屏灰色/外屏颜色不匹配/丝印打磨/飞线）。<br><strong>平台整屏焕新：</strong>LCD（iPhone11+JQJQ屏+转转防拆标/GX或品胜屏+转转焕新标）；OLED（11Pro~15系列同上）。<br><strong>屏幕维修：</strong>屏幕-无原彩显示（苹果8+选项缺失）；屏幕-其它屏幕维修特征（排线焊油/排线褶皱/苹果11黑色贴纸缺失触点裸露）；屏幕-IC封胶异常（封胶缺失样式不一致+苹果12及以上紫光灯照射非荧光色·原厂一圈封胶完整有荧光反应/后封胶一圈不完整无荧光反应）。<br><strong>更换屏幕外玻璃：</strong>屏幕-紫光灯照射有印记（11Pro~17全系列·息屏无膜关闭全天候显示·摄像头/刘海/灵动岛/边缘荧光豁免）；屏幕-屏幕边界显示异常；屏幕-感应孔样式不符（盖板感应孔颜色异常/形状异常/数量多/毛刺；小米civi1-3代透明开孔前置补光灯豁免；苹果11听筒网上方长条形开孔长度不足）；屏幕-边缘溢胶/支架撬痕（华为Mate60仅屏幕溢胶无其他维修→算后盖与中框衔接处；Mate X5副屏溢胶正常；安卓排线手写笔迹不判）；屏幕-有第三方标识；屏幕-泡棉/贴纸缺失破损（苹果X+感应器泡棉缺失/支架方形黑贴纸缺失/背面石墨贴纸破损&gt;10mm·被零部件粘住残留内部不判）；屏幕-其它外屏维修特征（听筒网完全缺失/曲屏盖板偏移/内屏异物划痕进灰&gt;5颗或&gt;0.5mm息屏对光查看/挖孔漏光LCD斜看·一加Ace3Pro OLED漏光正常/挖孔黑边过宽/苹果盖板听筒开孔未打磨过度打磨/盖板码样式不符/屏幕金点异常颜色浅边缘无界限）。<br><strong>平台外屏焕新：</strong>有平台售出记录+无私拆痕迹+售出报告显示屏幕-外屏焕新。屏幕拆修不检测/屏幕无维修更换。</li>
+    <li><strong>屏幕偏光检测孔位完整标准：</strong>苹果：对应孔位为图例深蓝色正常，非深蓝色即判异常。6号孔(iPhone13~17全系列)；7号孔(iPhone6~11/SE2/SE3)；8号孔(iPhoneX/XS/11Pro/11ProMax/12全系列)。注意：iPhone11系列跨7号和8号孔位，判定前需确认完整型号。安卓：OPPO/Realme/一加10号孔非黑色即判异常；小米/红米/华为/荣耀/vivo/努比亚/三星12号孔非黑色即判异常。检测规范：充电口垂直朝下/白色背景亮度50%-70%/偏光工具卡左侧/撕膜质检/肉眼观测为准。</li>
+    <li><strong>后壳拆修（单选）：</strong><br>后壳-颜色或版本与本机不符：后壳颜色与官网/中框颜色不匹配（原厂配色除外）；美版毫米波天线非美版有则为更换/CE标识非欧版有则为更换；国行港澳台刻Remanufactured by Asurion为后壳更换。<br>后壳-小型号不符或字体异常：IMEI不一致/出厂有实物缺失/苹果字体粘连重叠间距不一致/卡槽内小型号偏移。<br>后壳-激光雷达颜色异常：苹果12-16Pro&amp;ProMax闪光灯下整体纯黑异常边缘变色正常。<br>后壳-开孔样式与原装不符：苹果底部开孔无倒角（14Pro/ProMax深色正常）；卡槽开孔上下阶梯颜色不一致色差不判完全不同才判；卡槽内部非金属；开孔大于卡托&gt;1mm。<br>后壳-镜头框缝隙异常：安卓&gt;0.5mm苹果有缝即判；外壳脱胶变形导致不判。<br>后壳-有第三方标识：外壳内部有第三方标识（安卓单独数字字母手写记号不判）。<br>后壳-其它维修特征：防尘网整排缺失；后摄镜片更换（尺寸不匹配溢胶装饰不符/苹果11+对光泛蓝泛紫不含SE）；闪光灯镜片偏移&gt;0.3mm（华为P40Pro闪光灯环偏移正常）；感应孔透明；组件溢胶（后盖与中框间溢胶走模块五十七）。安卓特例：三星W23/W23 Flip转轴LOGO贴片全部缺失（部分缺失判辅件缺损）；W24/W25/W26转轴LOGO镭射无凹槽vs激光雕刻有凹槽；W23心系天下LOGO变色；vivo X80皮革LOGO；vivo S16发黄→外观磨损。安卓通用：篆刻图案不符/四曲面四角弧度偏小/石墨缓冲棉缺失/背部指纹模组凸起。苹果特例：14/14Plus后盖维修（无二维码丝印/排线褶皱翘起&gt;5mm/排线IC泡棉封胶缺失）；11左边中框二维码缺失；8/8Plus/11电池顶部石墨贴纸缺损；6Plus~SE3后壳顶部导电棉缺失。苹果基础通用：摄像头凸起玻璃台阶接缝（原装一体雕刻假壳两块玻璃贴合）/中框注塑支架比原厂宽/尾插口塑料圈过宽。17Pro/ProMax充电口一圈无金属光泽真壳亮面假壳哑光。<br><strong>后壳-CNC工艺不符（开孔/背板接缝处）：</strong>仅质检中心·苹果17Pro/ProMax。闪光灯开孔边缘无高光倒角（原装亮面拉丝工艺金属亮面光泽假壳哑光无亮光无反光）；后置麦克风倒角与原厂不符（原装漏斗状假壳无倒角或形态不符）；中框与后盖衔接处有褶皱纹路（原装平整）。</li>
+    <li><strong>主板拆修（单选）：</strong><br><strong>主板维修：</strong>主板-美版开卡槽（苹果14+美版LL+有卡槽开孔）；主板-有焊接痕迹（助焊剂残留：苹果11+清透油渍+黑色点胶+无其他维修不判/有其他维修+&gt;5mm判/浑浊或黑色判；焊锡溢出到侧边上仅缝隙不判；屏蔽罩凸点断点脱焊原装平整人工不规则凸起；PCB弯曲断裂缺损iPhone8Plus拆左上角盖子检查；屏蔽罩缺失安卓卡扣式不判/断裂松动灼烧）；主板-其它维修特征（飞线黄铜色细线/11P/11PM条形码缺失擦除模糊/爬虫与关于本机购买渠道不一致→按爬虫+勾选此项/一体式卡槽更换/固体胶水华为储存芯片黑色正常/封胶破损部分缺失融化痕迹全缺失干净可能出厂未做需同机型对比）。<br><strong>主板小修：</strong>主板-石墨纸缺损&gt;10mm/断裂/后贴（破损&gt;10mm/缺失/断裂/样式不符/二维码缺失苹果7~X/翘起排线上隆起不判；安卓横跨主板电池算排线盖板不算主板）；主板-屏蔽罩变形、螺母/泡棉缺失（安卓卡扣式不判；苹果7~SE3 L角拐角/苹果X+排线座子泡棉缺失烧焦；螺母缺失滑丝断裂）；主板-有第三方标识（排线盖板不算；安卓仅记号不判；11Pro/ProMax编码正常；一体式卡槽标识算主板分体式算分体式卡槽更换）。</li>
+    <li><strong>一体式卡槽机型：</strong>苹果除11/XR/12/12Pro/12ProMax/13/14/14Plus/15/15Plus/16/16Plus/17全系列以外的机型均为一体式。更换判断：11Pro/ProMax/13Pro/ProMax卡座二维码丝印缺失；其他版本原厂单卡变双卡（双面触点）。最终以读卡和卡槽触点为准。</li>
+    <li><strong>零部件拆修情况（多选）：</strong><br><strong>零部件缺失/无法拆机：</strong>螺丝滑丝或部件卡死导致无法拆机（尾插滑丝/卡托无法取出/胶水粘死/其他）；功能零件缺失（扬声器听筒马达等除核心部件外）；安装辅件缺失或异常（排线盖板/尾插或内部螺丝除主板螺母柱外缺失滑丝未安装到位型号不符）。<br><strong>其他零部件拆修：</strong>后盖与中框衔接处有溢胶/撬痕（一加12等摄像头左侧出厂补胶不判；苹果14/14Plus拆机需清理原厂溢胶；华为Mate60仅屏幕溢胶无其他维修→算此项）；镜头-印记/擦洗/异物/脏污/指印（进光口泛白印记延伸到表面才判仅边缘碰撞不判；擦洗痕迹；异物胶水塑料片灰尘不算；脏污指印保护膜缺失导致不判；检测不对光距离30CM）；其他零部件有第三方标识（尾插指纹按键等已有具体维修问题无需再判）；分体式卡槽更换（苹果11/XR/12~17系列卡槽第三方标识/原单卡改双卡双面触点最终以读卡和卡槽触点为准）；其他零部件维修特征（后盖玻璃人为刮破涂层苹果灰色透明/安卓豁免范围2MM内&gt;10mm点状划痕状边缘锐利外壳碎裂漆层老化不规则不判；安卓原厂防拆标破损缺失；排线盖板石墨贴纸破损≥10mm或缺失；安卓横跨主板电池石墨贴纸破损&gt;10mm；按键颜色对比同款/华为Mate30RS保时捷原厂黑色红色更换）。<br><span style="font-size:11px;color:var(--text3)">判定零部件拆修前，如有同等级具体拆修项需优先判责【具体拆修项】。判定【内部拆修项】前必须确认工程师是否已勾选「无法拆机」，有气密视频的如有外部拆修项需同步判责。</span></li>
+    <li><strong>浸液情况（单选）：</strong><strong>机身内部浸液：</strong>主板区域有锈迹/水残留（主板区域进水；锈迹常见红棕色/黄褐色铁锈、绿色铜锈、白色结晶；水残留为内部液体残留）；摄像头有水雾（摄像头内或透明后盖机型可看到内部有水珠、水雾）；内部其他零件有锈迹/水残留（主板区域以外的部件有锈迹/发霉/水残留）；主板处防水标变红（主板或副板上的防水标变色原色为白色变红或其他颜色都需判定；卡槽/外壳/屏幕上的防水标变红不做判定；苹果机型在面容排线附近防水标算主板防水标；不区分防水标是否为后贴）；苹果机型防水标缺失（未拆机情况下不能从外部的卡槽位置看不到防水标来判定缺失；安卓机型防水标缺失不做判定；苹果更换屏幕/后壳/卡槽导致对应位置的防水标缺失不做判定；iPhone6/6s/6Plus/6sPlus卡槽处的防水标缺失不做判定）。<br><span style="font-size:11px;color:var(--text3)">注意：金属件或黑纸上有印渍无需判定为水残留。拆机过程中渗入的酒精需要自行用纸/布吸干。</span></li>
   </ul>
   <div class="callout info" style="margin-top:8px"><div class="ctitle">⚠️ 注意 — 浸液豁免</div>一加12/11/10Pro/Ace3/Ace2Pro/Ace2摄像头左侧出厂补胶不判溢胶。金属件/黑纸有印渍不判水残留。拆机渗入酒精自行吸干。</div>
+
+  <h4 style="font-size:15px;margin:16px 0 6px">判责流程（5.10–5.20 / 5.28）</h4>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.10 电池状态异常 判责流程</div>
+    <div class="ob-body">电池状态异常 判责流程
+
+  ├── 1、工程师质检照片已体现电池状态异常
+  │      └── 判工程师责
+  │
+  ├── 2、电池松动
+  │      ├── 可晃动手机确认是否已松动发出声响
+  │      │     ├── （1）有声响 → 判工程师责（录制视频）
+  │      │     └── （2）无声响 → 确认气密及是否为拆机机型
+  │      │           ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      │           ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和电池异常同时勾选，判责工程师
+  │      │           ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      │           └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  ├── 3、电池鼓包
+  │      ├── 需确认是否为拆机机型、气密、外部是否可看出
+  │      ├── A、拆机机型-气密正常、无外部拆修项
+  │      │     ├── 外部无法看出 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      │     └── 外部可看出 → 判工程师责
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和电池异常同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      ├── D、不拆机型且外部无法看出 → 修改正常
+  │      └── E、不拆机型但外部可看出 → 判工程师责
+  │
+  ├── 4、电池褶皱/破损
+  │      ├── 需确认是否为拆机机型、气密
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和电池异常同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆（需上传对应异常照片）
+  │
+  ├── 5、弹窗异常
+  │      ├── 需确认工程师照片
+  │      ├── A、工程师质检照片正常 → 业务责-隐性故障-工程师质检时关于本机无弹窗
+  │      └── B、工程师无照片或已体现 → 判工程师责
+  │
+  └── 6、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 鼓包高度&gt;5mm需同时勾选不回收项。3. 破损/漏液电池有安全隐患，需谨慎处理。4. 华为弹窗：总部检测有弹窗，实测无弹窗的，可进行充电测试，弹窗基本会正常弹出，如无，需报品控确认。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.11 第三方更换电池 判责流程</div>
+    <div class="ob-body">第三方更换电池 判责流程
+
+  ├── 1、工程师质检照片已体现电池状态异常
+  │      └── 判工程师责
+  │
+  ├── 2、电池本体有第三方标识 / 更换其他品牌电池 / 封装/丝印与原装不符
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和电池异常同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  ├── 3、外挂小板/有飞线
+  │      ├── 需确认是否为拆机机型、气密
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和电池外挂小板/有飞线同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆（需上传对应异常照片）
+  │
+  └── 4、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 鼓包高度&gt;5mm需同时勾选不回收项。3. 破损/漏液电池有安全隐患，需谨慎处理。4. 华为弹窗：总部检测有弹窗，实测无弹窗的，可进行充电测试，弹窗基本会正常弹出，如无，需报品控确认。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.12 平台焕新电池 判责流程</div>
+    <div class="ob-body">平台焕新电池 判责流程
+
+  ├── 1、工程师质检照片已体现不符合/非平台认证电池
+  │      └── 判工程师责
+  │
+  ├── 2、符合平台焕新条件但总部检测有异常
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和电池异常同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  └── 3、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 符合平台焕新条件的优先勾选平台焕新电池，不用判定第三方标识。3. 售出记录需在平台系统中可查询。4. 转转防拆标需完整未破损。5. 焕新专用标识需清晰可辨认。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.13 更换非原厂屏 判责流程</div>
+    <div class="ob-body">更换非原厂屏 判责流程
+
+  ├── 1、是否配备偏光检测项？（仅针对已配置机型）
+  │      ├── 是（苹果：孔位颜色异常 / 安卓指定孔位非黑色）
+  │      │      └── 异常 → 判责：工程师责
+  │      └── 否 → 进入下一步
+  │
+  ├── 2、内屏材质是否与出厂一致？
+  │      ├── 否（如原厂OLED换为LCD）
+  │      │      └── 判责：工程师责
+  │      └── 是 → 进入下一步
+  │
+  ├── 3、是否为华为/荣耀机型？
+  │      ├── 是 → 测试指关节交互（双击、划圈截图）
+  │      │      ├── 开关已开启但无法使用 → 判责：工程师责
+  │      │      └── 开关未开启或正常使用 → 进入下一步
+  │      └── 否 → 进入下一步
+  │
+  ├── 4、其它非原厂屏特征
+  │      ├── 分辨率明显低 / 离型纸 / 息屏灰色 / 外屏颜色不匹配 / 丝印打磨 / 飞线
+  │      │      └── 任一存在 → 判责：工程师责
+  │      └── 无以上问题 → 进入下一步
+  │
+  ├── 5、工程师回收无拆修记录，但总部质检发现更换非原厂屏
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和更换非原厂屏同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆（需上传对应异常照片）
+  │
+  └── 6、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. JQJQ屏+转转防拆标按「平台整屏焕新」勾选，不勾选此三级值。3. 偏光检测规范：充电口垂直朝下/白色背景亮度50%-70%/偏光工具卡左侧/撕膜质检/肉眼观测为准。4. 指关节交互需确保开关已开启后再测试。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.14 屏幕维修 判责流程</div>
+    <div class="ob-body">屏幕维修 判责流程
+
+  ├── 1、工程师质检照片/拆机视频已体现屏幕维修特征
+  │      └── 判工程师责
+  │
+  ├── 2、工程师回收无屏幕维修特征，但总部质检发现屏幕维修特征
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和屏幕维修同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  └── 3、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 无原彩显示需确认机型本身是否支持原彩功能。3. IC封胶检测需使用紫光灯在暗环境下观察荧光反应。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.15 更换屏幕外玻璃 判责流程</div>
+    <div class="ob-body">更换屏幕外玻璃 判责流程
+
+  ├── 1、工程师质检照片/拆机视频已体现更换屏幕外玻璃特征
+  │      └── 判工程师责
+  │
+  ├── 2、实际检测符合更换屏幕外玻璃项
+  │      └── 判工程师责
+  │
+  ├── 3、工程师回收无更换屏幕外玻璃特征，但总部质检发现更换屏幕外玻璃特征（需拆机核实）
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和更换屏幕外玻璃同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  └── 4、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 紫光灯检测需在暗环境下进行，注意区分豁免区域。3. 内屏异物划痕进灰：息屏对光查看，&gt;5颗或&gt;0.5mm。4. 挖孔漏光：LCD斜看有漏光判异常，OLED漏光正常（一加Ace3Pro）。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.16 主板维修 判责流程</div>
+    <div class="ob-body">主板维修 判责流程
+
+  ├── 1、工程师质检照片/拆机视频已体现主板维修特征
+  │      └── 判工程师责
+  │
+  ├── 2、无需拆机判断
+  │      ├── 苹果14+美版LL机型，有卡槽开孔 → 判工程师责
+  │      └── 购买渠道不一致 → 判工程师责
+  │
+  ├── 3、需要拆机检测判断：工程师回收未勾选主板维修特征，但总部质检发现主板维修特征
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和主板维修同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  └── 4、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 焊接痕迹豁免：苹果11+清透油渍+黑色点胶+无其他维修不判。3. 屏蔽罩缺失：安卓卡扣式不判。4. 一体式卡槽更换：需确认该机型是否为一体式卡槽。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.17 主板小修 判责流程</div>
+    <div class="ob-body">主板小修 判责流程
+
+  ├── 1、工程师质检照片/拆机视频已体现主板小修特征
+  │      └── 判工程师责
+  │
+  ├── 2、需要拆机检测判断：工程师回收未勾选主板小修特征，但总部质检发现主板小修特征
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和对应主板小修项同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  └── 3、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 屏蔽罩缺失：安卓卡扣式不判。3. 第三方标识：排线盖板不算；安卓仅记号不判。4. 一体式卡槽标识算主板，分体式算分体式卡槽更换。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.18 后壳拆修 判责流程</div>
+    <div class="ob-body">后壳拆修 判责流程
+
+  ├── 1、实际检测符合以下任一现象 → 判工程师责
+  │      ├── 颜色或版本与本机不符
+  │      ├── 小型号不符或字体异常
+  │      ├── 激光雷达颜色异常
+  │      ├── 开孔样式与原装不符
+  │      ├── 镜头框缝隙异常
+  │      └── 后壳其他维修特征
+  │
+  ├── 2、拆机确定符合后壳拆修时
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和对应后壳拆修项同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  └── 3、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.19 零部件拆修 判责流程</div>
+    <div class="ob-body">零部件拆修 判责流程
+
+  ├── 1、零部件缺失/无法拆机（工程师未勾选无法拆机）
+  │      ├── 螺丝滑丝或部件卡死无法拆机
+  │      │     ├── 尾插滑丝 → 判工程师责
+  │      │     ├── 卡托无法取出 → 判工程师责
+  │      │     └── 胶水粘死/其他 → 判工程师责
+  │      ├── 功能零件缺失（扬声器/听筒/马达等除核心部件外）→ 判工程师责
+  │      └── 安装辅件缺失或异常
+  │            ├── 排线盖板缺失 → 判工程师责
+  │            ├── 尾插/内部螺丝缺失/滑丝/未安装到位/型号不符 → 判工程师责
+  │            └── 主板螺母柱除外
+  │
+  ├── 2、零部件缺失/无法拆机（工程师已勾选无法拆机）
+  │      ├── 核实价格差异大于200 → 留下修复
+  │      └── 判【总部责-隐性故障-工程师已勾选无法拆机，外部无法看出】
+  │
+  ├── 3、其他零部件拆修
+  │      ├── 后盖与中框衔接处溢胶/撬痕 → 判工程师责
+  │      │     ├── 一加12等摄像头左侧出厂补胶不判
+  │      │     ├── 苹果14/14Plus拆机需清理原厂溢胶
+  │      │     └── 华为Mate60仅屏幕溢胶无其他维修→算此项
+  │      ├── 镜头-印记/擦洗/异物/脏污/指印 → 判工程师责
+  │      │     ├── 进光口泛白印记延伸到表面才判（仅边缘碰撞不判）
+  │      │     ├── 擦洗痕迹
+  │      │     ├── 异物（胶水/塑料片/灰尘不算）
+  │      │     ├── 脏污指印（保护膜缺失导致不判）
+  │      │     └── 检测不对光距离30CM
+  │      ├── 其他零部件有第三方标识（尾插/指纹/按键等）→ 判工程师责
+  │      ├── 分体式卡槽更换 → 判工程师责
+  │      │     ├── 苹果11/XR/12~17系列
+  │      │     ├── 卡槽第三方标识
+  │      │     ├── 原单卡改双卡（双面触点）
+  │      │     └── 最终以读卡和卡槽触点为准
+  │      └── 其他零部件维修特征 → 判工程师责
+  │            ├── 后盖玻璃人为刮破涂层（苹果灰色透明）
+  │            ├── 安卓原厂防拆标破损缺失
+  │            ├── 排线盖板石墨贴纸破损≥10mm或缺失
+  │            ├── 安卓横跨主板电池石墨贴纸破损>10mm
+  │            └── 按键颜色对比同款（华为Mate30RS保时捷原厂黑色红色更换）
+  │
+  ├── 4、需要拆机确定零部件维修的情况
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和对应拆修异常项同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  └── 5、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 功能零件缺失仅限非核心部件，核心部件缺失按不回收机况处理。3. 分体式卡槽更换需区分一体式卡槽（一体式卡槽标识算主板小修）。4. 判定零部件拆修前，如有同等级具体拆修项需优先判责【具体拆修项】。5. 有气密视频的，如有外部拆修项需同步判责。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.20 机身内部浸液 判责流程</div>
+    <div class="ob-body">机身内部浸液 判责流程
+
+  ├── 1、工程师质检照片/拆机视频已体现摄像头水雾
+  │      └── 判工程师责
+  │
+  ├── 2、需要拆机检测判断：工程师回收未勾选机身内部浸液，但总部质检发现内部浸液
+  │      ├── A、拆机机型-气密正常且无外部拆修项 → 业务责-工具差异-工程师气密检测通过（需上传对应异常照片）
+  │      ├── B、拆机机型-气密正常但有外部拆修项 → 将外部拆修项和对应内部浸液项同时勾选，判责工程师
+  │      ├── C、拆机机型-无气密或气密异常 → 判责工程师
+  │      └── D、不拆机型 → 业务责-不拆机/拆机差异-拆机差异，总部拆机/深拆机型，工程师不拆
+  │
+  └── 3、总部有报损
+         └── 判总部责-最终总部责-二检时大仓质检失误引起的人为拆损/流转导致（根据实际情况手动输入对应备注）</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 注意事项</div>1. 判责前查看总部是否有报损记录，避免误判。2. 金属件/黑纸上的印渍不作为浸液判定依据。3. 安卓机型防水标缺失不做判定，仅苹果机型需关注。4. 拆机过程中渗入的酒精需自行用纸/布吸干。</div>
+
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 5.28 XRAY责任判定流程（苹果15-17系列）</div>
+    <div class="ob-body">XRAY责任判定流程（苹果15-17系列）
+
+  ├── 1、二检命中XRAY检测无外部拆修仅内部有维修问题
+  │      └── 判 【业务责-不拆机&场景差异-总部XRAY检测异常，一检不拆/不测】
+  │
+  └── 2、命中XRAY维修项，核实对应部件外部是否能检测出维修（偏光、一根线等）
+         ├── 如有（外部可检测出维修）→ 把对应维修项勾选上，判工程师责
+         └── 如无（外部无法检测出维修）→ 按第1条处理，判业务责-不拆机&场景差异</div></div>
+  <div class="callout info"><div class="ctitle">⚠️ 说明</div>判责逻辑、备注、留证、检测手法与以前一致，仅责任方变动。</div>
 </div>
 
 <!-- 3.7 不回收机况 -->
@@ -1047,7 +1387,7 @@
     <li>电池鼓包高度超过5mm（测量从中框为起点）</li>
     <li>苹果实际机型与序列号在官网查询的机型不一致</li>
     <li>改装偷拍摄像头</li>
-    <li>华为机型工程模式SN为空（重点机型：Mate50/60系列、P50/P60/P70系列、Mate X2/X3/X5系列）</li>
+    <li>华为机型工程模式SN为空（重点机型：Mate50/60系列、P50/P60/P70系列、Mate X2/X3/X5系列）。检测方法：通过拨号界面输入##2846579##，点击单板信息查询→点击其他信息查看序列号</li>
     <li>设备来源为"监管机/政企定制机/改版机/工程机"</li>
     <li>设备实物运行内存或存储容量为官方没有的版本</li>
     <li>设备运行系统为演示版系统</li>
@@ -1104,16 +1444,20 @@
   ├── 录入成功但无法解锁 → 异常 ❌
   └── 可正常录入和解锁 → 正常 ✅</div></div>
   <div class="output-block"><div class="ob-header">④ 一句话总结</div><div class="ob-body"><strong>面容ID已停用</strong>、<strong>选项灰色</strong>、<strong>录入异常≥3次失败</strong>、<strong>录入后无法解锁</strong>，任一即判面容异常。</div></div>
-  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 判责流程</div><div class="ob-body">拆机机型
+  <div class="output-block"><div class="ob-header">⑤ ⚠️ 注意 — 注意事项（标准自带）</div><div class="ob-body">测试面容需要设置密码时统一设置为4个0或6个0，测试结束后要关闭密码。</div></div>
+  <div class="output-block"><div class="ob-header">⑥ 判责流程</div><div class="ob-body">拆机机型
   ├── ① 工程师有APP通过且拆机后正常 → 【总部责-APP差异】
   ├── ② 工程师无APP通过，有拆机后正常 → 【业务责-隐性故障-工程师拆机后面容正常】
   └── ③ 不满足以上条件 → 判工程师
 不拆机型
   ├── ① 工程师有APP通过 → 【总部责-APP差异】
-  ├── ② 实测无法录入 → 有录入完成照片→业务责-隐性故障；无照片→判工程师
-  └── ③ 实测无法解锁 → 有解锁正常照片→业务责-隐性故障；无照片→判工程师
-注：iPhone13系列间歇性问题较多，需重启后再次测试，间歇性按【隐性故障-间歇性问题】判定。</div></div>
-  <div class="callout info" style="margin-top:8px"><div class="ctitle">⚠️ 注意事项</div>测试密码统一设置为4个0或6个0，测试结束后关闭密码。</div>
+  ├── ② 实测无法录入/无法录入完成
+  │     ├── 有【录入界面录入完成】照片 → 【业务责-隐性故障-工程师照片已体现功能正常】
+  │     └── 无【录入界面录入完成】照片 → 判工程师
+  └── ③ 实测无法解锁
+        ├── 有实测解锁正常照片 → 【业务责-隐性故障-工程师照片已体现功能正常】
+        └── 无实测解锁正常照片 → 判工程师
+注：iPhone13系列间歇性问题较多，需重启后再次测试，如果间歇性无法录入或无法解锁按【隐性故障-间歇性问题】判定。</div></div>
 </div>
 
 <!-- 手写笔内容已回归手机品类 → 33.其他功能；手写笔独立品类内容后续单独添加 -->
